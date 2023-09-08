@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ammunition Page</title>
+</head>
+<body>
+<h1>Ammunition Page</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+<th:block th:if="${admin}">
+    Kaliber:
+    <button>Dodaj</button>
+    <button>Usuń</button>
+</th:block>
+Amunicja:
+<button>Uzupełnij</button>
+<button>Pobierz</button>
+<button>Zwróć</button>
+
+<div>Stan magazynowy amunicji:</div>
+<table>
+    <thead>
+    <tr>
+        <th>X</th>
+        <th>Kaliber</th>
+        <th>Stan</th>
+        <th>Ilość</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="ammo : ${ammoList}">
+        <tr>
+            <td><input type="checkbox" th:id="${ammo.gauge}" th:name="${ammo.gauge}" value="XXX"></td>
+            <td th:text="${ammo.gauge}"></td>
+            <td th:text="${ammo.quantity}"></td>
+            <td><input type="text" id="" name=""></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+
+</body>
+</html>

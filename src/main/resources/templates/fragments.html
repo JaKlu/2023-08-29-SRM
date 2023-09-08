@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+</head>
+<body>
+<th:block th:fragment="main-menu">
+    <nav class="menu">
+        <ul class="">
+            <li><a href="/" class="">Strona główna</a></li>
+            <li><a href="/booking" class="">Rezerwacja</a></li>
+            <li><a href="/guns" class="">Arsenał</a></li>
+            <li th:if="${!logged}"><a href="/register" class="">Rejestracja</a></li>
+            <li th:if="${!logged}"><a href="/login" class="">Zaloguj</a></li>
+            <li th:if="${logged}"><a href="/logout" class="">Wyloguj</a></li>
+        </ul>
+    </nav>
+    <div th:if="${logged}">Zalogowany użytkownik: <span th:text="${user.login}"></span></div>
+    <nav th:if="${adminOrEmployee}" class="menu-admin">
+        <ul class="">
+            <li><a href="/arsenal" class="">Magazyn Broni</a></li>
+            <li><a href="/guns/manage/release" class="">Broń</a></li>
+            <li><a href="/ammo/manage/get" class="">Amunicja</a></li>
+            <li><a href="/booking/manage" class="">Rezerwacje</a></li>
+        </ul>
+    </nav>
+</th:block>
+</body>
+</html>

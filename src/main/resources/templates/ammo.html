@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ammunition Page</title>
+</head>
+<body>
+<h1>Amunicja</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+<div th:if="${admin}">
+    Kaliber:
+    <a>Dodaj</a>
+    <a>Usuń</a>
+</div>
+<div>
+    Amunicja:
+    <a href="/ammo/manage/get">Pobierz</a>
+    <a href="/ammo/manage/supply">Uzupełnij</a>
+    <!--<a>Zwróć</a>-->
+</div>
+
+<h4 th:switch="${state}">
+    <span th:case="get">Pobieranie amunicji</span>
+    <span th:case="supply">Uzupełnianie amunicji</span>
+    <span th:case="*">Stan magazynowy amunicji</span>
+</h4>
+
+<form method="post" th:object="${ammoForm}">
+    <table>
+        <thead>
+        <tr>
+            <th>X</th>
+            <th>Kaliber</th>
+            <th>Stan</th>
+            <th th:if="${state != 'info'}">Ilość</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="ammoDTO, itemStat : *{dtoList}">
+            <tr>
+                <td><input type="checkbox" value="XXX"></td>
+                <td th:name="*{dtoList[__${itemStat.index}__].gauge}"
+                    th:text="*{dtoList[__${itemStat.index}__].gauge}">
+                </td>
+                <td th:name="*{dtoList[__${itemStat.index}__].quantity}"
+                    th:text="*{dtoList[__${itemStat.index}__].quantity}">
+                </td>
+                <td th:if="${state != 'info'}">
+                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
+                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
+                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
+                    <input th:field="*{dtoList[__${itemStat.index}__].diff}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <th:block th:switch="${state}">
+        <input type="submit" th:case="get" value="Pobierz">
+        <input type="submit" th:case="supply" value="Uzupełnij">
+    </th:block>
+</form>
+</body>
+</html>
