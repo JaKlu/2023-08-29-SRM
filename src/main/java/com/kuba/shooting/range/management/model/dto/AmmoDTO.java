@@ -18,6 +18,8 @@ public class AmmoDTO {
 
     private int diff;
 
+    private String diffInput = "0";
+
     public AmmoDTO(Ammo ammo) {
         this.id = ammo.getId();
         this.gauge = ammo.getGauge();

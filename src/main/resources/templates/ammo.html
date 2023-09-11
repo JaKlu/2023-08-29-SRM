@@ -52,7 +52,7 @@
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
-                    <input th:field="*{dtoList[__${itemStat.index}__].diff}">
+                    <input th:field="*{dtoList[__${itemStat.index}__].diffInput}">
                 </td>
                 <td th:if="${state == 'edit'}">
                     <a th:href="@{/ammo/manage/edit/{id}(id=${ammoDTO.id})}">Edytuj</a> |
@@ -67,6 +67,8 @@
         <input type="submit" th:case="supply" value="Uzupełnij">
         <a href="/ammo/manage/add" th:case="edit">Dodaj</a>
     </th:block>
+    <div th:text="${formInfo}" class=""></div>
+    <div th:text="${formError}" class=""></div>
 </form>
 </body>
 </html>

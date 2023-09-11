@@ -32,13 +32,17 @@ public class AmmoController {
     }
 
     @GetMapping(path = "/manage/get")
-    public String getAmmo(Model model) {
+    public String getAmmo(Model model,
+                          @RequestParam(required = false) String formInfo,
+                          @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 /*        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }*/
         createAmmoDtoList(model);
         model.addAttribute("state", "get");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "ammo";
     }
 
@@ -49,18 +53,28 @@ public class AmmoController {
 /*        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }*/
-        this.ammoService.getAmmo(ammoForm);
+
+        try {
+            this.ammoService.getAmmo(ammoForm);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Could not get.");
+            this.sessionData.setFormError("Podaj poprawne dane");
+        }
         return "redirect:/ammo/manage/get";
     }
 
     @GetMapping(path = "/manage/supply")
-    public String supplyAmmo(Model model) {
+    public String supplyAmmo(Model model,
+                             @RequestParam(required = false) String formInfo,
+                             @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 /*        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }*/
         createAmmoDtoList(model);
         model.addAttribute("state", "supply");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "ammo";
     }
 
@@ -71,8 +85,12 @@ public class AmmoController {
 /*        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }*/
-
-        this.ammoService.supplyAmmo(ammoForm);
+        try {
+            this.ammoService.supplyAmmo(ammoForm);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Could not supply.");
+            this.sessionData.setFormError("Podaj poprawne dane");
+        }
         return "redirect:/ammo/manage/supply";
     }
 

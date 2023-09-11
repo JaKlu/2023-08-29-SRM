@@ -30,7 +30,10 @@ public class AmmoServiceImpl implements AmmoService {
     @Override
     public void supplyAmmo(AmmoCreationDto creationDTO) {
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
+            ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
             if (ammoDTO.getDiff() == 0) continue;
+            if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
+
             Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
             if (ammoBox.isPresent()) {
                 ammoBox.get().setQuantity(ammoBox.get().getQuantity() + ammoDTO.getDiff());
@@ -42,9 +45,14 @@ public class AmmoServiceImpl implements AmmoService {
     @Override
     public void getAmmo(AmmoCreationDto creationDTO) {
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
+            ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
             if (ammoDTO.getDiff() == 0) continue;
+            if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
+
             Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
             if (ammoBox.isPresent()) {
+                if (ammoDTO.getDiff() > ammoBox.get().getQuantity())
+                    throw new IllegalArgumentException();
                 ammoBox.get().setQuantity(ammoBox.get().getQuantity() - ammoDTO.getDiff());
                 this.ammoDAO.save(ammoBox.get());
             }
