@@ -25,8 +25,14 @@ public class CommonController {
         return "index";
     }
 
-
     @GetMapping(path = "/arsenal")
+    public String showAllGuns(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        model.addAttribute("gunList", this.gunService.findAll());
+        return "arsenal";
+    }
+
+    @GetMapping(path = "/stock")
     public String arsenal(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
@@ -34,7 +40,7 @@ public class CommonController {
         }
         model.addAttribute("ammoList", this.ammoService.findAll());
         model.addAttribute("gunList", this.gunService.findAll());
-        return "arsenal";
+        return "stock";
     }
 
 

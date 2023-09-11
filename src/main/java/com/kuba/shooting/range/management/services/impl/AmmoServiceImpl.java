@@ -50,4 +50,19 @@ public class AmmoServiceImpl implements AmmoService {
             }
         }
     }
+
+    @Override
+    public void updateGauge(Ammo ammo) {
+        this.ammoDAO.save(ammo);
+    }
+
+    @Override
+    public void deleteGauge(Long id) {
+        Optional<Ammo> ammoBox = this.findById(id);
+        if (ammoBox.isPresent() && (ammoBox.get().getQuantity() == 0)) {
+            this.ammoDAO.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Gauge not found or stock is higher than 0.");
+        }
+    }
 }

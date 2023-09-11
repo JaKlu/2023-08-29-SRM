@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ammunition Page</title>
+</head>
+<body>
+<h1>Amunicja</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+<div th:if="${admin}">
+    Kaliber:
+    <a href="/ammo/manage/edit">Edytuj</a>
+    <!--<a>Usuń</a>-->
+</div>
+<div>
+    Amunicja:
+    <a href="/ammo/manage/get">Wydaj</a>
+    <a href="/ammo/manage/supply">Uzupełnij</a>
+    <!--<a>Zwróć</a>-->
+</div>
+
+<h4 th:switch="${state}">
+    <span th:case="add">Dodaj kaliber</span>
+    <span th:case="edit">Edytuj kaliber</span>
+</h4>
+
+<form method="post" th:object="${ammoModel}">
+    <table>
+        <thead>
+        <tr>
+            <th>X</th>
+            <th>Kaliber</th>
+            <th>Stan</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="checkbox" value="XXX"></td>
+            <td>
+                <input th:field="*{gauge}">
+                <input type="hidden" th:field="*{quantity}">
+            </td>
+            <td th:name="*{quantity}"
+                th:text="*{quantity}">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <th:block th:switch="${state}">
+        <input type="submit" th:case="add" value="Dodaj">
+        <input type="submit" th:case="edit" value="Aktualizuj">
+    </th:block>
+</form>
+</body>
+</html>

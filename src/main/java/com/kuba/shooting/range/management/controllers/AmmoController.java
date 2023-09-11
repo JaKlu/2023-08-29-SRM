@@ -9,10 +9,9 @@ import com.kuba.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @RequestMapping(path = "/ammo")
@@ -77,12 +76,81 @@ public class AmmoController {
         return "redirect:/ammo/manage/supply";
     }
 
-    @GetMapping(path = "/manage/add-gauge")
+    @GetMapping(path = "/manage/edit")
+    public String editGauges(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        createAmmoDtoList(model);
+        model.addAttribute("state", "edit");
+        return "ammo";
+    }
+
+    @GetMapping(path = "/manage/edit/{id}")
+    public String editGauge(Model model,
+                            @PathVariable long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        Optional<Ammo> ammoBox = this.ammoService.findById(id);
+        if (ammoBox.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("ammoModel", ammoBox.get());
+        model.addAttribute("state", "edit");
+        return "ammo-edit";
+    }
+
+    @PostMapping(path = "/manage/edit/{id}")
+    public String editGauge(Model model,
+                            @PathVariable long id,
+                            @ModelAttribute Ammo ammo) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        Optional<Ammo> ammoBox = this.ammoService.findById(id);
+        if (ammoBox.isEmpty()) {
+            return "redirect:/";
+        }
+        ammo.setId(id);
+        ammo.setQuantity(ammoBox.get().getQuantity());
+        this.ammoService.updateGauge(ammo);
+
+        return "redirect:/ammo/manage/edit";
+    }
+
+
+    @GetMapping(path = "/manage/add")
     public String addGauge(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
-        return "";
+        model.addAttribute("ammoModel", new Ammo());
+        model.addAttribute("state", "add");
+        return "ammo-edit";
     }
+
+    @PostMapping(path = "/manage/add")
+    public String addGauge(Model model,
+                           @ModelAttribute Ammo ammo) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        this.ammoService.updateGauge(ammo);
+        return "redirect:/ammo/manage/edit";
+    }
+
+    @GetMapping(path = "/manage/delete/{id}")
+    public String deleteGauge(Model model,
+                              @PathVariable long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        try {
+            this.ammoService.deleteGauge(id);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Could not delete. Stock is higher than 0.");
+            model.addAttribute("", "");
+        }
+
+        return "redirect:/ammo/manage/edit";
+    }
+
 
     private void createAmmoDtoList(Model model) {
         AmmoCreationDto ammoForm = new AmmoCreationDto();

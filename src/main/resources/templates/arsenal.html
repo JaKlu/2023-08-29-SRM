@@ -2,53 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Magazyn Broni</title>
+    <title>Arsenal Page</title>
 </head>
 <body>
-<h1>Magazyn Broni</h1>
+<h1>Arsenal Page</h1>
+
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
 
-<h4>Stan magazynowy broni</h4>
-<table>
-    <thead>
-    <tr>
-        <th>Lp</th>
-        <th>Nazwa</th>
-        <th>Stan</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="gun : ${gunList}">
-        <tr>
-            <td th:text="${gun.id}"></td>
-            <td th:text="${gun.commonName}"></td>
-            <td th:text="${gun.isAvailable ? 'Dostępny' : 'Wydany'}"></td>
-        </tr>
-    </th:block>
-    </tbody>
-</table>
-
-<h4>Stan magazynowy amunicji</h4>
-<table>
-    <thead>
-    <tr>
-        <th>Lp</th>
-        <th>Kaliber</th>
-        <th>Stan</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="ammo : ${ammoList}">
-        <tr>
-            <td th:text="${ammo.id}"></td>
-            <td th:text="${ammo.gauge}"></td>
-            <td th:text="${ammo.quantity}"></td>
-        </tr>
-    </th:block>
-    </tbody>
-</table>
+<th:block th:each="gun : ${gunList}">
+    <div>
+        <div th:text="${gun.commonName}"></div>
+        <div th:text="${gun.type}"></div>
+        <div th:text="${gun.gauge}"></div>
+    </div>
+</th:block>
 
 </body>
 </html>

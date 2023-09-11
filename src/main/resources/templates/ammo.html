@@ -12,18 +12,17 @@
 </th:block>
 <div th:if="${admin}">
     Kaliber:
-    <a>Dodaj</a>
-    <a>Usuń</a>
+    <a href="/ammo/manage/edit">Edytuj</a>
 </div>
 <div>
     Amunicja:
-    <a href="/ammo/manage/get">Pobierz</a>
+    <a href="/ammo/manage/get">Wydaj</a>
     <a href="/ammo/manage/supply">Uzupełnij</a>
     <!--<a>Zwróć</a>-->
 </div>
 
 <h4 th:switch="${state}">
-    <span th:case="get">Pobieranie amunicji</span>
+    <span th:case="get">Wydawanie amunicji</span>
     <span th:case="supply">Uzupełnianie amunicji</span>
     <span th:case="*">Stan magazynowy amunicji</span>
 </h4>
@@ -35,7 +34,8 @@
             <th>X</th>
             <th>Kaliber</th>
             <th>Stan</th>
-            <th th:if="${state != 'info'}">Ilość</th>
+            <th th:if="${state == 'get' OR state == 'supply'}">Ilość</th>
+            <th th:if="${state == 'edit'}">Edycja</th>
         </tr>
         </thead>
         <tbody>
@@ -48,18 +48,24 @@
                 <td th:name="*{dtoList[__${itemStat.index}__].quantity}"
                     th:text="*{dtoList[__${itemStat.index}__].quantity}">
                 </td>
-                <td th:if="${state != 'info'}">
+                <td th:if="${state == 'get' OR state == 'supply'}">
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
                     <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
-                    <input th:field="*{dtoList[__${itemStat.index}__].diff}"></td>
+                    <input th:field="*{dtoList[__${itemStat.index}__].diff}">
+                </td>
+                <td th:if="${state == 'edit'}">
+                    <a th:href="@{/ammo/manage/edit/{id}(id=${ammoDTO.id})}">Edytuj</a> |
+                    <a th:href="@{/ammo/manage/delete/{id}(id=${ammoDTO.id})}">Usuń</a>
+                </td>
             </tr>
         </th:block>
         </tbody>
     </table>
     <th:block th:switch="${state}">
-        <input type="submit" th:case="get" value="Pobierz">
+        <input type="submit" th:case="get" value="Wydaj">
         <input type="submit" th:case="supply" value="Uzupełnij">
+        <a href="/ammo/manage/add" th:case="edit">Dodaj</a>
     </th:block>
 </form>
 </body>

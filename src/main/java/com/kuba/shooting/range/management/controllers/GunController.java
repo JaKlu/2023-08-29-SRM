@@ -22,19 +22,13 @@ public class GunController {
     private SessionData sessionData;
     private GunService gunService;
 
-    @GetMapping(path = "")
-    public String showAllGuns(Model model) {
-        ModelUtils.addCommonDataToModel(model, sessionData);
-        model.addAttribute("gunList", this.gunService.findAll());
-        return "guns";
-    }
 
     @GetMapping(path = "/manage")
     public String getAllGuns(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         createGunDtoList(model);
         model.addAttribute("state", "info");
-        return "guns-manage";
+        return "guns";
     }
 
     @GetMapping(path = "/manage/release")
@@ -42,7 +36,7 @@ public class GunController {
         ModelUtils.addCommonDataToModel(model, sessionData);
         createGunDtoList(model);
         model.addAttribute("state", "release");
-        return "guns-manage";
+        return "guns";
     }
 
     @PostMapping(path = "/manage/release")
@@ -58,7 +52,7 @@ public class GunController {
         ModelUtils.addCommonDataToModel(model, sessionData);
         createGunDtoList(model);
         model.addAttribute("state", "take");
-        return "guns-manage";
+        return "guns";
     }
 
     @PostMapping(path = "/manage/take")
@@ -68,6 +62,14 @@ public class GunController {
         this.gunService.takeGuns(gunForm);
         model.addAttribute("state", "take");
         return "redirect:/guns/manage/take";
+    }
+
+    @GetMapping(path = "/manage/edit")
+    public String editGun(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        createGunDtoList(model);
+        model.addAttribute("state", "edit");
+        return "guns";
     }
 
     private void createGunDtoList(Model model) {

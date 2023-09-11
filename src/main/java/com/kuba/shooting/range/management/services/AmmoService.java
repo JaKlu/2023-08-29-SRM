@@ -15,4 +15,8 @@ public interface AmmoService {
     void supplyAmmo(AmmoCreationDto creationDTO);
 
     void getAmmo(AmmoCreationDto creationDTO);
+
+    void updateGauge(Ammo ammo);
+
+    void deleteGauge(Long id);
 }

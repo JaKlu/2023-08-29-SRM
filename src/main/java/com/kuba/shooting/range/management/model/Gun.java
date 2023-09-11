@@ -26,7 +26,7 @@ public class Gun {
     @Column(name = "type")
     private String type;
 
-    @JoinColumn(name = "gauge")
+    @Column(name = "gauge")
     private String gauge;
 
     @Column(name = "year_of_prod")
