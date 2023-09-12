@@ -9,10 +9,9 @@ import com.kuba.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @RequestMapping(path = "/guns")
@@ -65,12 +64,81 @@ public class GunController {
     }
 
     @GetMapping(path = "/manage/edit")
-    public String editGun(Model model) {
+    public String editGuns(Model model,
+                           @RequestParam(required = false) String formInfo,
+                           @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         createGunDtoList(model);
         model.addAttribute("state", "edit");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "guns";
     }
+
+    @GetMapping(path = "/manage/edit/{id}")
+    public String editGauge(Model model,
+                            @PathVariable Long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        Optional<Gun> gunBox = this.gunService.findById(id);
+        if (gunBox.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("gunModel", gunBox.get());
+        model.addAttribute("state", "edit");
+        return "guns-edit";
+    }
+
+    @PostMapping(path = "/manage/edit/{id}")
+    public String editGun(Model model,
+                          @PathVariable Long id,
+                          @ModelAttribute Gun gun) {
+        Optional<Gun> gunBox = this.gunService.findById(id);
+        if (gunBox.isEmpty()) {
+            return "redirect:/";
+        }
+        gun.setId(id);
+        this.gunService.saveGun(gun);
+
+        return "redirect:/guns/manage/edit";
+    }
+
+    @GetMapping(path = "/manage/add")
+    public String addGun(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        model.addAttribute("gunModel", new Gun());
+        model.addAttribute("state", "add");
+        return "guns-edit";
+    }
+
+    @PostMapping(path = "/manage/add")
+    public String addGun(Model model,
+                           @ModelAttribute Gun gun) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        this.gunService.saveGun(gun);
+        return "redirect:/guns/manage/edit";
+    }
+
+    @GetMapping(path = "/manage/delete/{id}")
+    public String deleteGauge(Model model,
+                              @PathVariable long id,
+                              @RequestParam(required = false) String formInfo,
+                              @RequestParam(required = false) String formError) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        try {
+            this.gunService.deleteGun(id);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Could not delete. Gun not in stock.");
+            this.sessionData.setFormError("Nie usunięto. Brak broni w magazynie.");
+        }
+        model.addAttribute("state", "edit");
+        return "redirect:/guns/manage/edit";
+    }
+
 
     private void createGunDtoList(Model model) {
         GunCreationDto gunForm = new GunCreationDto();

@@ -79,6 +79,8 @@
         <input type="submit" th:case="take" value="Przyjmij">
         <a href="/guns/manage/add" th:case="edit">Dodaj</a>
     </th:block>
+    <div th:text="${formInfo}" class=""></div>
+    <div th:text="${formError}" class=""></div>
 </form>
 </body>
 </html>

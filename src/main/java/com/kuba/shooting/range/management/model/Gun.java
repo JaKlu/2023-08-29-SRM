@@ -38,6 +38,9 @@ public class Gun {
     @Column(name = "certificate_no")
     private String certificateNo;
 
+    @Column(name = "description", length = 1000)
+    private String description;
+
     @Column(name = "is_available")
     private boolean isAvailable = true;
 }

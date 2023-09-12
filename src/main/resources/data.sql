@@ -47,15 +47,19 @@ INSERT INTO tammo(gauge, quantity)
 VALUES ('7,62x54mmR', 70);
 
 -- Guns --
-INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available)
-VALUES ('Glock 17', 'Glock 17', 'pistolet', '9x19mm', 2020, 'BNWC063', 'WR3861', true);
+INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
+VALUES ('Glock 17', 'Glock 17', 'pistolet', '9x19mm', 2020, 'BNWC063', 'WR3861', true,
+'Siedemnasty patent firmy Gastona Glocka. Plastikowy, brzydki i nudny, a zarazem najpopularniejszy oraz najbardziej rozpoznawalny i uniwersalny pistolet na świecie. Produkowany ciągle od 1982 roku jest obecnie na wyposażeniu formacji mundurowych w co najmniej 48 krajach świata. Wykorzystywany jest nie tylko przez policję, wojsko, ochroniarzy i konwojentów, ale także przez przestępców, bandytów, terrorystów i gangsterów.');
 
-INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available)
-VALUES ('AK47', 'Grey Ammo GN60', 'karabinek samopowtarzalny', '7,62x39mm', 2020, 'EG1747', 'WR3857', false);
+INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
+VALUES ('AK47', 'Grey Ammo GN60', 'karabinek samopowtarzalny', '7,62x39mm', 2020, 'EG1747', 'WR3857', false,
+'Niezawodna, ociosana z drewna i stali prosta konstrukcja to klucz do sukcesu tego karabinku produkowanego nieprzerwanie w wielu różnych wariantach od ponad siedmiu dekad. Automat Kałasznikowa zaprojektowany dla Armii Radzieckiej stał się na przestrzeni kilkudziesięciu lat podstawowym wyposażeniem wielu innych - bardziej lub mniej legalnych - formacji w każdym zakątku świata oraz ikoną popkultury, obok której nie można przejść obojętnie.');
 
-INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available)
-VALUES ('Huglu Atrox', 'Huglu Atrox', 'strzelba', '12', 2021, '21X0332', 'WR3855', true);
+INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
+VALUES ('Huglu Atrox', 'Huglu Atrox', 'strzelba', '12', 2021, '21X0332', 'WR3855', true,
+'Strzelba jaka jest - każdy widzi. Klasyczna pompka w nieklasycznym rozmiarze z lufą długości 28 cali i magazynkiem na 9 naboi. Jako broń uniwersalna, w zależności od zastosowanej amunicji, sprawdza się zarówno na krótkim, jak i trochę dłuższym dystansie, a także świetnie spisuje się podczas strzelania do rzutków.');
 
-INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available)
-VALUES ('PAC15', 'PAC15', 'karabinek samopowtarzalny', '5,56x45mm/.223REM', 2019, 'PAC1519758', 'WR3859', false);
+INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
+VALUES ('PAC15', 'PAC15', 'karabinek samopowtarzalny', '5,56x45mm/.223REM', 2019, 'PAC1519758', 'WR3859', false,
+'Produkowany współcześnie w Polsce, inspirowany najlepszymi amerykańskimi wzorcami karabinek z rodziny AR-15 jest cywilną odmianą legendarnej broni sił zbrojnych Stanów Zjednoczonych - karabinu M16. Solidna konstrukcja i szesnastocalowa lufa w połączeniu z zaawansowaną optyką zapewniają precyzyjne strzelanie również na większe odległości.');
 

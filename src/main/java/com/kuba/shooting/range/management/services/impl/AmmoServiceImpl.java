@@ -31,6 +31,8 @@ public class AmmoServiceImpl implements AmmoService {
     public void supplyAmmo(AmmoCreationDto creationDTO) {
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
+        }
+        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             if (ammoDTO.getDiff() == 0) continue;
             if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
 
@@ -46,6 +48,8 @@ public class AmmoServiceImpl implements AmmoService {
     public void getAmmo(AmmoCreationDto creationDTO) {
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
+        }
+        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             if (ammoDTO.getDiff() == 0) continue;
             if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
 
@@ -60,7 +64,7 @@ public class AmmoServiceImpl implements AmmoService {
     }
 
     @Override
-    public void updateGauge(Ammo ammo) {
+    public void saveGauge(Ammo ammo) {
         this.ammoDAO.save(ammo);
     }
 

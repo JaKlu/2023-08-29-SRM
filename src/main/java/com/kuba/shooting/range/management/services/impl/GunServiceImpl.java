@@ -8,6 +8,7 @@ import com.kuba.shooting.range.management.services.GunService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,21 @@ public class GunServiceImpl implements GunService {
                 gunBox.get().setAvailable(true);
                 this.gunDAO.save(gunBox.get());
             }
+        }
+    }
+
+    @Override
+    public void saveGun(Gun gun) {
+        this.gunDAO.save(gun);
+    }
+
+    @Override
+    public void deleteGun(Long id) {
+        Optional<Gun> gunBox = this.findById(id);
+        if (gunBox.isPresent() && (gunBox.get().isAvailable())){
+            this.gunDAO.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Cannot delete gun that is not on stock.");
         }
     }
 }

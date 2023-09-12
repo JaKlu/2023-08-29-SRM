@@ -95,17 +95,21 @@ public class AmmoController {
     }
 
     @GetMapping(path = "/manage/edit")
-    public String editGauges(Model model) {
+    public String editGauges(Model model,
+                             @RequestParam(required = false) String formInfo,
+                             @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
         createAmmoDtoList(model);
         model.addAttribute("state", "edit");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "ammo";
     }
 
     @GetMapping(path = "/manage/edit/{id}")
     public String editGauge(Model model,
-                            @PathVariable long id) {
+                            @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
         Optional<Ammo> ammoBox = this.ammoService.findById(id);
@@ -120,7 +124,7 @@ public class AmmoController {
 
     @PostMapping(path = "/manage/edit/{id}")
     public String editGauge(Model model,
-                            @PathVariable long id,
+                            @PathVariable Long id,
                             @ModelAttribute Ammo ammo) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
@@ -130,7 +134,7 @@ public class AmmoController {
         }
         ammo.setId(id);
         ammo.setQuantity(ammoBox.get().getQuantity());
-        this.ammoService.updateGauge(ammo);
+        this.ammoService.saveGauge(ammo);
 
         return "redirect:/ammo/manage/edit";
     }
@@ -150,22 +154,24 @@ public class AmmoController {
                            @ModelAttribute Ammo ammo) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
-        this.ammoService.updateGauge(ammo);
+        this.ammoService.saveGauge(ammo);
         return "redirect:/ammo/manage/edit";
     }
 
     @GetMapping(path = "/manage/delete/{id}")
     public String deleteGauge(Model model,
-                              @PathVariable long id) {
+                              @PathVariable long id,
+                              @RequestParam(required = false) String formInfo,
+                              @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
         try {
             this.ammoService.deleteGauge(id);
         } catch (IllegalArgumentException e) {
             System.out.println("Could not delete. Stock is higher than 0.");
-            model.addAttribute("", "");
+            this.sessionData.setFormError("Nie usunięto. Stan magazynowy musi wynosić zero.");
         }
-
+        model.addAttribute("state", "edit");
         return "redirect:/ammo/manage/edit";
     }
 

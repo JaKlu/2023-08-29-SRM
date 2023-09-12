@@ -13,9 +13,13 @@
 
 <th:block th:each="gun : ${gunList}">
     <div>
-        <div th:text="${gun.commonName}"></div>
-        <div th:text="${gun.type}"></div>
-        <div th:text="${gun.gauge}"></div>
+        <div>
+            <span th:text="${gun.commonName}"></span> |
+            <span th:text="${gun.type}"></span> | Kaliber:
+            <span th:text="${gun.gauge}"></span>
+        </div>
+        <div th:text="${gun.description}"></div>
+        <br>
     </div>
 </th:block>
 

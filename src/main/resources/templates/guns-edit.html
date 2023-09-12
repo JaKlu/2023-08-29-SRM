@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Guns Page</title>
+</head>
+<body>
+<h1>Broń</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+<div th:if="${admin}">
+    Jednostka broni:
+    <a href="/guns/manage/edit">Edytuj</a>
+</div>
+
+<div>
+    Broń:
+    <a href="/guns/manage/release">Wydaj</a>
+    <a href="/guns/manage/take">Przyjmij</a>
+    <!--<a>Zwróć</a>-->
+</div>
+
+<h4 th:switch="${state}">
+    <span th:case="release">Wydawanie broni</span>
+    <span th:case="take">Przyjmowanie broni</span>
+    <span th:case="edit">Edytowanie broni</span>
+    <span th:case="add">Dodawanie broni</span>
+    <span th:case="*">Stan magazynowy broni</span>
+</h4>
+
+<form method="post" th:object="${gunModel}">
+    <table>
+        <thead>
+        <tr>
+            <th>Pole</th>
+            <th>Wartość</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${state == 'edit'}">
+            <td>Id</td>
+            <td th:name="*{id}"
+                th:text="*{id}">
+            </td>
+        </tr>
+        <tr>
+            <td>Nazwa</td>
+            <td>
+                <input th:field="*{commonName}">
+            </td>
+        </tr>
+        <tr>
+            <td>Marka</td>
+            <td>
+                <input th:field="*{brand}">
+            </td>
+        </tr>
+        <tr>
+            <td>Typ</td>
+            <td>
+                <input th:field="*{type}">
+            </td>
+        </tr>
+        <tr>
+            <td>Kaliber</td>
+            <td>
+                <input th:field="*{gauge}">
+            </td>
+        </tr>
+        <tr>
+            <td>Rok produkcji</td>
+            <td>
+                <input th:field="*{yearOfProd}">
+            </td>
+        </tr>
+        <tr>
+            <td>Seria broni</td>
+            <td>
+                <input th:field="*{serialNo}">
+            </td>
+        </tr>
+        <tr>
+            <td>Numer świadectwa</td>
+            <td>
+                <input th:field="*{certificateNo}">
+            </td>
+        </tr>
+        <tr>
+            <td>Opis</td>
+            <td>
+                <textarea th:field="*{description}"></textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <th:block th:switch="${state}">
+        <input type="submit" th:case="add" value="Dodaj">
+        <input type="submit" th:case="edit" value="Aktualizuj">
+    </th:block>
+</form>
+</body>
+</html>

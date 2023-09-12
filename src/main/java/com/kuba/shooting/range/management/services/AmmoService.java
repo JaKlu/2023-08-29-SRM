@@ -16,7 +16,7 @@ public interface AmmoService {
 
     void getAmmo(AmmoCreationDto creationDTO);
 
-    void updateGauge(Ammo ammo);
+    void saveGauge(Ammo ammo);
 
     void deleteGauge(Long id);
 }

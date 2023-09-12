@@ -15,4 +15,8 @@ public interface GunService {
     void releaseGuns(GunCreationDto creationDTO);
 
     void takeGuns(GunCreationDto creationDTO);
+
+    void saveGun(Gun gun);
+
+    void deleteGun(Long id);
 }
