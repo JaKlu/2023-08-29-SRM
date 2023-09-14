@@ -10,17 +10,26 @@ import com.kuba.shooting.range.management.validators.UserValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
+@RequestMapping(path = "/users")
 public class UserController {
 
     private SessionData sessionData;
     private final UserService userService;
+
+    @GetMapping(path = "")
+    public String users(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        model.addAttribute("userList", this.userService.findAll());
+
+        return "users";
+    }
 
     @GetMapping(path = "/register")
     public String register(Model model) {

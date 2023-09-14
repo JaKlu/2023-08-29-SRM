@@ -11,7 +11,7 @@
             <li><a href="/" class="">Strona główna</a></li>
             <li><a href="/booking" class="">Rezerwacja</a></li>
             <li><a href="/arsenal" class="">Arsenał</a></li>
-            <li th:if="${!logged}"><a href="/register" class="">Rejestracja</a></li>
+            <li th:if="${!logged}"><a href="/users/register" class="">Rejestracja</a></li>
             <li th:if="${!logged}"><a href="/login" class="">Zaloguj</a></li>
             <li th:if="${logged}"><a href="/logout" class="">Wyloguj</a></li>
         </ul>
@@ -23,6 +23,7 @@
             <li><a href="/guns/manage/release" class="">Broń</a></li>
             <li><a href="/ammo/manage/get" class="">Amunicja</a></li>
             <li><a href="/booking/manage" class="">Rezerwacje</a></li>
+            <li th:if="${admin}"><a href="/users" class="">Użytkownicy</a></li>
         </ul>
     </nav>
 </th:block>

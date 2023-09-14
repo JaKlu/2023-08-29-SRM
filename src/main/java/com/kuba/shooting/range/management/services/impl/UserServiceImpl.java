@@ -2,11 +2,14 @@ package com.kuba.shooting.range.management.services.impl;
 
 import com.kuba.shooting.range.management.database.dao.springdata.UserDAO;
 import com.kuba.shooting.range.management.exceptions.LoginAlreadyExistException;
+import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -20,5 +23,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         user.setRole(User.Role.USER);
         return userDAO.save(user);
+    }
+    @Override
+    public List<User> findAll() {
+        return this.userDAO.findAll();
     }
 }
