@@ -100,9 +100,13 @@ public class UserValidator {
         }
     }
 
-    public static void validateUser(User user) {
+    public static void validateNewUser(User user) {
+        validateEditedUser(user);
         validateLogin(user.getLogin());
         validatePassword(user.getPassword());
+    }
+
+    public static void validateEditedUser(User user) {
         validateName(user.getName());
         validateSurname(user.getSurname());
         validateBirthdate(user.getBirthdate().toString());

@@ -21,8 +21,12 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @GetMapping(path = "/login")
-    public String login(Model model) {
+    public String login(Model model,
+                        @RequestParam(required = false) String formInfo,
+                        @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "login";
     }
 

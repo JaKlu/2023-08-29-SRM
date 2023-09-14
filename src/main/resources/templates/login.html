@@ -11,6 +11,8 @@
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
 
+<div th:text="${formInfo}" class="form-info"></div>
+<div th:text="${formError}" class="form-error"></div>
 
 <form method="post">
     <fieldset>

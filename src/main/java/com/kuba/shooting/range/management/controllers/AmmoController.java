@@ -99,6 +99,9 @@ public class AmmoController {
                              @RequestParam(required = false) String formInfo,
                              @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        /*        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }*/
 
         createAmmoDtoList(model);
         model.addAttribute("state", "edit");
@@ -111,6 +114,9 @@ public class AmmoController {
     public String editGauge(Model model,
                             @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        /*        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }*/
 
         Optional<Ammo> ammoBox = this.ammoService.findById(id);
         if (ammoBox.isEmpty()) {
@@ -127,6 +133,9 @@ public class AmmoController {
                             @PathVariable Long id,
                             @ModelAttribute Ammo ammo) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        /*        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }*/
 
         Optional<Ammo> ammoBox = this.ammoService.findById(id);
         if (ammoBox.isEmpty()) {
@@ -143,6 +152,9 @@ public class AmmoController {
     @GetMapping(path = "/manage/add")
     public String addGauge(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+/*        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }*/
 
         model.addAttribute("ammoModel", new Ammo());
         model.addAttribute("state", "add");
@@ -153,6 +165,9 @@ public class AmmoController {
     public String addGauge(Model model,
                            @ModelAttribute Ammo ammo) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        /*        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }*/
 
         this.ammoService.saveGauge(ammo);
         return "redirect:/ammo/manage/edit";
@@ -164,6 +179,9 @@ public class AmmoController {
                               @RequestParam(required = false) String formInfo,
                               @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        /*        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }*/
 
         try {
             this.ammoService.deleteGauge(id);

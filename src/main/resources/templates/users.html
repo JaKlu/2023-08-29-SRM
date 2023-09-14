@@ -37,8 +37,8 @@
                 th:text="${user.email}"></td>
             <td th:name="${user.phoneNumber}"
                 th:text="${user.phoneNumber}"></td>
-            <td th:name="${user.role}"
-                th:text="${user.role}"></td>
+            <td th:name="${user.role.getDisplayValue()}"
+                th:text="${user.role.getDisplayValue()}"></td>
             <td>
                 <a th:href="@{/users/manage/edit/{id}(id=${user.id})}">Edytuj</a> |
                 <a th:href="@{/users/manage/delete/{id}(id=${user.id})}">Usuń</a>

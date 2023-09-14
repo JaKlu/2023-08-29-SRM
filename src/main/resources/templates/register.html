@@ -5,7 +5,7 @@
     <title>Register Page</title>
 </head>
 <body>
-<h1>Register Page</h1>
+<h1>Dane użytkownika</h1>
 
 <th:block
         th:replace="~{fragments.html :: main-menu}">
@@ -17,21 +17,28 @@
 <form method="post">
     <fieldset class="fieldset-form">
         <legend>Login</legend>
-        <input type="text" class="input-form" id="login" th:field="*{userModel.login}"><br>
+        <input type="text" class="input-form" id="login" th:field="*{userModel.login}"
+               th:disabled="${state != 'register'}"><br>
     </fieldset>
     <div id="login-error"></div>
 
-    <fieldset class="fieldset-form">
+    <fieldset th:if="${state == 'register'}" class="fieldset-form">
         <legend>Hasło</legend>
         <input type="password" class="input-form" id="password" th:field="*{userModel.password}">
     </fieldset>
     <div id="password-error"></div>
 
-    <fieldset class="fieldset-form">
+    <fieldset th:if="${state == 'register'}" class="fieldset-form">
         <legend>Powtórz hasło</legend>
         <input type="password" class="input-form" id="password2" name="password2">
     </fieldset>
     <div id="password2-error"></div>
+
+    <fieldset th:if="${state == 'edit'}" class="fieldset-form">
+        <legend>Hasło</legend>
+        <a href="/">Zmień hasło</a>
+    </fieldset>
+    <div id="change-pass-error"></div>
 
     <fieldset class="fieldset-form">
         <legend>Imię</legend>
@@ -81,10 +88,36 @@
     </fieldset>
     <div id="city-error"></div>
 
+    <fieldset class="fieldset-form">
+        <legend>Numer pozwolenia na broń</legend>
+        <input type="text" class="input-form" id="license" th:field="*{userModel.gunLicense}">
+    </fieldset>
+    <div id="license-error"></div>
 
-    <div class="">
+<!--    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
+        <legend>Rola</legend>
+        <input type="text" class="input-form" id="role" th:field="*{userModel.role}">
+    </fieldset>-->
+
+    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
+        <legend>Rola</legend>
+        <select th:field="*{userModel.role}">
+            <option value="0">wybierz</option>
+            <option th:each="role : ${T(com.kuba.shooting.range.management.model.User.Role).values()}"
+                    th:value="${role}"
+                    th:text="${role.displayValue}">
+            </option>
+        </select>
+    </fieldset>
+    <div id="role-error"></div>
+
+
+    <div th:if="${state == 'register'}" class="">
         <input type="submit" value="Zarejestruj" class="">
         <input type="reset" value="Wyczyść formularz" class="">
+    </div>
+    <div th:if="${state == 'edit'}" class="">
+        <input type="submit" value="Aktualizuj" class="">
     </div>
 </form>
 

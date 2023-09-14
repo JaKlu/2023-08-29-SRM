@@ -2,6 +2,7 @@ package com.kuba.shooting.range.management.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -31,6 +32,7 @@ public class User {
     private String surname;
 
     @Column(name = "birthdate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
 
     @Column(name = "email")
@@ -39,7 +41,7 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
@@ -72,8 +74,18 @@ public class User {
     }
 
     public enum Role {
-        ADMIN,
-        EMPLOYEE,
-        USER
+        ADMIN("Administrator"),
+        EMPLOYEE("Pracownik"),
+        USER("Klient");
+
+        private final String displayValue;
+
+        Role(String displayValue) {
+            this.displayValue = displayValue;
+        }
+
+        public String getDisplayValue() {
+            return displayValue;
+        }
     }
 }

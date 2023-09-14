@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -24,8 +25,19 @@ public class UserServiceImpl implements UserService {
         user.setRole(User.Role.USER);
         return userDAO.save(user);
     }
+
+    @Override
+    public User update(User user) {
+        return userDAO.save(user);
+    }
+
     @Override
     public List<User> findAll() {
         return this.userDAO.findAll();
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return this.userDAO.findById(id);
     }
 }

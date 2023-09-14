@@ -13,6 +13,7 @@
             <li><a href="/arsenal" class="">Arsenał</a></li>
             <li th:if="${!logged}"><a href="/users/register" class="">Rejestracja</a></li>
             <li th:if="${!logged}"><a href="/login" class="">Zaloguj</a></li>
+            <li th:if="${logged}"><a th:href="@{/users/manage/edit/{id}(id=${user.id})}" class="">Profil</a></li>
             <li th:if="${logged}"><a href="/logout" class="">Wyloguj</a></li>
         </ul>
     </nav>
