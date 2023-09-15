@@ -5,6 +5,7 @@ import com.kuba.shooting.range.management.exceptions.LoginAlreadyExistException;
 import com.kuba.shooting.range.management.exceptions.UserValidationException;
 import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.User;
+import com.kuba.shooting.range.management.model.dto.ChangePassDTO;
 import com.kuba.shooting.range.management.services.UserService;
 import com.kuba.shooting.range.management.session.SessionData;
 import com.kuba.shooting.range.management.validators.UserValidator;
@@ -27,9 +28,9 @@ public class UserController {
     @GetMapping(path = "")
     public String users(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
-/*        if (!this.sessionData.isAdmin()) {
+        if (!this.sessionData.isAdmin()) {
             return "redirect:/";
-        }*/
+        }
         model.addAttribute("userList", this.userService.findAll());
 
         return "users";
@@ -114,4 +115,54 @@ public class UserController {
         this.sessionData.setFormInfo("Edycja zakończona sukcesem.");
         return "redirect:/users/manage/edit/" + id;
     }
+
+    @GetMapping(path = "/manage/edit/{id}/change-pass")
+    public String changePass(Model model,
+                             @PathVariable Long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!(this.sessionData.isAdmin() ||
+                (this.sessionData.isLogged() && sessionData.getUser().getId().equals(id)))) {
+            return "redirect:/";
+        }
+        Optional<User> userBox = this.userService.findById(id);
+        if (userBox.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("changePassModel", new ChangePassDTO());
+
+        model.addAttribute("state", "edit");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
+        return "change-pass";
+    }
+
+    @PostMapping(path = "/manage/edit/{id}/change-pass")
+    public String changePass(Model model,
+                             @PathVariable Long id,
+                             @ModelAttribute ChangePassDTO changePassDTO) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!(this.sessionData.isAdmin() ||
+                (this.sessionData.isLogged() && sessionData.getUser().getId().equals(id)))) {
+            return "redirect:/";
+        }
+        Optional<User> userBox = this.userService.findById(id);
+        if (userBox.isEmpty()) {
+            return "redirect:/";
+        }
+
+        changePassDTO.setUser(userBox.get());
+
+        try {
+            this.userService.changePassword(changePassDTO);
+        } catch (UserValidationException e) {
+            this.sessionData.setFormError("Wprowadź poprawne dane do formularza");
+            return "redirect:/users/manage/edit/" + id + "/change-pass";
+        }
+
+        this.sessionData.setFormInfo("Hasło zostało zmienione.");
+        return "redirect:/users/manage/edit/" + id;
+    }
+
+
 }

@@ -2,8 +2,10 @@ package com.kuba.shooting.range.management.services.impl;
 
 import com.kuba.shooting.range.management.database.dao.springdata.UserDAO;
 import com.kuba.shooting.range.management.exceptions.LoginAlreadyExistException;
+import com.kuba.shooting.range.management.exceptions.UserValidationException;
 import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.User;
+import com.kuba.shooting.range.management.model.dto.ChangePassDTO;
 import com.kuba.shooting.range.management.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         return this.userDAO.findById(id);
+    }
+
+    @Override
+    public void changePassword(ChangePassDTO changePassDTO) {
+        if (changePassDTO.getNewPass().equals(changePassDTO.getNewPassRepeat()) &&
+                changePassDTO.getUser().getPassword().equals(DigestUtils.md5Hex(changePassDTO.getOldPass()))) {
+            changePassDTO.getUser().setPassword(DigestUtils.md5Hex(changePassDTO.getNewPass()));
+            this.userDAO.save(changePassDTO.getUser());
+        } else {
+            throw new UserValidationException();
+        }
     }
 }

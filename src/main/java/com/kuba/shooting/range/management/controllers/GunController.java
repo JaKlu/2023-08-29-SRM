@@ -25,6 +25,9 @@ public class GunController {
     @GetMapping(path = "/manage")
     public String getAllGuns(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }
         createGunDtoList(model);
         model.addAttribute("state", "info");
         return "guns";
@@ -33,6 +36,9 @@ public class GunController {
     @GetMapping(path = "/manage/release")
     public String releaseGuns(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }
         createGunDtoList(model);
         model.addAttribute("state", "release");
         return "guns";
@@ -42,6 +48,9 @@ public class GunController {
     public String releaseGuns(Model model,
                               @ModelAttribute GunCreationDto gunForm) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }
         this.gunService.releaseGuns(gunForm);
         return "redirect:/guns/manage/release";
     }
@@ -49,6 +58,9 @@ public class GunController {
     @GetMapping(path = "/manage/take")
     public String takeGuns(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }
         createGunDtoList(model);
         model.addAttribute("state", "take");
         return "guns";
@@ -58,6 +70,9 @@ public class GunController {
     public String takeGuns(Model model,
                            @ModelAttribute GunCreationDto gunForm) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdminOrEmployee()) {
+            return "redirect:/";
+        }
         this.gunService.takeGuns(gunForm);
         model.addAttribute("state", "take");
         return "redirect:/guns/manage/take";
@@ -68,6 +83,9 @@ public class GunController {
                            @RequestParam(required = false) String formInfo,
                            @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
         createGunDtoList(model);
         model.addAttribute("state", "edit");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
@@ -79,6 +97,9 @@ public class GunController {
     public String editGauge(Model model,
                             @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
 
         Optional<Gun> gunBox = this.gunService.findById(id);
         if (gunBox.isEmpty()) {
@@ -94,6 +115,9 @@ public class GunController {
     public String editGun(Model model,
                           @PathVariable Long id,
                           @ModelAttribute Gun gun) {
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
         Optional<Gun> gunBox = this.gunService.findById(id);
         if (gunBox.isEmpty()) {
             return "redirect:/";
@@ -107,6 +131,9 @@ public class GunController {
     @GetMapping(path = "/manage/add")
     public String addGun(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
 
         model.addAttribute("gunModel", new Gun());
         model.addAttribute("state", "add");
@@ -117,6 +144,9 @@ public class GunController {
     public String addGun(Model model,
                            @ModelAttribute Gun gun) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
 
         this.gunService.saveGun(gun);
         return "redirect:/guns/manage/edit";
@@ -128,6 +158,9 @@ public class GunController {
                               @RequestParam(required = false) String formInfo,
                               @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
 
         try {
             this.gunService.deleteGun(id);

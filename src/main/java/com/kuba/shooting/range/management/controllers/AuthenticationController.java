@@ -37,6 +37,7 @@ public class AuthenticationController {
         if (this.sessionData.isLogged()) {
             return "redirect:/";
         }
+        this.sessionData.setFormError("Wprowadź poprawne dane do formularza");
         return "redirect:/login";
     }
 

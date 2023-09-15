@@ -36,7 +36,7 @@
 
     <fieldset th:if="${state == 'edit'}" class="fieldset-form">
         <legend>Hasło</legend>
-        <a href="/">Zmień hasło</a>
+        <a th:href="@{/users/manage/edit/{id}/change-pass(id=${user.id})}">Zmień hasło</a>
     </fieldset>
     <div id="change-pass-error"></div>
 
@@ -94,10 +94,10 @@
     </fieldset>
     <div id="license-error"></div>
 
-<!--    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
-        <legend>Rola</legend>
-        <input type="text" class="input-form" id="role" th:field="*{userModel.role}">
-    </fieldset>-->
+    <!--    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
+            <legend>Rola</legend>
+            <input type="text" class="input-form" id="role" th:field="*{userModel.role}">
+        </fieldset>-->
 
     <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
         <legend>Rola</legend>

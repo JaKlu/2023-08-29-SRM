@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h1>Change password</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+
+<div th:text="${formInfo}" class="form-info"></div>
+<div th:text="${formError}" class="form-error"></div>
+
+<form method="post">
+    <fieldset class="">
+        <legend>Stare hasło</legend>
+        <input type="password"  id="old-password" class="" th:field="*{changePassModel.oldPass}">
+    </fieldset>
+
+    <fieldset class="">
+        <legend>Nowe hasło</legend>
+        <input type="password" id="new-password" class="" th:field="*{changePassModel.newPass}">
+    </fieldset>
+
+    <fieldset class="">
+        <legend>Powtóz hasło</legend>
+        <input type="password"  id="new-password2" class="" th:field="*{changePassModel.newPassRepeat}">
+    </fieldset>
+
+    <input type="submit" value="Zmień hasło" class="">
+</form>
+</body>
+</html>
