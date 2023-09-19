@@ -34,6 +34,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(Long id) {
+        Optional<User> userBox = findById(id);
+        if (userBox.isPresent() && !userBox.get().getRole().equals(User.Role.ADMIN)) {
+            this.userDAO.delete(userBox.get());
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
     public List<User> findAll() {
         return this.userDAO.findAll();
     }

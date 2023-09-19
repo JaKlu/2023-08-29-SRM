@@ -46,8 +46,9 @@
         <tbody>
         <th:block th:each="gunDTO, itemStat : *{dtoList}">
             <tr>
-                <td th:name="*{dtoList[__${itemStat.index}__].id}"
-                    th:text="*{dtoList[__${itemStat.index}__].id}"></td>
+                <td th:name="${itemStat.count}"
+                    th:text="${itemStat.count}"></td>
+                <!--<td th:text="${itemStat.index + 1}"></td>-->
                 <td th:name="*{dtoList[__${itemStat.index}__].commonName}"
                     th:text="*{dtoList[__${itemStat.index}__].commonName}"></td>
                 <td th:name="*{dtoList[__${itemStat.index}__].available }"

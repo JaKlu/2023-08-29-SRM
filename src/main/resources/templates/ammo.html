@@ -31,7 +31,8 @@
     <table>
         <thead>
         <tr>
-            <th>X</th>
+            <!--<th>X</th>-->
+            <th>Lp</th>
             <th>Kaliber</th>
             <th>Stan</th>
             <th th:if="${state == 'get' OR state == 'supply'}">Ilość</th>
@@ -41,7 +42,9 @@
         <tbody>
         <th:block th:each="ammoDTO, itemStat : *{dtoList}">
             <tr>
-                <td><input type="checkbox" value="XXX"></td>
+<!--                <td><input type="checkbox" value="XXX"></td>-->
+                <td th:name="${itemStat.count}"
+                    th:text="${itemStat.count}"></td>
                 <td th:name="*{dtoList[__${itemStat.index}__].gauge}"
                     th:text="*{dtoList[__${itemStat.index}__].gauge}">
                 </td>

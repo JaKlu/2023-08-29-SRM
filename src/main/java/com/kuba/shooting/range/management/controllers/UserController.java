@@ -13,7 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,12 +28,16 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(path = "")
-    public String users(Model model) {
+    public String users(Model model,
+                        @RequestParam(required = false) String formInfo,
+                        @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
         model.addAttribute("userList", this.userService.findAll());
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
 
         return "users";
     }
@@ -103,8 +109,12 @@ public class UserController {
             user.setId(id);
             user.setLogin(userBox.get().getLogin());
             user.setPassword(userBox.get().getPassword());
-            if (!this.sessionData.isAdmin()) {
+            user.getAddress().setId(userBox.get().getAddress().getId());
+            if (!this.sessionData.isAdminOrEmployee()) {
                 user.setRole(User.Role.USER);
+            }
+            if (this.sessionData.isEmployee()) {
+                user.setRole(User.Role.EMPLOYEE);
             }
             this.userService.update(user);
         } catch (UserValidationException e) {
@@ -162,6 +172,28 @@ public class UserController {
 
         this.sessionData.setFormInfo("Hasło zostało zmienione.");
         return "redirect:/users/manage/edit/" + id;
+    }
+
+    @GetMapping(path = "/manage/delete/{id}")
+    public String deleteUser(Model model,
+                             @PathVariable long id,
+                             @RequestParam(required = false) String formInfo,
+                             @RequestParam(required = false) String formError) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isAdmin()) {
+            return "redirect:/";
+        }
+
+        try {
+            String login = userService.findById(id).get().getLogin();
+            this.userService.delete(id);
+            this.sessionData.setFormInfo("Usunięto użytkownika " + login);
+        } catch (MethodArgumentTypeMismatchException | IllegalArgumentException | NoSuchElementException e) {
+            System.out.println("User not found or try to delete admin account.");
+            this.sessionData.setFormError("Nie można usunąć tego użytkownika");
+        }
+        model.addAttribute("state", "edit");
+        return "redirect:/users";
     }
 
 

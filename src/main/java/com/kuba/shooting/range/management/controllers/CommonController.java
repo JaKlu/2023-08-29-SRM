@@ -31,6 +31,11 @@ public class CommonController {
         model.addAttribute("gunList", this.gunService.findAll());
         return "arsenal";
     }
+    @GetMapping(path = "/contact")
+    public String contact(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        return "contact";
+    }
 
     @GetMapping(path = "/stock")
     public String arsenal(Model model) {

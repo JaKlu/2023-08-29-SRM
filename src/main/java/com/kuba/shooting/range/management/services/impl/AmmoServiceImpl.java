@@ -74,7 +74,7 @@ public class AmmoServiceImpl implements AmmoService {
         if (ammoBox.isPresent() && (ammoBox.get().getQuantity() == 0)) {
             this.ammoDAO.deleteById(id);
         } else {
-            throw new IllegalArgumentException("Gauge not found or stock is higher than 0.");
+            throw new IllegalArgumentException();
         }
     }
 }

@@ -6,17 +6,23 @@ INSERT INTO taddress (city, street, zip_code)
 VALUES ('Kraków', 'Kamienna 2', '30-001');
 
 INSERT INTO taddress (city, street, zip_code)
+VALUES ('Kraków', 'Żołędna 69', '33-021');
+
+INSERT INTO taddress (city, street, zip_code)
 VALUES ('Wrocław', 'Macedońska 17', '51-113');
 
 -- Users --
 INSERT INTO tuser (address_id, login, password, name, surname, birthdate, email, phone_number, gun_license, role)
-VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Kuba', 'Jakubczyk', '1985-05-12', 'kuba@srm.pl', '666-333-999', 'DCF777', 'ADMIN');
+VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Jakub', 'Jakubczyk', '1985-05-12', 'kuba@srm.pl', '666-333-999', 'DCF777', 'ADMIN');
 
 INSERT INTO tuser (address_id, login, password, name, surname, birthdate, email, phone_number, gun_license, role)
 VALUES (2, 'janusz', '087d9c5e13bdd64a82bef8e013625c32', 'Janusz', 'Januszkiewicz', '1988-08-18', 'janusz@srm.pl', '555-777-333', 'DCF555', 'EMPLOYEE');
 
 INSERT INTO tuser (address_id, login, password, name, surname, birthdate, email, phone_number, gun_license, role)
-VALUES (3, 'wojtek', '0d333f240498cfd51eb8bd1d74ee0f6e', 'Wojciech', 'Wojciechowski', '1987-03-22', 'wojtek@onet.pl', '123-456-789', '', 'USER');
+VALUES (3, 'pawel', 'a741cdf4d61e1083064d813a5a1ec8aa', 'Paweł', 'Pawłowski', '1989-07-11', 'pawel@srm.pl', '111-777-333', 'DCF123', 'EMPLOYEE');
+
+INSERT INTO tuser (address_id, login, password, name, surname, birthdate, email, phone_number, gun_license, role)
+VALUES (4, 'wojtek', '0d333f240498cfd51eb8bd1d74ee0f6e', 'Wojciech', 'Wojciechowski', '1987-03-22', 'wojtek@onet.pl', '123-456-789', '', 'USER');
 
 -- Ammunition --
 INSERT INTO tammo(gauge, quantity)
