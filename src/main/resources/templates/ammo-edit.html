@@ -10,41 +10,26 @@
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
-<div th:if="${admin}">
-    Kaliber:
-    <a href="/ammo/manage/edit">Edytuj</a>
-    <!--<a>Usuń</a>-->
-</div>
-<div>
-    Amunicja:
-    <a href="/ammo/manage/get">Wydaj</a>
-    <a href="/ammo/manage/supply">Uzupełnij</a>
-    <!--<a>Zwróć</a>-->
-</div>
-
-<h4 th:switch="${state}">
-    <span th:case="add">Dodaj kaliber</span>
-    <span th:case="edit">Edytuj kaliber</span>
-</h4>
+<th:block
+        th:replace="~{fragments.html :: ammo-manage-menu}">
+</th:block>
+<th:block
+        th:replace="~{fragments.html :: ammo-manage-header}">
+</th:block>
 
 <form method="post" th:object="${ammoModel}">
     <table>
         <thead>
         <tr>
-            <th>X</th>
-            <th>Kaliber</th>
-            <th>Stan</th>
+            <th>Pole</th>
+            <th>Wartość</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td><input type="checkbox" value="XXX"></td>
+            <td>Kaliber</td>
             <td>
                 <input th:field="*{gauge}">
-                <input type="hidden" th:field="*{quantity}">
-            </td>
-            <td th:name="*{quantity}"
-                th:text="*{quantity}">
             </td>
         </tr>
         </tbody>

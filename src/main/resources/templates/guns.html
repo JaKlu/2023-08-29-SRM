@@ -9,24 +9,12 @@
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
-
-<div th:if="${admin}">
-    Jednostka broni:
-    <a href="/guns/manage/edit">Edytuj</a>
-</div>
-
-<div>
-    Broń:
-    <a href="/guns/manage/release">Wydaj</a>
-    <a href="/guns/manage/take">Przyjmij</a>
-    <!--<a>Zwróć</a>-->
-</div>
-
-<h4 th:switch="${state}">
-    <span th:case="release">Wydawanie broni</span>
-    <span th:case="take">Przyjmowanie broni</span>
-    <span th:case="*">Stan magazynowy broni</span>
-</h4>
+<th:block
+        th:replace="~{fragments.html :: gun-manage-menu}">
+</th:block>
+<th:block
+        th:replace="~{fragments.html :: gun-manage-header}">
+</th:block>
 
 <form method="post" th:object="${gunForm}">
 
@@ -44,11 +32,10 @@
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="gunDTO, itemStat : *{dtoList}">
+        <th:block th:each="gunListDTO, itemStat : *{dtoList}">
             <tr>
                 <td th:name="${itemStat.count}"
                     th:text="${itemStat.count}"></td>
-                <!--<td th:text="${itemStat.index + 1}"></td>-->
                 <td th:name="*{dtoList[__${itemStat.index}__].commonName}"
                     th:text="*{dtoList[__${itemStat.index}__].commonName}"></td>
                 <td th:name="*{dtoList[__${itemStat.index}__].available }"
@@ -67,10 +54,9 @@
                     </th:block>
                 </td>
                 <td th:if="${state == 'edit'}">
-                    <a th:href="@{/guns/manage/edit/{id}(id=${gunDTO.id})}">Edytuj</a> |
-                    <a th:href="@{/guns/manage/delete/{id}(id=${gunDTO.id})}">Usuń</a>
+                    <a th:href="@{/guns/manage/edit/{id}(id=${gunListDTO.id})}">Edytuj</a> |
+                    <a th:href="@{/guns/manage/delete/{id}(id=${gunListDTO.id})}">Usuń</a>
                 </td>
-
             </tr>
         </th:block>
         </tbody>

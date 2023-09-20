@@ -10,22 +10,12 @@
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
-<div th:if="${admin}">
-    Kaliber:
-    <a href="/ammo/manage/edit">Edytuj</a>
-</div>
-<div>
-    Amunicja:
-    <a href="/ammo/manage/get">Wydaj</a>
-    <a href="/ammo/manage/supply">Uzupełnij</a>
-    <!--<a>Zwróć</a>-->
-</div>
-
-<h4 th:switch="${state}">
-    <span th:case="get">Wydawanie amunicji</span>
-    <span th:case="supply">Uzupełnianie amunicji</span>
-    <span th:case="*">Stan magazynowy amunicji</span>
-</h4>
+<th:block
+        th:replace="~{fragments.html :: ammo-manage-menu}">
+</th:block>
+<th:block
+        th:replace="~{fragments.html :: ammo-manage-header}">
+</th:block>
 
 <form method="post" th:object="${ammoForm}">
     <table>
@@ -35,14 +25,17 @@
             <th>Lp</th>
             <th>Kaliber</th>
             <th>Stan</th>
-            <th th:if="${state == 'get' OR state == 'supply'}">Ilość</th>
-            <th th:if="${state == 'edit'}">Edycja</th>
+            <th:block th:switch="${state}">
+                <th th:case="get">Wydaj</th>
+                <th th:case="supply">Uzupełnij</th>
+                <th th:case="edit">Edycja</th>
+            </th:block>
         </tr>
         </thead>
         <tbody>
         <th:block th:each="ammoDTO, itemStat : *{dtoList}">
             <tr>
-<!--                <td><input type="checkbox" value="XXX"></td>-->
+                <!--                <td><input type="checkbox" value="XXX"></td>-->
                 <td th:name="${itemStat.count}"
                     th:text="${itemStat.count}"></td>
                 <td th:name="*{dtoList[__${itemStat.index}__].gauge}"

@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 public class GunCreationDto {
-    private List<GunDTO> dtoList = new ArrayList<>();
+    private List<GunListDTO> dtoList = new ArrayList<>();
 
-    public void addDTO(GunDTO gunDTO) {
-        this.dtoList.add(gunDTO);
+    public void addDTO(GunListDTO gunListDTO) {
+        this.dtoList.add(gunListDTO);
     }
 }

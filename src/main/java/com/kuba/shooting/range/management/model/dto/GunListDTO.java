@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class GunDTO {
+public class GunListDTO {
 
     private Long id;
     private String commonName;
@@ -17,7 +17,7 @@ public class GunDTO {
     private boolean available;
     private boolean action = false;
 
-    public GunDTO(Gun gun) {
+    public GunListDTO(Gun gun) {
         this.id = gun.getId();
         this.commonName = gun.getCommonName();
         this.gauge = gun.getGauge();

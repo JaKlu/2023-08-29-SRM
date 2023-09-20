@@ -18,7 +18,7 @@ public class AmmoDTO {
 
     private int diff;
 
-    private String diffInput = "0";
+    private String diffInput = "";
 
     public AmmoDTO(Ammo ammo) {
         this.id = ammo.getId();

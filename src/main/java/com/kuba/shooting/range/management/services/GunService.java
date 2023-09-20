@@ -1,6 +1,7 @@
 package com.kuba.shooting.range.management.services;
 
 import com.kuba.shooting.range.management.model.Gun;
+import com.kuba.shooting.range.management.model.dto.GunAddDTO;
 import com.kuba.shooting.range.management.model.dto.GunCreationDto;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface GunService {
     void takeGuns(GunCreationDto creationDTO);
 
     void saveGun(Gun gun);
+
+    void saveGun(GunAddDTO gunAddDTO);
 
     void deleteGun(Long id);
 }

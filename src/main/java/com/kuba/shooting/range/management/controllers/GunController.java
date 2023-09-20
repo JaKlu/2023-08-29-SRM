@@ -1,9 +1,12 @@
 package com.kuba.shooting.range.management.controllers;
 
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
+import com.kuba.shooting.range.management.model.Ammo;
 import com.kuba.shooting.range.management.model.Gun;
+import com.kuba.shooting.range.management.model.dto.GunAddDTO;
 import com.kuba.shooting.range.management.model.dto.GunCreationDto;
-import com.kuba.shooting.range.management.model.dto.GunDTO;
+import com.kuba.shooting.range.management.model.dto.GunListDTO;
+import com.kuba.shooting.range.management.services.AmmoService;
 import com.kuba.shooting.range.management.services.GunService;
 import com.kuba.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -20,6 +24,7 @@ public class GunController {
 
     private SessionData sessionData;
     private GunService gunService;
+    private AmmoService ammoService;
 
 
     @GetMapping(path = "/manage")
@@ -106,7 +111,12 @@ public class GunController {
             return "redirect:/";
         }
 
+        List<String> gaugeList = this.ammoService.findAll().stream()
+                .map(Ammo::getGauge)
+                .toList();
+
         model.addAttribute("gunModel", gunBox.get());
+        model.addAttribute("gaugeList", gaugeList);
         model.addAttribute("state", "edit");
         return "guns-edit";
     }
@@ -129,26 +139,39 @@ public class GunController {
     }
 
     @GetMapping(path = "/manage/add")
-    public String addGun(Model model) {
+    public String addGun(Model model,
+                         @RequestParam(required = false) String formInfo,
+                         @RequestParam(required = false) String formError) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
+        List<String> gaugeList = this.ammoService.findAll().stream()
+                .map(Ammo::getGauge)
+                .toList();
 
         model.addAttribute("gunModel", new Gun());
+        model.addAttribute("gaugeList", gaugeList);
         model.addAttribute("state", "add");
         return "guns-edit";
     }
 
     @PostMapping(path = "/manage/add")
     public String addGun(Model model,
-                           @ModelAttribute Gun gun) {
+                         @ModelAttribute GunAddDTO gunAddDTO) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
 
-        this.gunService.saveGun(gun);
+        try {
+            this.gunService.saveGun(gunAddDTO);
+        } catch (NumberFormatException e) {
+            System.out.println("Could not add.");
+            this.sessionData.setFormError("Podaj poprawne dane");
+        }
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
         return "redirect:/guns/manage/edit";
     }
 
@@ -176,7 +199,7 @@ public class GunController {
     private void createGunDtoList(Model model) {
         GunCreationDto gunForm = new GunCreationDto();
         for (Gun gun : this.gunService.findAll()) {
-            gunForm.addDTO(new GunDTO(gun));
+            gunForm.addDTO(new GunListDTO(gun));
         }
         model.addAttribute("gunForm", gunForm);
     }

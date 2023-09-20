@@ -29,5 +29,52 @@
         </ul>
     </nav>
 </th:block>
+
+<th:block th:fragment="gun-manage-menu">
+    <div th:if="${admin}">
+        Jednostka broni:
+        <a href="/guns/manage/edit">Edytuj</a>
+        <a href="/guns/manage/add">Dodaj</a>
+    </div>
+    <div>
+        Broń:
+        <a href="/guns/manage/release">Wydaj</a>
+        <a href="/guns/manage/take">Przyjmij</a>
+    </div>
+</th:block>
+
+<th:block th:fragment="ammo-manage-menu">
+    <div th:if="${admin}">
+        Kaliber:
+        <a href="/ammo/manage/edit">Edytuj</a>
+        <a href="/ammo/manage/add">Dodaj</a>
+    </div>
+    <div>
+        Amunicja:
+        <a href="/ammo/manage/get">Wydaj</a>
+        <a href="/ammo/manage/supply">Uzupełnij</a>
+        <!--<a>Zwróć</a>-->
+    </div>
+</th:block>
+
+<th:block th:fragment="gun-manage-header">
+    <h4 th:switch="${state}">
+        <span th:case="release">Wydawanie broni</span>
+        <span th:case="take">Przyjmowanie broni</span>
+        <span th:case="edit">Edytowanie broni</span>
+        <span th:case="add">Dodawanie nowej broni</span>
+        <span th:case="*">Stan magazynowy broni</span>
+    </h4>
+</th:block>
+
+<th:block th:fragment="ammo-manage-header">
+    <h4 th:switch="${state}">
+        <span th:case="get">Wydawanie amunicji</span>
+        <span th:case="supply">Uzupełnianie stanu amunicji</span>
+        <span th:case="edit">Edytowanie amunicji</span>
+        <span th:case="add">Dodawanie nowego kalibru</span>
+        <span th:case="*">Stan magazynowy amunicji</span>
+    </h4>
+</th:block>
 </body>
 </html>

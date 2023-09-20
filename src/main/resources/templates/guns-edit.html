@@ -10,25 +10,12 @@
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
-<div th:if="${admin}">
-    Jednostka broni:
-    <a href="/guns/manage/edit">Edytuj</a>
-</div>
-
-<div>
-    Broń:
-    <a href="/guns/manage/release">Wydaj</a>
-    <a href="/guns/manage/take">Przyjmij</a>
-    <!--<a>Zwróć</a>-->
-</div>
-
-<h4 th:switch="${state}">
-    <span th:case="release">Wydawanie broni</span>
-    <span th:case="take">Przyjmowanie broni</span>
-    <span th:case="edit">Edytowanie broni</span>
-    <span th:case="add">Dodawanie broni</span>
-    <span th:case="*">Stan magazynowy broni</span>
-</h4>
+<th:block
+        th:replace="~{fragments.html :: gun-manage-menu}">
+</th:block>
+<th:block
+        th:replace="~{fragments.html :: gun-manage-header}">
+</th:block>
 
 <form method="post" th:object="${gunModel}">
     <table>
@@ -39,12 +26,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${state == 'edit'}">
-            <td>Id</td>
-            <td th:name="*{id}"
-                th:text="*{id}">
-            </td>
-        </tr>
         <tr>
             <td>Nazwa</td>
             <td>
@@ -63,11 +44,17 @@
                 <input th:field="*{type}">
             </td>
         </tr>
-        <tr>
-            <td>Kaliber</td>
-            <td>
-                <input th:field="*{gauge}">
-            </td>
+        <td>Kaliber</td>
+        <td>
+            <select th:if="${state == 'edit'}" th:field="*{gauge}">
+                <option value="" th:disabled="disabled">Wybierz z listy</option>
+                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+            </select>
+            <select th:if="${state == 'add'}" th:name="${gauge}" th:id="${gauge}">
+                <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+            </select>
+        </td>
         </tr>
         <tr>
             <td>Rok produkcji</td>
