@@ -69,3 +69,27 @@ INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certi
 VALUES ('PAC15', 'PAC15', 'karabinek samopowtarzalny', '5,56x45mm/.223REM', 2019, 'PAC1519758', 'WR3859', false,
 'Produkowany współcześnie w Polsce, inspirowany najlepszymi amerykańskimi wzorcami karabinek z rodziny AR-15 jest cywilną odmianą legendarnej broni sił zbrojnych Stanów Zjednoczonych - karabinu M16. Solidna konstrukcja i szesnastocalowa lufa w połączeniu z zaawansowaną optyką zapewniają precyzyjne strzelanie również na większe odległości.');
 
+-- Reservations --
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-09-24', '10:00', 2);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-09-24', '11:00', 3);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-09-24', '10:00', 4);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-09-24', '15:00', 1);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-10-01', '12:00', 4);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-10-01', '14:00', 2);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-10-01', '16:00', 1);
+
+INSERT INTO treservation(reservation_date, reservation_time, user_id)
+VALUES ('2023-10-01', '17:00', 3);

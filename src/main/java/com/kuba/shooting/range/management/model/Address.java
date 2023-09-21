@@ -25,6 +25,7 @@ public class Address {
     @Column(name = "city")
     private String city;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "address")
     private User user;
 

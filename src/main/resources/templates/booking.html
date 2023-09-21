@@ -10,5 +10,20 @@
 <th:block
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
+
+<form method="post" th:action="@{/booking}">
+    <label for="reservationDate">Wybierz datę:</label>
+    <input type="date" id="reservationDate" th:name="reservationDate" th:value="*{reservationDate}">
+    <input type="submit" value="Wybierz" class="">
+</form>
+
+
+
+
+
+
+<div th:text="${formInfo}" class=""></div>
+<div th:text="${formError}" class=""></div>
+
 </body>
 </html>

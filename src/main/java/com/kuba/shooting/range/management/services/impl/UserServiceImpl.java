@@ -7,6 +7,7 @@ import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.ChangePassDTO;
 import com.kuba.shooting.range.management.services.UserService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
     private UserDAO userDAO;
 
     @Override
