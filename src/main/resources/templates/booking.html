@@ -16,14 +16,28 @@
     <input type="date" id="reservationDate" th:name="reservationDate" th:value="*{reservationDate}">
     <input type="submit" value="Wybierz" class="">
 </form>
-
-
-
-
-
-
 <div th:text="${formInfo}" class=""></div>
 <div th:text="${formError}" class=""></div>
 
+<th:block th:if="${dayTemplate == null}">
+    <div>Wybierz datę i sprawdź dostępność terminów</div>
+</th:block>
+
+<th:block th:if="${dayTemplate != null}">
+    <h4>Rezerwacje na dzień <span th:text="${dayTemplate.day}"></span></h4>
+    <th:block th:if="${!dayTemplate.wholeDayReserved}">
+        <th:block th:each="reservationDTO : ${dayTemplate.reservationDTOList}">
+            <div th:if="${!reservationDTO.booked}">
+                <div th:text="${reservationDTO.reservation.reservationTime}">Hour</div>
+                <div>
+                    <a th:href="@{/booking/{date}/add/{time}(date=${reservationDTO.reservation.reservationDate},time=${reservationDTO.reservation.reservationTime})}">Zarezerwuj</a>
+                </div>
+            </div>
+        </th:block>
+    </th:block>
+    <th:block th:if="${dayTemplate.wholeDayReserved}">
+        <div>Brak dostępnych terminów.</div>
+    </th:block>
+</th:block>
 </body>
 </html>

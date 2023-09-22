@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Page</title>
+</head>
+<body>
+<h1>Booking Page</h1>
+
+<th:block
+        th:replace="~{fragments.html :: main-menu}">
+</th:block>
+
+<h4>Zarządzaj rezerwacjami</h4>
+<div th:text="${formInfo}" class=""></div>
+<div th:text="${formError}" class=""></div>
+<th:block th:each="localDate : ${reservationMap.keySet()}">
+    <div th:text="${localDate}">Date</div>
+    <th:block th:each="reservation : ${reservationMap.get(localDate)}">
+        <div th:text="${reservation.reservationTime}">Hour</div>
+        <div>
+            <a th:href="@{/booking/manage/{id}(id=${reservation.id})}">Szczegóły</a>
+        </div>
+    </th:block>
+</th:block>
+
+</body>
+</html>

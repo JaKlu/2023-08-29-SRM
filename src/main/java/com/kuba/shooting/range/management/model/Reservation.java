@@ -26,8 +26,13 @@ public class Reservation {
     @DateTimeFormat(pattern = "hh:mm")
     private LocalTime reservationTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+
+    public Reservation(LocalDate localDate) {
+        this.reservationDate = localDate;
+    }
 
     @Override
     public String toString() {
