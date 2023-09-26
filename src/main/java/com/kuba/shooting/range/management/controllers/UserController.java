@@ -64,11 +64,11 @@ public class UserController {
         } catch (LoginAlreadyExistException e) {
             this.sessionData.setFormError("Użytkownik " + user.getLogin() + " już istnieje");
             e.printStackTrace();
-            return "redirect:/register";
+            return "redirect:/users/register";
         } catch (UserValidationException e) {
             this.sessionData.setFormError("Wprowadź poprawne dane do formularza");
             e.printStackTrace();
-            return "redirect:/register";
+            return "redirect:/users/register";
         }
         this.sessionData.setFormInfo("Rejestracja zakończona sukcesem. Zaloguj się na swoje konto.");
         return "redirect:/login";
@@ -85,7 +85,7 @@ public class UserController {
         System.out.println(this.bookingService.findAllByUserId(id));
 
         model.addAttribute("reservationMap", this.bookingService.findAllByUserId(id));
-        model.addAttribute("state", "myReservations");
+        model.addAttribute("state", "manage");
         return "booking-manage";
     }
 

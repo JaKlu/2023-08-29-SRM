@@ -36,7 +36,7 @@
             </div>
         </th:block>
     </th:block>
-    <th:block th:if="${dayTemplate.wholeDayReserved}">
+    <th:block th:if="${dayTemplate.wholeDayReserved OR dayTemplate.reservationDTOList.size() == 0}">
         <div>Brak dostępnych terminów.</div>
     </th:block>
 </th:block>

@@ -42,6 +42,7 @@
             <td th:name="${user.role.getDisplayValue()}"
                 th:text="${user.role.getDisplayValue()}"></td>
             <td>
+                <a th:href="@{/users/{id}/reservations(id=${user.id})}">Rezerwacje</a> |
                 <a th:href="@{/users/manage/edit/{id}(id=${user.id})}">Edytuj</a> |
                 <a th:href="@{/users/manage/delete/{id}(id=${user.id})}">Usuń</a>
             </td>

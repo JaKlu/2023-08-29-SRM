@@ -5,7 +5,6 @@ import com.kuba.shooting.range.management.model.Reservation;
 import com.kuba.shooting.range.management.services.BookingService;
 import com.kuba.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.reactive.ReactiveOAuth2ResourceServerAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +22,7 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping(path = "")
-    public String booking(Model model,
-                          @RequestParam(required = false) String formInfo,
-                          @RequestParam(required = false) String formError) {
+    public String booking(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
 
@@ -54,11 +51,22 @@ public class BookingController {
         return "redirect:/booking/" + reservationDate;
     }
 
+    @GetMapping(path = "/my-reservations")
+    public String myReservations(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        if (!this.sessionData.isLogged()) {
+            return "redirect:/";
+        }
+        System.out.println(this.bookingService.findAllByUserId(this.sessionData.getUser().getId()));
+
+        model.addAttribute("reservationMap", this.bookingService.findAllByUserId(this.sessionData.getUser().getId()));
+        model.addAttribute("state", "myReservations");
+        return "booking-manage";
+    }
+
     @GetMapping(path = {"/{date}"})
     public String bookingDate(Model model,
-                              @PathVariable LocalDate date,
-                              @RequestParam(required = false) String formInfo,
-                              @RequestParam(required = false) String formError) {
+                              @PathVariable LocalDate date) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
         if (date == null || date.isBefore(LocalDate.now())) {
@@ -73,12 +81,11 @@ public class BookingController {
         return "booking";
     }
 
+
     @GetMapping(path = "/{date}/{time}")
     public String addReservation(Model model,
                                  @PathVariable LocalDate date,
-                                 @PathVariable LocalTime time,
-                                 @RequestParam(required = false) String formInfo,
-                                 @RequestParam(required = false) String formError) {
+                                 @PathVariable LocalTime time) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!sessionData.isLogged()) {
             return "redirect:/login";
@@ -113,30 +120,17 @@ public class BookingController {
         this.bookingService.save(reservation);
 
         System.out.println(reservation);
-        return "redirect:/users/" + this.sessionData.getUser().getId() + "/reservations";
+        return "redirect:/booking/my-reservations";
     }
 
-
-    /*    @GetMapping(path = "/manage")
-        public String bookingManage(Model model) {
-            ModelUtils.addCommonDataToModel(model, sessionData);
-            if (!this.sessionData.isAdmin()) {
-                return "redirect:/";
-            }
-
-            return "redirect:/booking";
-        }*/
     @GetMapping(path = "/manage")
-    public String manageReservations(Model model,
-                                     @RequestParam(required = false) String formInfo,
-                                     @RequestParam(required = false) String formError) {
+    public String manageReservations(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
-        if (!this.sessionData.isLogged()) {
+
+        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        if (!this.sessionData.isAdminOrEmployee()) {
-            return "redirect:/users/" + this.sessionData.getUser().getId() + "/reservations";
-        }
+
         System.out.println(this.bookingService.findAllByReservationDateFrom(LocalDate.now()));
         model.addAttribute("reservationMap", this.bookingService.findAllByReservationDateFrom(LocalDate.now()));
         model.addAttribute("state", "manage");
@@ -145,9 +139,7 @@ public class BookingController {
 
     @GetMapping(path = "/manage/{id}")
     public String manageReservation(Model model,
-                                    @PathVariable Long id,
-                                    @RequestParam(required = false) String formInfo,
-                                    @RequestParam(required = false) String formError) {
+                                    @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         Optional<Reservation> reservationBox = this.bookingService.findById(id);
 
@@ -172,8 +164,11 @@ public class BookingController {
                                     @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         Optional<Reservation> reservationBox = this.bookingService.findById(id);
+        if (!this.sessionData.isLogged()) {
+            return "redirect:/";
+        }
 
-        if (!(this.sessionData.isAdminOrEmployee() ||
+        if (!((this.sessionData.isAdminOrEmployee()) ||
                 (reservationBox.isPresent()) &&
                         this.sessionData.getUser().getId().equals(reservationBox.get().getUser().getId()))) {
             return "redirect:/";
@@ -186,6 +181,4 @@ public class BookingController {
         this.bookingService.delete(reservationBox.get());
         return "redirect:/booking/manage";
     }
-
-
 }

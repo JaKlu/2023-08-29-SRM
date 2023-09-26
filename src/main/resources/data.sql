@@ -95,25 +95,25 @@ INSERT INTO treservation(reservation_date, reservation_time, user_id)
 VALUES ('2023-10-01', '17:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '10:00', 3);
+VALUES ('2023-10-02', '10:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '11:00', 3);
+VALUES ('2023-10-02', '11:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '12:00', 3);
+VALUES ('2023-10-02', '12:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '13:00', 3);
+VALUES ('2023-10-02', '13:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '14:00', 3);
+VALUES ('2023-10-02', '14:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '15:00', 3);
+VALUES ('2023-10-02', '15:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '16:00', 3);
+VALUES ('2023-10-02', '16:00', 3);
 
 INSERT INTO treservation(reservation_date, reservation_time, user_id)
-VALUES ('2023-09-30', '17:00', 3);
+VALUES ('2023-10-02', '17:00', 3);
