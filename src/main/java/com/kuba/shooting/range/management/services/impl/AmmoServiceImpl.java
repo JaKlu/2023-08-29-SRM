@@ -5,6 +5,7 @@ import com.kuba.shooting.range.management.model.Ammo;
 import com.kuba.shooting.range.management.model.dto.AmmoCreationDto;
 import com.kuba.shooting.range.management.model.dto.AmmoDTO;
 import com.kuba.shooting.range.management.services.AmmoService;
+import com.kuba.shooting.range.management.validators.AmmoValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,10 @@ public class AmmoServiceImpl implements AmmoService {
 
     @Override
     public void supplyAmmo(AmmoCreationDto creationDTO) {
-        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
-            ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
-        }
+        AmmoValidator.validateInput(creationDTO);
+
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             if (ammoDTO.getDiff() == 0) continue;
-            if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
 
             Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
             if (ammoBox.isPresent()) {
@@ -46,12 +45,10 @@ public class AmmoServiceImpl implements AmmoService {
 
     @Override
     public void getAmmo(AmmoCreationDto creationDTO) {
-        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
-            ammoDTO.setDiff(Integer.parseInt(ammoDTO.getDiffInput()));
-        }
+        AmmoValidator.validateInput(creationDTO);
+
         for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
             if (ammoDTO.getDiff() == 0) continue;
-            if (ammoDTO.getDiff() < 0) throw new IllegalArgumentException();
 
             Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
             if (ammoBox.isPresent()) {

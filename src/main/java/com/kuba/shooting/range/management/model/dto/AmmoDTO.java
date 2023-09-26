@@ -11,13 +11,9 @@ import lombok.*;
 @ToString
 public class AmmoDTO {
     private Long id;
-
     private String gauge;
-
     private int quantity;
-
     private int diff;
-
     private String diffInput = "";
 
     public AmmoDTO(Ammo ammo) {

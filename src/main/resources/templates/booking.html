@@ -11,8 +11,10 @@
         th:replace="~{fragments.html :: main-menu}">
 </th:block>
 
+<h4>Wybierz datę i sprawdź dostępność terminów</h4>
+
 <form method="post" th:action="@{/booking}">
-    <label for="reservationDate">Wybierz datę:</label>
+    <label for="reservationDate">Data:</label>
     <input type="date" id="reservationDate" th:name="reservationDate" th:value="*{reservationDate}">
     <input type="submit" value="Wybierz" class="">
 </form>
@@ -20,7 +22,6 @@
 <div th:text="${formError}" class=""></div>
 
 <th:block th:if="${dayTemplate == null}">
-    <div>Wybierz datę i sprawdź dostępność terminów</div>
 </th:block>
 
 <th:block th:if="${dayTemplate != null}">
@@ -30,7 +31,7 @@
             <div th:if="${!reservationDTO.booked}">
                 <div th:text="${reservationDTO.reservation.reservationTime}">Hour</div>
                 <div>
-                    <a th:href="@{/booking/{date}/add/{time}(date=${reservationDTO.reservation.reservationDate},time=${reservationDTO.reservation.reservationTime})}">Zarezerwuj</a>
+                    <a th:href="@{/booking/{date}/{time}(date=${reservationDTO.reservation.reservationDate},time=${reservationDTO.reservation.reservationTime})}">Zarezerwuj</a>
                 </div>
             </div>
         </th:block>

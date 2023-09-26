@@ -2,6 +2,7 @@ package com.kuba.shooting.range.management.services.impl;
 
 import com.kuba.shooting.range.management.database.dao.springdata.BookingDAO;
 import com.kuba.shooting.range.management.model.Reservation;
+import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.DayTemplate;
 import com.kuba.shooting.range.management.model.dto.ReservationDTO;
 import com.kuba.shooting.range.management.services.BookingService;
@@ -32,10 +33,29 @@ public class BookingServiceImpl implements BookingService {
         return this.bookingDAO.findById(id);
     }
 
+    @Override
+    public TreeMap<LocalDate, List<Reservation>> findAllByUserId(Long id) {
+        List<Reservation> reservationList = this.bookingDAO.findAllByUserId(id);
+
+        Map<LocalDate, List<Reservation>> collect = reservationList.stream()
+                .collect(Collectors.groupingBy(Reservation::getReservationDate));
+
+        return new TreeMap<>(collect);
+
+
+    }
+
+    @Override
+    public Optional<Reservation> findByReservationDateAndReservationTime(LocalDate localDate, LocalTime localTime) {
+        return this.bookingDAO.findByReservationDateAndReservationTime(localDate, localTime);
+    }
+
+    @Override
     public List<Reservation> getReservationListByDate(LocalDate localDate) {
         return this.bookingDAO.findAllByReservationDate(localDate);
     }
 
+    @Override
     public DayTemplate getDayTemplate(LocalDate localDate) {
         DayTemplate dayTemplate = new DayTemplate();
         dayTemplate.setDay(localDate);

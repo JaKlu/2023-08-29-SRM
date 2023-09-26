@@ -12,12 +12,17 @@
 </th:block>
 
 <h4>Zarządzaj rezerwacją</h4>
-<div th:text="${reservation.reservationDate}"></div>
-<div th:text="${reservation.reservationTime}"></div>
-<div th:text="${reservation.user.name}"></div>
-<div th:text="${reservation.user.surname}"></div>
-<div><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a></div>
-<div><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Potwierdź</a></div>
-
+<form method="post">
+    <div th:text="${reservation.reservationDate}"></div>
+    <div th:text="${reservation.reservationTime}"></div>
+    <div th:text="${reservation.user.name}"></div>
+    <div th:text="${reservation.user.surname}"></div>
+    <div th:if="${state == 'add'}">
+        <input type="hidden" th:field="${reservation.reservationDate}">
+        <input type="hidden" th:field="${reservation.reservationTime}">
+        <input type="submit" value="Potwierdź">
+    </div>
+    <div th:if="${state == 'manage'}"><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a></div>
+</form>
 </body>
 </html>

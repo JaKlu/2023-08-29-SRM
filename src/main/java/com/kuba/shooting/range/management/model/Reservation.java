@@ -23,7 +23,7 @@ public class Reservation {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDate;
 
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime reservationTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
