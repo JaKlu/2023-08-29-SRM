@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Ammunition Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Amunicja</h1>
+<div class="wrapper">
+    <h1>Amunicja</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: ammo-manage-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: ammo-manage-header}">
-</th:block>
-
-<form method="post" th:object="${ammoModel}">
-    <table>
-        <thead>
-        <tr>
-            <th>Pole</th>
-            <th>Wartość</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Kaliber</td>
-            <td>
-                <input th:field="*{gauge}">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <th:block th:switch="${state}">
-        <input type="submit" th:case="add" value="Dodaj">
-        <input type="submit" th:case="edit" value="Aktualizuj">
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-</form>
+    <th:block
+            th:replace="~{fragments.html :: ammo-manage-menu}">
+    </th:block>
+    <th:block
+            th:replace="~{fragments.html :: ammo-manage-header}">
+    </th:block>
+
+    <form method="post" th:object="${ammoModel}">
+        <table>
+            <thead>
+            <tr>
+                <th>Pole</th>
+                <th>Wartość</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Kaliber</td>
+                <td>
+                    <input th:field="*{gauge}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block th:switch="${state}">
+            <input type="submit" th:case="add" value="Dodaj">
+            <input type="submit" th:case="edit" value="Aktualizuj">
+        </th:block>
+    </form>
+</div>
 </body>
 </html>

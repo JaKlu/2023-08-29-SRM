@@ -1,73 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Broń</h1>
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: gun-manage-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: gun-manage-header}">
-</th:block>
-
-<form method="post" th:object="${gunForm}">
-
-    <table>
-        <thead>
-        <tr>
-            <th>Lp</th>
-            <th>Nazwa</th>
-            <th>Stan</th>
-            <th th:switch="${state}">
-                <span th:case="release">Wydaj</span>
-                <span th:case="take">Przyjmij</span>
-                <span th:case="edit">Edytuj</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="gunListDTO, itemStat : *{dtoList}">
-            <tr>
-                <td th:name="${itemStat.count}"
-                    th:text="${itemStat.count}"></td>
-                <td th:name="*{dtoList[__${itemStat.index}__].commonName}"
-                    th:text="*{dtoList[__${itemStat.index}__].commonName}"></td>
-                <td th:name="*{dtoList[__${itemStat.index}__].available }"
-                    th:text="*{dtoList[__${itemStat.index}__].available  ? 'Dostępny' : 'Wydany'}"></td>
-                <td th:if="${state == 'release' OR state == 'take'}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].commonName}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].available}">
-                    <th:block th:switch="${state}">
-                        <input th:case="release" type="checkbox"
-                               th:disabled="*{dtoList[__${itemStat.index}__].available ? false: true}"
-                               th:field="*{dtoList[__${itemStat.index}__].action}"/>
-                        <input th:case="take" type="checkbox"
-                               th:disabled="*{dtoList[__${itemStat.index}__].available ? true: false}"
-                               th:field="*{dtoList[__${itemStat.index}__].action}"/>
-                    </th:block>
-                </td>
-                <td th:if="${state == 'edit'}">
-                    <a th:href="@{/guns/manage/edit/{id}(id=${gunListDTO.id})}">Edytuj</a> |
-                    <a th:href="@{/guns/manage/delete/{id}(id=${gunListDTO.id})}">Usuń</a>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-    <th:block th:switch="${state}">
-        <input type="submit" th:case="release" value="Wydaj">
-        <input type="submit" th:case="take" value="Przyjmij">
-        <a href="/guns/manage/add" th:case="edit">Dodaj</a>
+<div class="wrapper">
+    <h1>Broń</h1>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-    <div th:text="${formInfo}" class=""></div>
-    <div th:text="${formError}" class=""></div>
-</form>
+    <th:block
+            th:replace="~{fragments.html :: gun-manage-menu}">
+    </th:block>
+    <th:block
+            th:replace="~{fragments.html :: gun-manage-header}">
+    </th:block>
+
+    <form method="post" th:object="${gunForm}">
+
+        <table>
+            <thead>
+            <tr>
+                <th>Lp</th>
+                <th>Nazwa</th>
+                <th>Stan</th>
+                <th th:switch="${state}">
+                    <span th:case="release">Wydaj</span>
+                    <span th:case="take">Przyjmij</span>
+                    <span th:case="edit">Edytuj</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="gunListDTO, itemStat : *{dtoList}">
+                <tr>
+                    <td th:name="${itemStat.count}"
+                        th:text="${itemStat.count}"></td>
+                    <td th:name="*{dtoList[__${itemStat.index}__].commonName}"
+                        th:text="*{dtoList[__${itemStat.index}__].commonName}"></td>
+                    <td th:name="*{dtoList[__${itemStat.index}__].available }"
+                        th:text="*{dtoList[__${itemStat.index}__].available  ? 'Dostępny' : 'Wydany'}"></td>
+                    <td th:if="${state == 'release' OR state == 'take'}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].commonName}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].available}">
+                        <th:block th:switch="${state}">
+                            <input th:case="release" type="checkbox"
+                                   th:disabled="*{dtoList[__${itemStat.index}__].available ? false: true}"
+                                   th:field="*{dtoList[__${itemStat.index}__].action}"/>
+                            <input th:case="take" type="checkbox"
+                                   th:disabled="*{dtoList[__${itemStat.index}__].available ? true: false}"
+                                   th:field="*{dtoList[__${itemStat.index}__].action}"/>
+                        </th:block>
+                    </td>
+                    <td th:if="${state == 'edit'}">
+                        <a th:href="@{/guns/manage/edit/{id}(id=${gunListDTO.id})}">Edytuj</a> |
+                        <a th:href="@{/guns/manage/delete/{id}(id=${gunListDTO.id})}">Usuń</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <th:block th:switch="${state}">
+            <input type="submit" th:case="release" value="Wydaj">
+            <input type="submit" th:case="take" value="Przyjmij">
+            <a href="/guns/manage/add" th:case="edit">Dodaj</a>
+        </th:block>
+        <div th:text="${formInfo}" class=""></div>
+        <div th:text="${formError}" class=""></div>
+    </form>
+</div>
 </body>
 </html>

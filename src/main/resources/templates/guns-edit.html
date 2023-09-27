@@ -1,91 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Guns Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Broń</h1>
+<div class="wrapper">
+    <h1>Broń</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: gun-manage-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: gun-manage-header}">
-</th:block>
-
-<form method="post" th:object="${gunModel}">
-    <table>
-        <thead>
-        <tr>
-            <th>Pole</th>
-            <th>Wartość</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Nazwa</td>
-            <td>
-                <input th:field="*{commonName}">
-            </td>
-        </tr>
-        <tr>
-            <td>Marka</td>
-            <td>
-                <input th:field="*{brand}">
-            </td>
-        </tr>
-        <tr>
-            <td>Typ</td>
-            <td>
-                <input th:field="*{type}">
-            </td>
-        </tr>
-        <td>Kaliber</td>
-        <td>
-            <select th:if="${state == 'edit'}" th:field="*{gauge}">
-                <option value="" th:disabled="disabled">Wybierz z listy</option>
-                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-            </select>
-            <select th:if="${state == 'add'}" th:name="${gauge}" th:id="${gauge}">
-                <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
-                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-            </select>
-        </td>
-        </tr>
-        <tr>
-            <td>Rok produkcji</td>
-            <td>
-                <input th:field="*{yearOfProd}">
-            </td>
-        </tr>
-        <tr>
-            <td>Seria broni</td>
-            <td>
-                <input th:field="*{serialNo}">
-            </td>
-        </tr>
-        <tr>
-            <td>Numer świadectwa</td>
-            <td>
-                <input th:field="*{certificateNo}">
-            </td>
-        </tr>
-        <tr>
-            <td>Opis</td>
-            <td>
-                <textarea th:field="*{description}"></textarea>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <th:block th:switch="${state}">
-        <input type="submit" th:case="add" value="Dodaj">
-        <input type="submit" th:case="edit" value="Aktualizuj">
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-</form>
+    <th:block
+            th:replace="~{fragments.html :: gun-manage-menu}">
+    </th:block>
+    <th:block
+            th:replace="~{fragments.html :: gun-manage-header}">
+    </th:block>
+
+    <form method="post" th:object="${gunModel}">
+        <table>
+            <thead>
+            <tr>
+                <th>Pole</th>
+                <th>Wartość</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Nazwa</td>
+                <td>
+                    <input th:field="*{commonName}">
+                </td>
+            </tr>
+            <tr>
+                <td>Marka</td>
+                <td>
+                    <input th:field="*{brand}">
+                </td>
+            </tr>
+            <tr>
+                <td>Typ</td>
+                <td>
+                    <input th:field="*{type}">
+                </td>
+            </tr>
+            <td>Kaliber</td>
+            <td>
+                <select th:if="${state == 'edit'}" th:field="*{gauge}">
+                    <option value="" th:disabled="disabled">Wybierz z listy</option>
+                    <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+                </select>
+                <select th:if="${state == 'add'}" th:name="${gauge}" th:id="${gauge}">
+                    <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+                    <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+                </select>
+            </td>
+            </tr>
+            <tr>
+                <td>Rok produkcji</td>
+                <td>
+                    <input th:field="*{yearOfProd}">
+                </td>
+            </tr>
+            <tr>
+                <td>Seria broni</td>
+                <td>
+                    <input th:field="*{serialNo}">
+                </td>
+            </tr>
+            <tr>
+                <td>Numer świadectwa</td>
+                <td>
+                    <input th:field="*{certificateNo}">
+                </td>
+            </tr>
+            <tr>
+                <td>Opis</td>
+                <td>
+                    <textarea th:field="*{description}"></textarea>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block th:switch="${state}">
+            <input type="submit" th:case="add" value="Dodaj">
+            <input type="submit" th:case="edit" value="Aktualizuj">
+        </th:block>
+    </form>
+</div>
 </body>
 </html>

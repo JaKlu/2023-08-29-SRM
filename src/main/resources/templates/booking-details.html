@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Booking Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Booking Page</h1>
+<div class="wrapper">
+    <h1>Booking Page</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
+    </th:block>
 
-<h4>Zarządzaj rezerwacją</h4>
-<form method="post">
-    <div th:text="${reservation.reservationDate}"></div>
-    <div th:text="${reservation.reservationTime}"></div>
-    <div th:text="${reservation.user.name}"></div>
-    <div th:text="${reservation.user.surname}"></div>
-    <div th:if="${state == 'add'}">
-        <input type="hidden" th:field="${reservation.reservationDate}">
-        <input type="hidden" th:field="${reservation.reservationTime}">
-        <input type="submit" value="Potwierdź">
-    </div>
-    <div th:if="${state == 'manage'}"><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a></div>
-    <div th:if="${state == 'myReservations'}"><a th:href="@{/booking/my-reservations/{id}/delete(id=${reservation.id})}">Usuń</a></div>
-</form>
+    <h4>Zarządzaj rezerwacją</h4>
+    <form method="post">
+        <div th:text="${reservation.reservationDate}"></div>
+        <div th:text="${reservation.reservationTime}"></div>
+        <div th:text="${reservation.user.name}"></div>
+        <div th:text="${reservation.user.surname}"></div>
+        <div th:if="${state == 'add'}">
+            <input type="hidden" th:field="${reservation.reservationDate}">
+            <input type="hidden" th:field="${reservation.reservationTime}">
+            <input type="submit" value="Potwierdź">
+        </div>
+        <div th:if="${state == 'manage'}"><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a>
+        </div>
+        <div th:if="${state == 'myReservations'}"><a
+                th:href="@{/booking/my-reservations/{id}/delete(id=${reservation.id})}">Usuń</a></div>
+    </form>
+</div>
 </body>
 </html>

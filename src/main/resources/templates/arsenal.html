@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Arsenal Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Arsenal Page</h1>
+<div class="wrapper">
+    <h1>Arsenal Page</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
+    </th:block>
 
-<th:block th:each="gun : ${gunList}">
-    <div>
+    <th:block th:each="gun : ${gunList}">
         <div>
-            <span th:text="${gun.commonName}"></span> |
-            <span th:text="${gun.type}"></span> | Kaliber:
-            <span th:text="${gun.gauge}"></span>
+            <div>
+                <span th:text="${gun.commonName}"></span> |
+                <span th:text="${gun.type}"></span> | Kaliber:
+                <span th:text="${gun.gauge}"></span>
+            </div>
+            <div th:text="${gun.description}"></div>
+            <br>
         </div>
-        <div th:text="${gun.description}"></div>
-        <br>
-    </div>
-</th:block>
-
+    </th:block>
+</div>
 </body>
 </html>

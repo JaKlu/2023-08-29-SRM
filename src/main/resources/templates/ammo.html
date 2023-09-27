@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Ammunition Page</title>
-</head>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block></head>
 <body>
-<h1>Amunicja</h1>
+<div class="wrapper">
+    <h1>Amunicja</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: ammo-manage-menu}">
-</th:block>
-<th:block
-        th:replace="~{fragments.html :: ammo-manage-header}">
-</th:block>
-
-<form method="post" th:object="${ammoForm}">
-    <table>
-        <thead>
-        <tr>
-            <!--<th>X</th>-->
-            <th>Lp</th>
-            <th>Kaliber</th>
-            <th>Stan</th>
-            <th:block th:switch="${state}">
-                <th th:case="get">Wydaj</th>
-                <th th:case="supply">Uzupełnij</th>
-                <th th:case="edit">Edycja</th>
-            </th:block>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="ammoDTO, itemStat : *{dtoList}">
-            <tr>
-                <!--                <td><input type="checkbox" value="XXX"></td>-->
-                <td th:name="${itemStat.count}"
-                    th:text="${itemStat.count}"></td>
-                <td th:name="*{dtoList[__${itemStat.index}__].gauge}"
-                    th:text="*{dtoList[__${itemStat.index}__].gauge}">
-                </td>
-                <td th:name="*{dtoList[__${itemStat.index}__].quantity}"
-                    th:text="*{dtoList[__${itemStat.index}__].quantity}">
-                </td>
-                <td th:if="${state == 'get' OR state == 'supply'}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
-                    <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
-                    <input th:field="*{dtoList[__${itemStat.index}__].diffInput}">
-                </td>
-                <td th:if="${state == 'edit'}">
-                    <a th:href="@{/ammo/manage/edit/{id}(id=${ammoDTO.id})}">Edytuj</a> |
-                    <a th:href="@{/ammo/manage/delete/{id}(id=${ammoDTO.id})}">Usuń</a>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-    <th:block th:switch="${state}">
-        <input type="submit" th:case="get" value="Wydaj">
-        <input type="submit" th:case="supply" value="Uzupełnij">
-        <a href="/ammo/manage/add" th:case="edit">Dodaj</a>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-    <div th:text="${formInfo}" class=""></div>
-    <div th:text="${formError}" class=""></div>
-</form>
+    <th:block
+            th:replace="~{fragments.html :: ammo-manage-menu}">
+    </th:block>
+    <th:block
+            th:replace="~{fragments.html :: ammo-manage-header}">
+    </th:block>
+
+    <form method="post" th:object="${ammoForm}">
+        <table>
+            <thead>
+            <tr>
+                <!--<th>X</th>-->
+                <th>Lp</th>
+                <th>Kaliber</th>
+                <th>Stan</th>
+                <th:block th:switch="${state}">
+                    <th th:case="get">Wydaj</th>
+                    <th th:case="supply">Uzupełnij</th>
+                    <th th:case="edit">Edycja</th>
+                </th:block>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="ammoDTO, itemStat : *{dtoList}">
+                <tr>
+                    <!--                <td><input type="checkbox" value="XXX"></td>-->
+                    <td th:name="${itemStat.count}"
+                        th:text="${itemStat.count}"></td>
+                    <td th:name="*{dtoList[__${itemStat.index}__].gauge}"
+                        th:text="*{dtoList[__${itemStat.index}__].gauge}">
+                    </td>
+                    <td th:name="*{dtoList[__${itemStat.index}__].quantity}"
+                        th:text="*{dtoList[__${itemStat.index}__].quantity}">
+                    </td>
+                    <td th:if="${state == 'get' OR state == 'supply'}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
+                        <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
+                        <input th:field="*{dtoList[__${itemStat.index}__].diffInput}">
+                    </td>
+                    <td th:if="${state == 'edit'}">
+                        <a th:href="@{/ammo/manage/edit/{id}(id=${ammoDTO.id})}">Edytuj</a> |
+                        <a th:href="@{/ammo/manage/delete/{id}(id=${ammoDTO.id})}">Usuń</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <th:block th:switch="${state}">
+            <input type="submit" th:case="get" value="Wydaj">
+            <input type="submit" th:case="supply" value="Uzupełnij">
+            <a href="/ammo/manage/add" th:case="edit">Dodaj</a>
+        </th:block>
+        <div th:text="${formInfo}" class=""></div>
+        <div th:text="${formError}" class=""></div>
+    </form>
+</div>
 </body>
 </html>

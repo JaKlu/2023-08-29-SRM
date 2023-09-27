@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Magazyn Broni</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Magazyn Broni</h1>
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-
-<h4>Stan magazynowy broni</h4>
-<table>
-    <thead>
-    <tr>
-        <th>Lp</th>
-        <th>Nazwa</th>
-        <th>Stan</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="gun : ${gunList}">
-        <tr>
-            <td th:text="${gun.id}"></td>
-            <td th:text="${gun.commonName}"></td>
-            <td th:text="${gun.isAvailable ? 'Dostępny' : 'Wydany'}"></td>
-        </tr>
+<div class="wrapper">
+    <h1>Magazyn Broni</h1>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-    </tbody>
-</table>
 
-<h4>Stan magazynowy amunicji</h4>
-<table>
-    <thead>
-    <tr>
-        <th>Lp</th>
-        <th>Kaliber</th>
-        <th>Stan</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="ammo : ${ammoList}">
+    <h4>Stan magazynowy broni</h4>
+    <table>
+        <thead>
         <tr>
-            <td th:text="${ammo.id}"></td>
-            <td th:text="${ammo.gauge}"></td>
-            <td th:text="${ammo.quantity}"></td>
+            <th>Lp</th>
+            <th>Nazwa</th>
+            <th>Stan</th>
         </tr>
-    </th:block>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <th:block th:each="gun : ${gunList}">
+            <tr>
+                <td th:text="${gun.id}"></td>
+                <td th:text="${gun.commonName}"></td>
+                <td th:text="${gun.isAvailable ? 'Dostępny' : 'Wydany'}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
 
+    <h4>Stan magazynowy amunicji</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Lp</th>
+            <th>Kaliber</th>
+            <th>Stan</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="ammo : ${ammoList}">
+            <tr>
+                <td th:text="${ammo.id}"></td>
+                <td th:text="${ammo.gauge}"></td>
+                <td th:text="${ammo.quantity}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

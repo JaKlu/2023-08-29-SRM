@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Users Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Użytkownicy</h1>
+<div class="wrapper">
+    <h1>Użytkownicy</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-
-<div th:text="${formInfo}" class=""></div>
-<div th:text="${formError}" class=""></div>
-
-<table>
-    <thead>
-    <tr>
-        <th>Login</th>
-        <th>Imię</th>
-        <th>Nazwisko</th>
-        <th>Email</th>
-        <th>Telefon</th>
-        <th>Rola</th>
-        <th>Więcej</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="user, itemStat : ${userList}">
-        <tr>
-            <td th:name="${user.login}"
-                th:text="${user.login}"></td>
-            <td th:name="${user.name}"
-                th:text="${user.name}"></td>
-            <td th:name="${user.surname}"
-                th:text="${user.surname}"></td>
-            <td th:name="${user.email}"
-                th:text="${user.email}"></td>
-            <td th:name="${user.phoneNumber}"
-                th:text="${user.phoneNumber}"></td>
-            <td th:name="${user.role.getDisplayValue()}"
-                th:text="${user.role.getDisplayValue()}"></td>
-            <td>
-                <a th:href="@{/users/{id}/reservations(id=${user.id})}">Rezerwacje</a> |
-                <a th:href="@{/users/manage/edit/{id}(id=${user.id})}">Edytuj</a>
-                <th:block th:if="${admin}"> |
-                    <a th:href="@{/users/manage/delete/{id}(id=${user.id})}">Usuń</a>
-                </th:block>
-            </td>
-
-        </tr>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-    </tbody>
-</table>
 
-<!--    <a href="/users/manage/add">Dodaj</a>-->
+    <div th:text="${formInfo}" class=""></div>
+    <div th:text="${formError}" class=""></div>
 
+    <table>
+        <thead>
+        <tr>
+            <th>Login</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Rola</th>
+            <th>Więcej</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="user, itemStat : ${userList}">
+            <tr>
+                <td th:name="${user.login}"
+                    th:text="${user.login}"></td>
+                <td th:name="${user.name}"
+                    th:text="${user.name}"></td>
+                <td th:name="${user.surname}"
+                    th:text="${user.surname}"></td>
+                <td th:name="${user.email}"
+                    th:text="${user.email}"></td>
+                <td th:name="${user.phoneNumber}"
+                    th:text="${user.phoneNumber}"></td>
+                <td th:name="${user.role.getDisplayValue()}"
+                    th:text="${user.role.getDisplayValue()}"></td>
+                <td>
+                    <a th:href="@{/users/{id}/reservations(id=${user.id})}">Rezerwacje</a> |
+                    <a th:href="@{/users/manage/edit/{id}(id=${user.id})}">Edytuj</a>
+                    <th:block th:if="${admin}"> |
+                        <a th:href="@{/users/manage/delete/{id}(id=${user.id})}">Usuń</a>
+                    </th:block>
+                </td>
 
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!--    <a href="/users/manage/add">Dodaj</a>-->
+
+</div>
 </body>
 </html>

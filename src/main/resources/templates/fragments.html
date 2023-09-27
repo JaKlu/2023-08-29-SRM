@@ -2,9 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Fragments</title>
+    <title>DEV_FRAGMENTS</title>
 </head>
 <body>
+<th:block th:fragment="head-meta">
+    <meta charset="UTF-8">
+    <title>Alfa - twoja strzelnica</title>
+    <link rel="stylesheet" href="/common.css">
+    <!--<link rel="icon" type="image/x-icon" href="/favicon.ico">-->
+</th:block>
+
 <th:block th:fragment="main-menu">
     <nav class="menu">
         <ul class="">

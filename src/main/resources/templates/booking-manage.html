@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Booking Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Booking Page</h1>
+<div class="wrapper">
+    <h1>Booking Page</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-
-<h4 th:if="${state == 'manage'}">Zarządzaj rezerwacjami</h4>
-<h4 th:if="${state == 'myReservations'}">Moje rezerwacje</h4>
-<div th:text="${formInfo}" class=""></div>
-<div th:text="${formError}" class=""></div>
-
-<div th:if="${reservationMap.size() == 0}">Brak rezerwacji</div>
-<div th:if="${reservationMap.size() > 0}">
-    <th:block th:each="localDate : ${reservationMap.keySet()}">
-        <div th:text="${localDate}">Date</div>
-        <th:block th:each="reservation : ${reservationMap.get(localDate)}">
-            <div th:text="${reservation.reservationTime}">Hour</div>
-            <div th:if="${state == 'manage'}">
-                <a th:href="@{/booking/manage/{id}(id=${reservation.id})}">Szczegóły</a>
-            </div>
-            <div th:if="${state == 'myReservations'}">
-                <a th:href="@{/booking/my-reservations/{id}(id=${reservation.id})}">Szczegóły</a>
-            </div>
-        </th:block>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
     </th:block>
-</div>
 
+    <h4 th:if="${state == 'manage'}">Zarządzaj rezerwacjami</h4>
+    <h4 th:if="${state == 'myReservations'}">Moje rezerwacje</h4>
+    <div th:text="${formInfo}" class=""></div>
+    <div th:text="${formError}" class=""></div>
+
+    <div th:if="${reservationMap.size() == 0}">Brak rezerwacji</div>
+    <div th:if="${reservationMap.size() > 0}">
+        <th:block th:each="localDate : ${reservationMap.keySet()}">
+            <div th:text="${localDate}">Date</div>
+            <th:block th:each="reservation : ${reservationMap.get(localDate)}">
+                <div th:text="${reservation.reservationTime}">Hour</div>
+                <div th:if="${state == 'manage'}">
+                    <a th:href="@{/booking/manage/{id}(id=${reservation.id})}">Szczegóły</a>
+                </div>
+                <div th:if="${state == 'myReservations'}">
+                    <a th:href="@{/booking/my-reservations/{id}(id=${reservation.id})}">Szczegóły</a>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</div>
 </body>
 </html>

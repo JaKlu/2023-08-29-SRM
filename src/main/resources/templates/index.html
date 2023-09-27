@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Home Page</title>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 </head>
 <body>
-<h1>Home Page</h1>
+<div class="wrapper">
+    <h1>ALFA - twoja strzelnica</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
+    </th:block>
+
+    <p>
+        Witaj na stronie.
+    </p>
+    <p>
+        Użytkownicy:
+    </p>
+    <p>
+        Feedback:
+    </p>
+</div>
 </body>
 </html>

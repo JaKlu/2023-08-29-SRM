@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Contact</title>
-</head>
+    <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
 <body>
-<h1>Kontakt</h1>
+<div class="wrapper">
+    <h1>Kontakt</h1>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
+    </th:block>
 
-<div>
-    <p>Zapoznaj się z naszą ofertą i zarezerwuj swoją wizytę już dziś.</p>
-    <p>ul. Trzecia 6<br>
-        33-666 Trzecistan</p>
-    <p>tel.: +48-333-666-999</p>
-    <p>e-mail: kontakt@srm.pl</p>
+    <div>
+        <p>Zapoznaj się z naszą ofertą i zarezerwuj swoją wizytę już dziś.</p>
+        <p>ul. Trzecia 6<br>
+            33-666 Trzecistan</p>
+        <p>tel.: +48-333-666-999</p>
+        <p>e-mail: kontakt@srm.pl</p>
+    </div>
 </div>
-
 </body>
 </html>
