@@ -99,10 +99,10 @@
             <input type="text" class="input-form" id="role" th:field="*{userModel.role}">
         </fieldset>-->
 
-    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
+    <fieldset th:if="${adminOrEmployee AND state == 'edit'}" class="fieldset-form">
         <legend>Rola</legend>
-        <select th:field="*{userModel.role}">
-            <option value="0">wybierz</option>
+        <select th:disabled="${userModel.id == 1 OR !admin}" th:field="*{userModel.role}">
+            <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
             <option th:each="role : ${T(com.kuba.shooting.range.management.model.User.Role).values()}"
                     th:value="${role}"
                     th:text="${role.displayValue}">

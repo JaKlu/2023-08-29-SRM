@@ -1,9 +1,11 @@
 package com.kuba.shooting.range.management.controllers;
 
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
+import com.kuba.shooting.range.management.exceptions.DateTimeValidationException;
 import com.kuba.shooting.range.management.model.Reservation;
 import com.kuba.shooting.range.management.services.BookingService;
 import com.kuba.shooting.range.management.session.SessionData;
+import com.kuba.shooting.range.management.validators.DateTimeValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,15 +40,12 @@ public class BookingController {
                           @RequestParam LocalDate reservationDate) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
-        /*System.out.println(reservationDate);*/
-/*
-        LocalDate localDate = reservationDate;*/
-
-/*        if (localDate.isBefore(LocalDate.now())) {
-            localDate = LocalDate.now();
-            this.sessionData.setFormError("Wybierz bieżącą lub przyszłą datę");
-        }*/
-        /*        System.out.println(localDate);*/
+        try {
+            DateTimeValidator.validateBookingDate(reservationDate);
+        } catch (DateTimeValidationException e) {
+            this.sessionData.setFormError("Wybierz poprawną datę");
+            return "redirect:/booking";
+        }
 
         return "redirect:/booking/" + reservationDate;
     }
@@ -64,12 +63,48 @@ public class BookingController {
         return "booking-manage";
     }
 
+    @GetMapping(path = "/my-reservations/{id}")
+    public String myReservation(Model model,
+                                @PathVariable Long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        Optional<Reservation> reservationBox = this.bookingService.findById(id);
+
+        if (!(this.sessionData.isLogged() &&
+                (reservationBox.isPresent() &&
+                        this.sessionData.getUser().getId().equals(reservationBox.get().getUser().getId())))) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("reservation", reservationBox.get());
+        model.addAttribute("state", "myReservations");
+        return "booking-details";
+    }
+
+    @GetMapping(path = "/my-reservations/{id}/delete")
+    public String deleteMyReservation(Model model,
+                                      @PathVariable Long id) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+        Optional<Reservation> reservationBox = this.bookingService.findById(id);
+
+        if (!(this.sessionData.isLogged() &&
+                (reservationBox.isPresent() &&
+                        this.sessionData.getUser().getId().equals(reservationBox.get().getUser().getId())))) {
+            return "redirect:/";
+        }
+
+        this.bookingService.delete(reservationBox.get());
+        return "redirect:/booking/my-reservations";
+    }
+
+
     @GetMapping(path = {"/{date}"})
     public String bookingDate(Model model,
                               @PathVariable LocalDate date) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
-        if (date == null || date.isBefore(LocalDate.now())) {
+        try {
+            DateTimeValidator.validateBookingDate(date);
+        } catch (DateTimeValidationException e) {
             this.sessionData.setFormError("Wybierz poprawną datę");
             return "redirect:/booking";
         }
@@ -91,12 +126,20 @@ public class BookingController {
             return "redirect:/login";
         }
 
+        try {
+            DateTimeValidator.validateBookingDateTime(date, time);
+        } catch (DateTimeValidationException e) {
+            this.sessionData.setFormError("Wybierz poprawną rezerwację.");
+            return "redirect:/booking";
+        }
+
         Reservation reservation = new Reservation();
         reservation.setReservationDate(date);
         reservation.setReservationTime(time);
         Optional<Reservation> reservationBox = this.bookingService.findByReservationDateAndReservationTime(date, time);
 
         if (reservationBox.isPresent()) {
+            this.sessionData.setFormError("Wybierz poprawną rezerwację.");
             return "redirect:/booking";
         }
 
@@ -111,10 +154,25 @@ public class BookingController {
 
     @PostMapping(path = "/{date}/{time}")
     public String addReservation(Model model,
+                                 @PathVariable LocalDate date,
+                                 @PathVariable LocalTime time,
                                  @ModelAttribute Reservation reservation) {
         if (!sessionData.isLogged()) {
             return "redirect:/login";
         }
+        try {
+            DateTimeValidator.validateBookingDateTime(date, time);
+        } catch (DateTimeValidationException e) {
+            this.sessionData.setFormError("Wybierz poprawną rezerwację.");
+            return "redirect:/booking";
+        }
+
+        if (this.bookingService.findByReservationDateAndReservationTime(date, time).isPresent()) {
+            this.sessionData.setFormError("Wybierz poprawną rezerwację.");
+            return "redirect:/booking";
+        }
+        reservation.setReservationDate(date);
+        reservation.setReservationTime(time);
         reservation.setUser(this.sessionData.getUser());
 
         this.bookingService.save(reservation);

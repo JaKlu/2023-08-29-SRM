@@ -2,10 +2,10 @@ package com.kuba.shooting.range.management.services.impl;
 
 import com.kuba.shooting.range.management.database.dao.springdata.BookingDAO;
 import com.kuba.shooting.range.management.model.Reservation;
-import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.DayTemplate;
 import com.kuba.shooting.range.management.model.dto.ReservationDTO;
 import com.kuba.shooting.range.management.services.BookingService;
+import com.kuba.shooting.range.management.validators.DateTimeValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,11 +57,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public DayTemplate getDayTemplate(LocalDate localDate) {
-        DayTemplate dayTemplate = new DayTemplate();
+        final DayTemplate dayTemplate = new DayTemplate();
         dayTemplate.setDay(localDate);
-        dayTemplate.setStartTime(LocalTime.parse("10:00"));
-        dayTemplate.setEndTime(LocalTime.parse("18:00"));
+        dayTemplate.setStartTime(DateTimeValidator.OPENING_HOUR);
+        dayTemplate.setEndTime(DateTimeValidator.CLOSING_HOUR);
+
         LocalTime currentTime = dayTemplate.getStartTime();
+
         if (localDate.equals(LocalDate.now())) {
             currentTime = LocalTime.parse(LocalTime.now().plusHours(1)
                     .format(DateTimeFormatter.ofPattern("HH")) + ":00");
@@ -73,6 +75,10 @@ public class BookingServiceImpl implements BookingService {
             dayTemplate.getReservationDTOList().add(currentReservationDTO);
             currentTime = currentTime.plusHours(1);
         }
+
+/*        DateTimeValidator.generateBookingHours().stream()
+                .map(localTime -> dayTemplate.getReservationDTOList().add(new ReservationDTO(localDate, localTime)))
+                .collect(Collectors.toList());*/
 
         List<Reservation> reservationList = this.getReservationListByDate(localDate);
 

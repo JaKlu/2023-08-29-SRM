@@ -26,7 +26,7 @@
             <li><a href="/guns/manage/release" class="">Broń</a></li>
             <li><a href="/ammo/manage/get" class="">Amunicja</a></li>
             <li><a href="/booking/manage" class="">Rezerwacje</a></li>
-            <li th:if="${admin}"><a href="/users" class="">Użytkownicy</a></li>
+            <li th:if="${adminOrEmployee}"><a href="/users" class="">Użytkownicy</a></li>
         </ul>
     </nav>
 </th:block>

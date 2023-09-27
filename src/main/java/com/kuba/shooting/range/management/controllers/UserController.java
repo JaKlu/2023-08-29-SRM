@@ -3,8 +3,6 @@ package com.kuba.shooting.range.management.controllers;
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
 import com.kuba.shooting.range.management.exceptions.LoginAlreadyExistException;
 import com.kuba.shooting.range.management.exceptions.UserValidationException;
-import com.kuba.shooting.range.management.model.Gun;
-import com.kuba.shooting.range.management.model.Reservation;
 import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.ChangePassDTO;
 import com.kuba.shooting.range.management.services.BookingService;
@@ -17,8 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
@@ -30,11 +28,9 @@ public class UserController {
     private final BookingService bookingService;
 
     @GetMapping(path = "")
-    public String users(Model model,
-                        @RequestParam(required = false) String formInfo,
-                        @RequestParam(required = false) String formError) {
+    public String users(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
-        if (!this.sessionData.isAdmin()) {
+        if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
         model.addAttribute("userList", this.userService.findAll());
@@ -94,7 +90,7 @@ public class UserController {
     public String edit(Model model,
                        @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
-        if (!(this.sessionData.isAdmin() ||
+        if (!(this.sessionData.isAdminOrEmployee() ||
                 (this.sessionData.isLogged() && sessionData.getUser().getId().equals(id)))) {
             return "redirect:/";
         }
@@ -113,7 +109,7 @@ public class UserController {
     @PostMapping(path = "/manage/edit/{id}")
     public String edit(@PathVariable Long id,
                        @ModelAttribute User user) {
-        if (!(this.sessionData.isAdmin() ||
+        if (!(this.sessionData.isAdminOrEmployee() ||
                 (this.sessionData.isLogged() && sessionData.getUser().getId().equals(id)))) {
             return "redirect:/";
         }
@@ -128,11 +124,8 @@ public class UserController {
             user.setLogin(userBox.get().getLogin());
             user.setPassword(userBox.get().getPassword());
             user.getAddress().setId(userBox.get().getAddress().getId());
-            if (!this.sessionData.isAdminOrEmployee()) {
-                user.setRole(User.Role.USER);
-            }
-            if (this.sessionData.isEmployee()) {
-                user.setRole(User.Role.EMPLOYEE);
+            if (!this.sessionData.isAdmin()) {
+                user.setRole(userBox.get().getRole());
             }
             this.userService.update(user);
         } catch (UserValidationException e) {
@@ -194,9 +187,7 @@ public class UserController {
 
     @GetMapping(path = "/manage/delete/{id}")
     public String deleteUser(Model model,
-                             @PathVariable long id,
-                             @RequestParam(required = false) String formInfo,
-                             @RequestParam(required = false) String formError) {
+                             @PathVariable long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";

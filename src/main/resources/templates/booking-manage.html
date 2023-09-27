@@ -22,8 +22,11 @@
         <div th:text="${localDate}">Date</div>
         <th:block th:each="reservation : ${reservationMap.get(localDate)}">
             <div th:text="${reservation.reservationTime}">Hour</div>
-            <div>
+            <div th:if="${state == 'manage'}">
                 <a th:href="@{/booking/manage/{id}(id=${reservation.id})}">Szczegóły</a>
+            </div>
+            <div th:if="${state == 'myReservations'}">
+                <a th:href="@{/booking/my-reservations/{id}(id=${reservation.id})}">Szczegóły</a>
             </div>
         </th:block>
     </th:block>
