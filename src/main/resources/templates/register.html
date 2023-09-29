@@ -11,87 +11,168 @@
             th:replace="~{fragments.html :: main-menu}">
     </th:block>
 
+    <h4>Dane użytkownika</h4>
+
     <div th:text="${formInfo}" class="form-info"></div>
     <div th:text="${formError}" class="form-error"></div>
 
     <form method="post">
-        <fieldset class="fieldset-form">
-            <legend>Login</legend>
-            <input type="text" class="input-form" id="login" th:field="*{userModel.login}"
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Login</legend>
+                    <input type="text" class="input-form" id="login" th:field="*{userModel.login}"
+                           th:disabled="${state != 'register'}"><br>
+                </fieldset>
+                <div id="login-error"></div>-->
+
+        <div class="div-form">
+            <label for="login" class="label-form">Login</label><br>
+            <input type="text" class="input-reg" id="login" th:field="*{userModel.login}"
                    th:disabled="${state != 'register'}"><br>
-        </fieldset>
-        <div id="login-error"></div>
+            <div id="login-error"></div>
+        </div>
 
-        <fieldset th:if="${state == 'register'}" class="fieldset-form">
-            <legend>Hasło</legend>
-            <input type="password" class="input-form" id="password" th:field="*{userModel.password}">
-        </fieldset>
-        <div id="password-error"></div>
+        <!--        <fieldset th:if="${state == 'register'}" class="fieldset-form">
+                    <legend>Hasło</legend>
+                    <input type="password" class="input-form" id="password" th:field="*{userModel.password}">
+                </fieldset>
+                <div id="password-error"></div>-->
 
-        <fieldset th:if="${state == 'register'}" class="fieldset-form">
-            <legend>Powtórz hasło</legend>
-            <input type="password" class="input-form" id="password2" name="password2">
-        </fieldset>
-        <div id="password2-error"></div>
+        <div th:if="${state == 'register'}" class="div-form">
+            <label for="password" class="label-form">Hasło</label><br>
+            <input type="password" class="input-reg" id="password" th:field="*{userModel.password}">
+            <div id="password-error"></div>
+        </div>
 
-        <fieldset th:if="${state == 'edit'}" class="fieldset-form">
-            <legend>Hasło</legend>
-            <a th:href="@{/users/manage/edit/{id}/change-pass(id=${user.id})}">Zmień hasło</a>
-        </fieldset>
+        <!--        <fieldset th:if="${state == 'register'}" class="fieldset-form">
+                    <legend>Powtórz hasło</legend>
+                    <input type="password" class="input-form" id="password2" name="password2">
+                </fieldset>
+                <div id="password2-error"></div>-->
+
+        <div th:if="${state == 'register'}" class="div-form">
+            <label for="password2" class="label-form">Powtórz hasło</label><br>
+            <input type="password" class="input-reg" id="password2" name="password2">
+            <div id="password2-error"></div>
+        </div>
+
+        <!--        <fieldset th:if="${state == 'edit'}" class="fieldset-form">
+                    <legend>Hasło</legend>
+                    <a th:href="@{/users/manage/edit/{id}/change-pass(id=${user.id})}">Zmień hasło</a>
+                </fieldset>
+                <div id="change-pass-error"></div>-->
+
+        <div th:if="${state == 'edit'}" class="div-form">
+            <label class="label-form">Hasło</label><br>
+            <a th:href="@{/users/manage/edit/{id}/change-pass(id=${user.id})}" class="input-reg">Zmień hasło</a>
+        </div>
         <div id="change-pass-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Imię</legend>
-            <input type="text" class="input-form" id="name" th:field="*{userModel.name}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Imię</legend>
+                    <input type="text" class="input-form" id="name" th:field="*{userModel.name}">
+                </fieldset>
+                <div id="name-error"></div>-->
+
+        <div class="div-form">
+            <label for="name" class="label-form">Imię</label><br>
+            <input type="text" class="input-reg" id="name" th:field="*{userModel.name}">
+        </div>
         <div id="name-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Nazwisko</legend>
-            <input type="text" class="input-form" id="surname" th:field="*{userModel.surname}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Nazwisko</legend>
+                    <input type="text" class="input-form" id="surname" th:field="*{userModel.surname}">
+                </fieldset>
+                <div id="surname-error"></div>-->
+
+        <div class="div-form">
+            <label for="surname" class="label-form">Nazwisko</label><br>
+            <input type="text" class="input-reg" id="surname" th:field="*{userModel.surname}">
+        </div>
         <div id="surname-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Data urodzenia</legend>
-            <input type="date" class="input-form" id="birthdate" th:field="*{userModel.birthdate}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Data urodzenia</legend>
+                    <input type="date" class="input-form" id="birthdate" th:field="*{userModel.birthdate}">
+                </fieldset>
+                <div id="birthdate-error"></div>-->
+
+        <div class="div-form">
+            <label for="birthdate" class="label-form">Data urodzenia</label><br>
+            <input type="date" class="input-reg" id="birthdate" th:field="*{userModel.birthdate}">
+        </div>
         <div id="birthdate-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>E-mail</legend>
-            <input type="text" class="input-form" id="email" th:field="*{userModel.email}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>E-mail</legend>
+                    <input type="text" class="input-form" id="email" th:field="*{userModel.email}">
+                </fieldset>
+                <div id="email-error"></div>-->
+
+        <div class="div-form">
+            <label for="email" class="label-form">E-mail</label><br>
+            <input type="text" class="input-reg" id="email" th:field="*{userModel.email}">
+        </div>
         <div id="email-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Numer telefonu</legend>
-            <input type="text" class="input-form" id="phoneNumber" th:field="*{userModel.phoneNumber}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Numer telefonu</legend>
+                    <input type="text" class="input-form" id="phoneNumber" th:field="*{userModel.phoneNumber}">
+                </fieldset>
+                <div id="phoneNumber-error"></div>-->
+
+        <div class="div-form">
+            <label for="phoneNumber" class="label-form">Numer telefonu</label><br>
+            <input type="text" class="input-reg" id="phoneNumber" th:field="*{userModel.phoneNumber}">
+        </div>
         <div id="phoneNumber-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Ulica i numer domu/mieszkania</legend>
-            <input type="text" class="input-form" id="street" th:field="*{userModel.address.street}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Ulica i numer domu/mieszkania</legend>
+                    <input type="text" class="input-form" id="street" th:field="*{userModel.address.street}">
+                </fieldset>
+                <div id="street-error"></div>-->
+
+        <div class="div-form">
+            <label for="street" class="label-form">Ulica i numer domu/mieszkania</label><br>
+            <input type="text" class="input-reg" id="street" th:field="*{userModel.address.street}">
+        </div>
         <div id="street-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Kod pocztowy</legend>
-            <input type="text" class="input-form" id="zipCode" th:field="*{userModel.address.zipCode}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Kod pocztowy</legend>
+                    <input type="text" class="input-form" id="zipCode" th:field="*{userModel.address.zipCode}">
+                </fieldset>
+                <div id="zipCode-error"></div>-->
+
+        <div class="div-form">
+            <label for="zipCode" class="label-form">Kod pocztowy</label><br>
+            <input type="text" class="input-reg" id="zipCode" th:field="*{userModel.address.zipCode}">
+        </div>
         <div id="zipCode-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Miejscowość</legend>
-            <input type="text" class="input-form" id="city" th:field="*{userModel.address.city}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Miejscowość</legend>
+                    <input type="text" class="input-form" id="city" th:field="*{userModel.address.city}">
+                </fieldset>
+                <div id="city-error"></div>-->
+
+        <div class="div-form">
+            <label for="city" class="label-form">Miejscowość</label><br>
+            <input type="text" class="input-reg" id="city" th:field="*{userModel.address.city}">
+        </div>
         <div id="city-error"></div>
 
-        <fieldset class="fieldset-form">
-            <legend>Numer pozwolenia na broń</legend>
-            <input type="text" class="input-form" id="license" th:field="*{userModel.gunLicense}">
-        </fieldset>
+        <!--        <fieldset class="fieldset-form">
+                    <legend>Numer pozwolenia na broń</legend>
+                    <input type="text" class="input-form" id="license" th:field="*{userModel.gunLicense}">
+                </fieldset>
+                <div id="license-error"></div>-->
+
+        <div class="div-form">
+            <label for="license" class="label-form">Numer pozwolenia na broń</label><br>
+            <input type="text" class="input-reg" id="license" th:field="*{userModel.gunLicense}">
+        </div>
         <div id="license-error"></div>
 
         <!--    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
@@ -99,25 +180,24 @@
                 <input type="text" class="input-form" id="role" th:field="*{userModel.role}">
             </fieldset>-->
 
-        <fieldset th:if="${adminOrEmployee AND state == 'edit'}" class="fieldset-form">
-            <legend>Rola</legend>
-            <select th:disabled="${userModel.id == 1 OR !admin}" th:field="*{userModel.role}">
-                <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+        <div th:if="${adminOrEmployee AND state == 'edit'}" class="div-form">
+            <label for="role" class="label-form">Rola</label><br>
+            <select th:disabled="${userModel.id == 1 OR !admin}" th:field="*{userModel.role}" class="input-reg">
                 <option th:each="role : ${T(com.kuba.shooting.range.management.model.User.Role).values()}"
                         th:value="${role}"
                         th:text="${role.displayValue}">
                 </option>
             </select>
-        </fieldset>
+        </div>
         <div id="role-error"></div>
 
 
         <div th:if="${state == 'register'}" class="">
-            <input type="submit" value="Zarejestruj" class="">
-            <input type="reset" value="Wyczyść formularz" class="">
+            <input type="submit" value="Zarejestruj" class="button">
+            <input type="reset" value="Wyczyść formularz" class="button">
         </div>
         <div th:if="${state == 'edit'}" class="">
-            <input type="submit" value="Aktualizuj" class="">
+            <input type="submit" value="Aktualizuj" class="button">
         </div>
     </form>
 

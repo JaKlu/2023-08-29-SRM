@@ -18,7 +18,7 @@
 
     <form method="post" th:object="${gunForm}">
 
-        <table>
+        <table id="guns-table">
             <thead>
             <tr>
                 <th>Lp</th>
@@ -62,9 +62,9 @@
             </tbody>
         </table>
         <th:block th:switch="${state}">
-            <input type="submit" th:case="release" value="Wydaj">
-            <input type="submit" th:case="take" value="Przyjmij">
-            <a href="/guns/manage/add" th:case="edit">Dodaj</a>
+            <input type="submit" th:case="release" value="Wydaj" class="button">
+            <input type="submit" th:case="take" value="Przyjmij" class="button">
+            <a href="/guns/manage/add" th:case="edit" class="button">Dodaj</a>
         </th:block>
         <div th:text="${formInfo}" class=""></div>
         <div th:text="${formError}" class=""></div>

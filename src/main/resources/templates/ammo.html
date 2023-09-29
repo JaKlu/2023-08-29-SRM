@@ -17,7 +17,7 @@
     </th:block>
 
     <form method="post" th:object="${ammoForm}">
-        <table>
+        <table id="ammo-table">
             <thead>
             <tr>
                 <!--<th>X</th>-->
@@ -58,9 +58,9 @@
             </tbody>
         </table>
         <th:block th:switch="${state}">
-            <input type="submit" th:case="get" value="Wydaj">
-            <input type="submit" th:case="supply" value="Uzupełnij">
-            <a href="/ammo/manage/add" th:case="edit">Dodaj</a>
+            <input type="submit" th:case="get" value="Wydaj" class="button">
+            <input type="submit" th:case="supply" value="Uzupełnij" class="button">
+            <a href="/ammo/manage/add" th:case="edit" class="button">Dodaj</a>
         </th:block>
         <div th:text="${formInfo}" class=""></div>
         <div th:text="${formError}" class=""></div>

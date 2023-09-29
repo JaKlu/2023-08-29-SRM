@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,7 +6,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Booking Page</h1>
+    <h1>Rezerwacje</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
@@ -16,7 +17,7 @@
     <div th:text="${reservation.reservationTime}"></div>
     <div th:text="${reservation.user.name}"></div>
     <div th:text="${reservation.user.surname}"></div>
-    <div><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a></div>
+    <div><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}" class="button">Usuń</a></div>
 </div>
 </body>
-</html>
+</html>-->

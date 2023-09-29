@@ -18,7 +18,67 @@
     </th:block>
 
     <form method="post" th:object="${gunModel}">
-        <table>
+        <div class="div-form">
+            <label for="name" class="label-form">Nazwa</label><br>
+            <input type="text" class="input-reg" id="name" th:field="*{commonName}">
+        </div>
+        <div id="name-error"></div>
+
+        <div class="div-form">
+            <label for="brand" class="label-form">Marka</label><br>
+            <input type="text" class="input-reg" id="brand" th:field="*{brand}">
+        </div>
+        <div id="brand-error"></div>
+
+        <div class="div-form">
+            <label for="type" class="label-form">Typ</label><br>
+            <input type="text" class="input-reg" id="type" th:field="*{type}">
+        </div>
+        <div id="type-error"></div>
+
+
+
+        <div class="div-form">
+        <label for="gauge" class="label-form">Kaliber</label><br>
+        <select th:if="${state == 'edit'}" th:field="*{gauge}" class="input-reg">
+            <option value="" th:disabled="disabled">Wybierz z listy</option>
+            <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+        </select>
+
+        <select th:if="${state == 'add'}" name="gauge" id="gauge" class="input-reg">
+            <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+            <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+        </select>
+        </div>
+
+        <div class="div-form">
+            <label for="yearOfProd" class="label-form">Rok produkcji</label><br>
+            <input type="text" class="input-reg" id="yearOfProd" th:field="*{yearOfProd}">
+        </div>
+        <div id="yearOfProd-error"></div>
+
+        <div class="div-form">
+            <label for="serialNo" class="label-form">Seria broni</label><br>
+            <input type="text" class="input-reg" id="serialNo" th:field="*{serialNo}">
+        </div>
+        <div id="serialNo-error"></div>
+
+        <div class="div-form">
+            <label for="certificateNo" class="label-form">Numer świadectwa</label><br>
+            <input type="text" class="input-reg" id="certificateNo" th:field="*{certificateNo}">
+        </div>
+        <div id="certificateNo-error"></div>
+
+        <div class="div-form">
+            <label for="description" class="label-form">Opis</label><br>
+            <textarea id="description" rows="5" th:field="*{description}" class="textarea"></textarea>
+        </div>
+        <div id="description-error"></div>
+
+
+
+
+     <!--   <table id="guns-table">
             <thead>
             <tr>
                 <th>Pole</th>
@@ -81,10 +141,10 @@
                 </td>
             </tr>
             </tbody>
-        </table>
+        </table>-->
         <th:block th:switch="${state}">
-            <input type="submit" th:case="add" value="Dodaj">
-            <input type="submit" th:case="edit" value="Aktualizuj">
+            <input type="submit" th:case="add" value="Dodaj" class="button">
+            <input type="submit" th:case="edit" value="Aktualizuj" class="button">
         </th:block>
     </form>
 </div>

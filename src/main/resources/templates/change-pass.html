@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Change password</h1>
+    <h1>Zmień hasło</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
@@ -15,22 +15,22 @@
     <div th:text="${formError}" class="form-error"></div>
 
     <form method="post">
-        <fieldset class="">
-            <legend>Stare hasło</legend>
-            <input type="password" id="old-password" class="" th:field="*{changePassModel.oldPass}">
-        </fieldset>
+        <div class="div-form">
+            <label for="old-password" class="label-form">Stare hasło</label><br>
+            <input type="password" id="old-password" class="input-reg" th:field="*{changePassModel.oldPass}">
+        </div>
 
-        <fieldset class="">
-            <legend>Nowe hasło</legend>
-            <input type="password" id="new-password" class="" th:field="*{changePassModel.newPass}">
-        </fieldset>
+        <div class="div-form">
+            <label for="new-password" class="label-form">Nowe hasło</label><br>
+            <input type="password" id="new-password" class="input-reg" th:field="*{changePassModel.newPass}">
+        </div>
 
-        <fieldset class="">
-            <legend>Powtóz hasło</legend>
-            <input type="password" id="new-password2" class="" th:field="*{changePassModel.newPassRepeat}">
-        </fieldset>
+        <div class="div-form">
+            <label for="new-password2" class="label-form">Powtóz hasło</label><br>
+            <input type="password" id="new-password2" class="input-reg" th:field="*{changePassModel.newPassRepeat}">
+        </div>
 
-        <input type="submit" value="Zmień hasło" class="">
+        <input type="submit" value="Zmień hasło" class="button">
     </form>
 </div>
 </body>

@@ -5,21 +5,22 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Arsenal Page</h1>
+    <h1>Arsenał</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
     </th:block>
 
+    <h4>Zapoznaj się z naszym arsenałem</h4>
+
     <th:block th:each="gun : ${gunList}">
         <div>
-            <div>
+            <div class="gun-info">
                 <span th:text="${gun.commonName}"></span> |
                 <span th:text="${gun.type}"></span> | Kaliber:
                 <span th:text="${gun.gauge}"></span>
             </div>
-            <div th:text="${gun.description}"></div>
-            <br>
+            <div th:text="${gun.description}" class="gun-description"></div>
         </div>
     </th:block>
 </div>

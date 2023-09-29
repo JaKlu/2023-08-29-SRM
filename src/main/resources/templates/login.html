@@ -5,26 +5,28 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Login Page</h1>
+    <h1>Logowanie</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
     </th:block>
 
+    <h4>Logowanie</h4>
+
     <div th:text="${formInfo}" class="form-info"></div>
     <div th:text="${formError}" class="form-error"></div>
 
     <form method="post">
-        <fieldset>
-            <legend>Login</legend>
-            <input type="text" name="login" id="login" class="">
-        </fieldset>
-        <fieldset class="">
-            <legend>Hasło</legend>
-            <input type="password" name="password" id="password" class="">
-        </fieldset>
-        <input type="submit" value="Zaloguj" class="">
-        <a href="/users/register">Zarejestruj</a>
+        <div class="div-form">
+            <label for="login" class="label-form">Login</label><br>
+            <input type="text" name="login" id="login" class="input-reg">
+        </div>
+        <div class="div-form">
+            <label for="password" class="label-form">Hasło</label><br>
+            <input type="password" name="password" id="password" class="input-reg">
+        </div>
+        <input type="submit" value="Zaloguj" class="button">
+        <a href="/users/register" class="button">Zarejestruj</a>
     </form>
 </div>
 </body>

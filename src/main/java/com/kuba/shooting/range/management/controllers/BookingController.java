@@ -23,19 +23,17 @@ public class BookingController {
     private SessionData sessionData;
     private BookingService bookingService;
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/date")
     public String booking(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
-
         model.addAttribute("reservationDate", LocalDate.now().toString());
-
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
         return "booking";
     }
 
-    @PostMapping(path = "")
+    @PostMapping(path = "/date")
     public String booking(Model model,
                           @RequestParam LocalDate reservationDate) {
         ModelUtils.addCommonDataToModel(model, sessionData);
@@ -44,15 +42,15 @@ public class BookingController {
             DateTimeValidator.validateBookingDate(reservationDate);
         } catch (DateTimeValidationException e) {
             this.sessionData.setFormError("Wybierz poprawną datę");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
-
-        return "redirect:/booking/" + reservationDate;
+        return "redirect:/booking/date/" + reservationDate;
     }
 
     @GetMapping(path = "/my-reservations")
     public String myReservations(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
+
         if (!this.sessionData.isLogged()) {
             return "redirect:/";
         }
@@ -97,7 +95,7 @@ public class BookingController {
     }
 
 
-    @GetMapping(path = {"/{date}"})
+    @GetMapping(path = {"/date/{date}"})
     public String bookingDate(Model model,
                               @PathVariable LocalDate date) {
         ModelUtils.addCommonDataToModel(model, sessionData);
@@ -106,7 +104,7 @@ public class BookingController {
             DateTimeValidator.validateBookingDate(date);
         } catch (DateTimeValidationException e) {
             this.sessionData.setFormError("Wybierz poprawną datę");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
 
         model.addAttribute("reservationDate", date);
@@ -117,7 +115,7 @@ public class BookingController {
     }
 
 
-    @GetMapping(path = "/{date}/{time}")
+    @GetMapping(path = "/date/{date}/{time}")
     public String addReservation(Model model,
                                  @PathVariable LocalDate date,
                                  @PathVariable LocalTime time) {
@@ -130,7 +128,7 @@ public class BookingController {
             DateTimeValidator.validateBookingDateTime(date, time);
         } catch (DateTimeValidationException e) {
             this.sessionData.setFormError("Wybierz poprawną rezerwację.");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
 
         Reservation reservation = new Reservation();
@@ -140,7 +138,7 @@ public class BookingController {
 
         if (reservationBox.isPresent()) {
             this.sessionData.setFormError("Wybierz poprawną rezerwację.");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
 
         reservation.setUser(this.sessionData.getUser());
@@ -152,7 +150,7 @@ public class BookingController {
         return "booking-details";
     }
 
-    @PostMapping(path = "/{date}/{time}")
+    @PostMapping(path = "/date/{date}/{time}")
     public String addReservation(Model model,
                                  @PathVariable LocalDate date,
                                  @PathVariable LocalTime time,
@@ -164,12 +162,12 @@ public class BookingController {
             DateTimeValidator.validateBookingDateTime(date, time);
         } catch (DateTimeValidationException e) {
             this.sessionData.setFormError("Wybierz poprawną rezerwację.");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
 
         if (this.bookingService.findByReservationDateAndReservationTime(date, time).isPresent()) {
             this.sessionData.setFormError("Wybierz poprawną rezerwację.");
-            return "redirect:/booking";
+            return "redirect:/booking/date";
         }
         reservation.setReservationDate(date);
         reservation.setReservationTime(time);

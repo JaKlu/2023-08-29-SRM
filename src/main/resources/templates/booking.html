@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Booking Page</h1>
+    <h1>Rezerwacje</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
@@ -13,10 +13,10 @@
 
     <h4>Wybierz datę i sprawdź dostępność terminów</h4>
 
-    <form method="post" th:action="@{/booking}">
+    <form method="post" th:action="@{/booking/date}">
         <label for="reservationDate">Data:</label>
         <input type="date" id="reservationDate" th:name="reservationDate" th:value="*{reservationDate}">
-        <input type="submit" value="Wybierz" class="">
+        <input type="submit" value="Wybierz" class="button">
     </form>
     <div th:text="${formInfo}" class=""></div>
     <div th:text="${formError}" class=""></div>
@@ -25,20 +25,20 @@
     </th:block>
 
     <th:block th:if="${dayTemplate != null}">
-        <h4>Rezerwacje na dzień <span th:text="${dayTemplate.day}"></span></h4>
-        <th:block th:if="${!dayTemplate.wholeDayReserved}">
-            <th:block th:each="reservationDTO : ${dayTemplate.reservationDTOList}">
-                <div th:if="${!reservationDTO.booked}">
+        <div class="div-date">Wolne terminy na dzień <span th:text="${dayTemplate.day}"></span></div>
+        <div th:if="${!dayTemplate.wholeDayReserved}">
+            <th:block th:each="reservationDTO : ${dayTemplate.reservationDTOList}" >
+                <div th:if="${!reservationDTO.booked}" class="div-reservation">
                     <div th:text="${reservationDTO.reservation.reservationTime}">Hour</div>
                     <div>
-                        <a th:href="@{/booking/{date}/{time}(date=${reservationDTO.reservation.reservationDate},time=${reservationDTO.reservation.reservationTime})}">Zarezerwuj</a>
+                        <a th:href="@{/booking/date/{date}/{time}(date=${reservationDTO.reservation.reservationDate},time=${reservationDTO.reservation.reservationTime})}" class="button">Zarezerwuj</a>
                     </div>
                 </div>
             </th:block>
-        </th:block>
-        <th:block th:if="${dayTemplate.wholeDayReserved OR dayTemplate.reservationDTOList.size() == 0}">
-            <div>Brak dostępnych terminów.</div>
-        </th:block>
+        </div>
+        <div th:if="${dayTemplate.wholeDayReserved OR dayTemplate.reservationDTOList.size() == 0}">
+            Brak dostępnych terminów.
+        </div>
     </th:block>
 </div>
 </body>

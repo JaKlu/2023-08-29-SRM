@@ -27,7 +27,7 @@ public class UserController {
     private final UserService userService;
     private final BookingService bookingService;
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/manage")
     public String users(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
@@ -70,7 +70,55 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping(path = "/{id}/reservations")
+
+    @GetMapping(path = "/my-profile")
+    public String myProfile(Model model) {
+        ModelUtils.addCommonDataToModel(model, sessionData);
+
+        if (!this.sessionData.isLogged()) {
+            return "redirect:/";
+        }
+        Optional<User> userBox = this.userService.findById(sessionData.getUser().getId());
+        if (userBox.isEmpty()) {
+            return "redirect:/";
+        }
+        model.addAttribute("userModel", userBox.get());
+        model.addAttribute("state", "edit");
+        model.addAttribute("formInfo", this.sessionData.getFormInfo());
+        model.addAttribute("formError", this.sessionData.getFormError());
+        return "register";
+    }
+
+    @PostMapping(path = "/my-profile")
+    public String myProfile(@ModelAttribute User user) {
+        if (!this.sessionData.isLogged()) {
+            return "redirect:/";
+        }
+
+        try {
+            UserValidator.validateEditedUser(user);
+            Optional<User> userBox = this.userService.findById(sessionData.getUser().getId());
+            if (userBox.isEmpty()) {
+                return "redirect:/";
+            }
+            user.setId(sessionData.getUser().getId());
+            user.setLogin(userBox.get().getLogin());
+            user.setPassword(userBox.get().getPassword());
+            user.getAddress().setId(userBox.get().getAddress().getId());
+            if (!this.sessionData.isAdmin()) {
+                user.setRole(userBox.get().getRole());
+            }
+            this.userService.update(user);
+        } catch (UserValidationException e) {
+            this.sessionData.setFormError("Wprowadź poprawne dane do formularza");
+            e.printStackTrace();
+            return "redirect:/users/my-profile";
+        }
+        this.sessionData.setFormInfo("Edycja zakończona sukcesem.");
+        return "redirect:/users/my-profile";
+    }
+
+    @GetMapping(path = "/manage/{id}/reservations")
     public String myReservations(Model model,
                                  @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
@@ -86,7 +134,7 @@ public class UserController {
     }
 
 
-    @GetMapping(path = "/manage/edit/{id}")
+    @GetMapping(path = "/manage/{id}/edit")
     public String edit(Model model,
                        @PathVariable Long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);
@@ -106,7 +154,7 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping(path = "/manage/edit/{id}")
+    @PostMapping(path = "/manage/{id}/edit")
     public String edit(@PathVariable Long id,
                        @ModelAttribute User user) {
         if (!(this.sessionData.isAdminOrEmployee() ||
@@ -118,7 +166,7 @@ public class UserController {
             UserValidator.validateEditedUser(user);
             Optional<User> userBox = this.userService.findById(id);
             if (userBox.isEmpty()) {
-                return "redirect:/users";
+                return "redirect:/users/manage";
             }
             user.setId(id);
             user.setLogin(userBox.get().getLogin());
@@ -134,7 +182,7 @@ public class UserController {
             return "redirect:/users/register";
         }
         this.sessionData.setFormInfo("Edycja zakończona sukcesem.");
-        return "redirect:/users/manage/edit/" + id;
+        return "redirect:/users/manage/" + id + "/edit";
     }
 
     @GetMapping(path = "/manage/edit/{id}/change-pass")
@@ -178,14 +226,14 @@ public class UserController {
             this.userService.changePassword(changePassDTO);
         } catch (UserValidationException e) {
             this.sessionData.setFormError("Wprowadź poprawne dane do formularza");
-            return "redirect:/users/manage/edit/" + id + "/change-pass";
+            return "redirect:/users/manage/" + id + "/edit/change-pass";
         }
 
         this.sessionData.setFormInfo("Hasło zostało zmienione.");
-        return "redirect:/users/manage/edit/" + id;
+        return "redirect:/users/manage/" + id + "/edit";
     }
 
-    @GetMapping(path = "/manage/delete/{id}")
+    @GetMapping(path = "/manage/{id}/delete")
     public String deleteUser(Model model,
                              @PathVariable long id) {
         ModelUtils.addCommonDataToModel(model, sessionData);

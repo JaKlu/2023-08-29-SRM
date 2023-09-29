@@ -11,12 +11,12 @@
             th:replace="~{fragments.html :: main-menu}">
     </th:block>
 
-    <div th:text="${formInfo}" class=""></div>
-    <div th:text="${formError}" class=""></div>
+    <h4>Użytkownicy</h4>
 
-    <table>
+    <table id="users-table">
         <thead>
         <tr>
+            <th>Lp</th>
             <th>Login</th>
             <th>Imię</th>
             <th>Nazwisko</th>
@@ -29,6 +29,8 @@
         <tbody>
         <th:block th:each="user, itemStat : ${userList}">
             <tr>
+                <td th:name="${itemStat.count}"
+                    th:text="${itemStat.count}"></td>
                 <td th:name="${user.login}"
                     th:text="${user.login}"></td>
                 <td th:name="${user.name}"
@@ -42,13 +44,12 @@
                 <td th:name="${user.role.getDisplayValue()}"
                     th:text="${user.role.getDisplayValue()}"></td>
                 <td>
-                    <a th:href="@{/users/{id}/reservations(id=${user.id})}">Rezerwacje</a> |
-                    <a th:href="@{/users/manage/edit/{id}(id=${user.id})}">Edytuj</a>
+                    <a th:href="@{/users/manage/{id}/reservations(id=${user.id})}">Rezerwacje</a> |
+                    <a th:href="@{/users/manage/{id}/edit(id=${user.id})}">Edytuj</a>
                     <th:block th:if="${admin}"> |
-                        <a th:href="@{/users/manage/delete/{id}(id=${user.id})}">Usuń</a>
+                        <a th:href="@{/users/manage/{id}/delete(id=${user.id})}">Usuń</a>
                     </th:block>
                 </td>
-
             </tr>
         </th:block>
         </tbody>

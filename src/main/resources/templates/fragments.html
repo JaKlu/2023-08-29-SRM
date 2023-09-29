@@ -9,32 +9,57 @@
     <meta charset="UTF-8">
     <title>Alfa - twoja strzelnica</title>
     <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/form.css">
+    <link rel="stylesheet" href="/reservation.css">
+    <link rel="stylesheet" href="/arsenal.css">
+    <!--    <link rel="stylesheet" href="/index.css">-->
     <!--<link rel="icon" type="image/x-icon" href="/favicon.ico">-->
 </th:block>
 
 <th:block th:fragment="main-menu">
     <nav class="menu">
         <ul class="">
-            <li><a href="/" class="">Strona główna</a></li>
-            <li><a href="/booking" class="">Rezerwacja</a></li>
-            <li><a href="/arsenal" class="">Arsenał</a></li>
-            <li><a href="/contact" class="">Kontakt</a></li>
-            <li th:if="${!logged}"><a href="/users/register" class="">Rejestracja</a></li>
-            <li th:if="${!logged}"><a href="/login" class="">Zaloguj</a></li>
-            <li th:if="${logged}"><a th:href="@{/users/manage/edit/{id}(id=${user.id})}" class="">Moje dane</a></li>
-            <li th:if="${logged}"><a th:href="@{/booking/my-reservations}" class="">Moje rezerwacje</a></li>
+            <li><a href="/" class="" th:classappend="${servletPath == '/' ? 'active':''}">Strona główna</a></li>
+            <li><a href="/booking/date" class=""
+                   th:classappend="${servletPath.startsWith('/booking/date') ? 'active':''}">Rezerwacja</a>
+            </li>
+            <li><a href="/arsenal" class="" th:classappend="${servletPath == '/arsenal' ? 'active':''}">Arsenał</a></li>
+            <li><a href="/contact" class="" th:classappend="${servletPath == '/contact' ? 'active':''}">Kontakt</a></li>
+            <li th:if="${!logged}"><a href="/users/register" class=""
+                                      th:classappend="${servletPath == '/users/register' ? 'active':''}">Rejestracja</a>
+            </li>
+            <li th:if="${!logged}"><a href="/login" class="" th:classappend="${servletPath == '/login' ? 'active':''}">Zaloguj</a>
+            </li>
+            <li th:if="${logged}"><a th:href="@{/users/my-profile}" class=""
+                                     th:classappend="${servletPath == '/users/my-profile' ? 'active':''}">Moje dane</a>
+            </li>
+            <li th:if="${logged}"><a th:href="@{/booking/my-reservations}" class=""
+                                     th:classappend="${servletPath.startsWith('/booking/my-reservations') ? 'active':''}">Moje
+                rezerwacje</a></li>
             <li th:if="${logged}"><a href="/logout" class="">Wyloguj</a></li>
         </ul>
-    </nav>
-    <div th:if="${logged}">Zalogowany użytkownik: <span th:text="${user.login}"></span></div>
-    <nav th:if="${adminOrEmployee}" class="menu-admin">
-        <ul class="">
-            <li><a href="/stock" class="">Magazyn Broni</a></li>
-            <li><a href="/guns/manage/release" class="">Broń</a></li>
-            <li><a href="/ammo/manage/get" class="">Amunicja</a></li>
-            <li><a href="/booking/manage" class="">Rezerwacje</a></li>
-            <li th:if="${adminOrEmployee}"><a href="/users" class="">Użytkownicy</a></li>
-        </ul>
+
+        <th:block th:if="${adminOrEmployee}">
+            <ul class="">
+                <li><a href="/stock" class=""
+                       th:classappend="${servletPath == '/stock' ? 'active':''}">Magazyn Broni</a>
+                </li>
+                <li><a href="/guns/manage/release" class=""
+                       th:classappend="${servletPath.startsWith('/guns/manage') ? 'active':''}">Broń</a></li>
+                <li><a href="/ammo/manage/get" class=""
+                       th:classappend="${servletPath.startsWith('/ammo/manage') ? 'active':''}">Amunicja</a></li>
+                <li><a href="/booking/manage" class=""
+                       th:classappend="${servletPath.startsWith('/booking/manage') ? 'active':''}">Rezerwacje</a></li>
+                <li th:if="${adminOrEmployee}"><a href="/users/manage" class=""
+                                                  th:classappend="${servletPath.startsWith('/users/manage') ? 'active':''}">Użytkownicy</a>
+                </li>
+
+            </ul>
+        </th:block>
+        <div th:if="${logged}" class="logged-user">Zalogowany użytkownik:
+            <a th:href="@{/users/my-profile}" class="">
+                <strong th:text="${user.login}"></strong>
+            </a></div>
     </nav>
 </th:block>
 
@@ -83,6 +108,10 @@
         <span th:case="add">Dodawanie nowego kalibru</span>
         <span th:case="*">Stan magazynowy amunicji</span>
     </h4>
+</th:block>
+
+<th:block th:fragment="page-header">
+    <img src="/alfa-logo.png" class="logo">
 </th:block>
 </body>
 </html>

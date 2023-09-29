@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Booking Page</h1>
+    <h1>Rezerwacje</h1>
 
     <th:block
             th:replace="~{fragments.html :: main-menu}">
@@ -13,19 +13,23 @@
 
     <h4>Zarządzaj rezerwacją</h4>
     <form method="post">
-        <div th:text="${reservation.reservationDate}"></div>
-        <div th:text="${reservation.reservationTime}"></div>
-        <div th:text="${reservation.user.name}"></div>
-        <div th:text="${reservation.user.surname}"></div>
-        <div th:if="${state == 'add'}">
-            <input type="hidden" th:field="${reservation.reservationDate}">
-            <input type="hidden" th:field="${reservation.reservationTime}">
-            <input type="submit" value="Potwierdź">
+        <div class="div-reservation">
+            <div th:text="${reservation.reservationDate}"></div>
+            <div th:text="${reservation.reservationTime}"></div>
+            <div th:text="${reservation.user.name}"></div>
+            <div th:text="${reservation.user.surname}"></div>
+            <div th:if="${state == 'add'}">
+                <input type="hidden" th:field="${reservation.reservationDate}">
+                <input type="hidden" th:field="${reservation.reservationTime}">
+                <input type="submit" value="Potwierdź" class="button">
+            </div>
+            <div th:if="${state == 'manage'}"><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}"
+                                                 class="button">Usuń</a>
+            </div>
+            <div th:if="${state == 'myReservations'}"><a
+                    th:href="@{/booking/my-reservations/{id}/delete(id=${reservation.id})}" class="button">Usuń</a>
+            </div>
         </div>
-        <div th:if="${state == 'manage'}"><a th:href="@{/booking/manage/{id}/delete(id=${reservation.id})}">Usuń</a>
-        </div>
-        <div th:if="${state == 'myReservations'}"><a
-                th:href="@{/booking/my-reservations/{id}/delete(id=${reservation.id})}">Usuń</a></div>
     </form>
 </div>
 </body>

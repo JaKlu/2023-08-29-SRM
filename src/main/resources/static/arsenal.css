@@ -1,0 +1,14 @@
+.gun-info {
+    background-color: #D4D4D4;
+    padding: 10px;
+margin: 5px 0px 0px;
+}
+
+.gun-description {
+    /* display: inline-block; */
+    background-color: #EBEBEB;
+    /* text-align: center; */
+    /* margin: 5px; */
+    border: solid 1px #BFBFBF;
+    padding: 5px;
+}

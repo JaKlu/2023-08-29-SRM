@@ -1,0 +1,22 @@
+.div-form {
+    margin: 10px 5px;
+}
+
+.input-reg {
+    height: 2.1rem;
+    line-height: 2rem;
+    width: 300px;
+    font-size: 1rem;
+    padding: 0px 5px;
+}
+
+.label-form {
+display: inline-block;
+    margin-bottom: 5px;
+}
+.textarea{
+    line-height: 1.3rem;
+    width: 300px;
+    font-size: 1rem;
+    padding: 5px 5px
+}
