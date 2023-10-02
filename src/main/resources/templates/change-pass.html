@@ -2,33 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
+    <script src="/change-pass-validator.js"></script>
 </head>
 <body>
 <div class="wrapper">
-    <h1>Zmień hasło</h1>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <h4>Zmiana hasła</h4>
 
     <div th:text="${formInfo}" class="form-info"></div>
     <div th:text="${formError}" class="form-error"></div>
 
-    <form method="post">
+    <form method="post" onsubmit="return validate()">
         <div class="div-form">
             <label for="old-password" class="label-form">Stare hasło</label><br>
             <input type="password" id="old-password" class="input-reg" th:field="*{changePassModel.oldPass}">
         </div>
+        <div id="old-password-error"></div>
 
         <div class="div-form">
             <label for="new-password" class="label-form">Nowe hasło</label><br>
             <input type="password" id="new-password" class="input-reg" th:field="*{changePassModel.newPass}">
         </div>
+        <div id="new-password-error"></div>
 
         <div class="div-form">
-            <label for="new-password2" class="label-form">Powtóz hasło</label><br>
+            <label for="new-password2" class="label-form">Powtórz nowe hasło</label><br>
             <input type="password" id="new-password2" class="input-reg" th:field="*{changePassModel.newPassRepeat}">
         </div>
+        <div id="new-password2-error"></div>
 
         <input type="submit" value="Zmień hasło" class="button">
     </form>

@@ -7,7 +7,7 @@
 <body>
 <th:block th:fragment="head-meta">
     <meta charset="UTF-8">
-    <title>Alfa - twoja strzelnica</title>
+    <title>ALFA</title>
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/form.css">
     <link rel="stylesheet" href="/reservation.css">
@@ -31,7 +31,7 @@
             <li th:if="${!logged}"><a href="/login" class="" th:classappend="${servletPath == '/login' ? 'active':''}">Zaloguj</a>
             </li>
             <li th:if="${logged}"><a th:href="@{/users/my-profile}" class=""
-                                     th:classappend="${servletPath == '/users/my-profile' ? 'active':''}">Moje dane</a>
+                                     th:classappend="${servletPath.startsWith('/users/my-profile') ? 'active':''}">Moje dane</a>
             </li>
             <li th:if="${logged}"><a th:href="@{/booking/my-reservations}" class=""
                                      th:classappend="${servletPath.startsWith('/booking/my-reservations') ? 'active':''}">Moje
@@ -112,6 +112,9 @@
 
 <th:block th:fragment="page-header">
     <img src="/alfa-logo.png" class="logo">
+    <th:block
+            th:replace="~{fragments.html :: main-menu}">
+    </th:block>
 </th:block>
 </body>
 </html>

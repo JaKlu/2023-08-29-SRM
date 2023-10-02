@@ -23,11 +23,17 @@ public class BookingController {
     private SessionData sessionData;
     private BookingService bookingService;
 
-    @GetMapping(path = "/date")
+    @GetMapping(path = {"", "/"})
+    public String bookingHome() {
+        return "redirect:/booking/date";
+    }
+
+    @GetMapping(path = {"/date"})
     public String booking(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
 
         model.addAttribute("reservationDate", LocalDate.now().toString());
+        model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
         return "booking";
@@ -108,6 +114,7 @@ public class BookingController {
         }
 
         model.addAttribute("reservationDate", date);
+        model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("dayTemplate", this.bookingService.getDayTemplate(date));
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -144,6 +151,7 @@ public class BookingController {
         reservation.setUser(this.sessionData.getUser());
 
         model.addAttribute("reservation", reservation);
+        model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("state", "add");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -188,6 +196,8 @@ public class BookingController {
         }
 
         System.out.println(this.bookingService.findAllByReservationDateFrom(LocalDate.now()));
+
+        model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("reservationMap", this.bookingService.findAllByReservationDateFrom(LocalDate.now()));
         model.addAttribute("state", "manage");
         return "booking-manage";

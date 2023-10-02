@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,6 +48,9 @@ public class User {
 
     @Column(name = "gun_license")
     private String gunLicense;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Reservation> reservations;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

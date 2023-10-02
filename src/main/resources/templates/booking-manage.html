@@ -5,16 +5,12 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Rezerwacje</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
     <h4 th:if="${state == 'manage'}">Zarządzaj rezerwacjami</h4>
     <h4 th:if="${state == 'myReservations'}">Moje rezerwacje</h4>
-    <div th:text="${formInfo}" class=""></div>
-    <div th:text="${formError}" class=""></div>
+    <div th:text="${formInfo}" class="form-info"></div>
+    <div th:text="${formError}" class="form-error"></div>
 
     <div th:if="${reservationMap.size() == 0}">Brak rezerwacji</div>
     <div th:if="${reservationMap.size() > 0}">

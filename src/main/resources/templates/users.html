@@ -5,13 +5,12 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Użytkownicy</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
     <h4>Użytkownicy</h4>
+
+    <div th:text="${formInfo}" class="form-info"></div>
+    <div th:text="${formError}" class="form-error"></div>
 
     <table id="users-table">
         <thead>

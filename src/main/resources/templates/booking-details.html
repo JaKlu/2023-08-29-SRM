@@ -5,19 +5,16 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Rezerwacje</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
     <h4>Zarządzaj rezerwacją</h4>
+
     <form method="post">
         <div class="div-reservation">
-            <div th:text="${reservation.reservationDate}"></div>
-            <div th:text="${reservation.reservationTime}"></div>
-            <div th:text="${reservation.user.name}"></div>
-            <div th:text="${reservation.user.surname}"></div>
+            <div th:text="${reservation.reservationDate}">Date</div>
+            <div th:text="${reservation.reservationTime}">Time</div>
+            <div th:text="${reservation.user.name}">Name</div>
+            <div th:text="${reservation.user.surname}">Surname</div>
             <div th:if="${state == 'add'}">
                 <input type="hidden" th:field="${reservation.reservationDate}">
                 <input type="hidden" th:field="${reservation.reservationTime}">

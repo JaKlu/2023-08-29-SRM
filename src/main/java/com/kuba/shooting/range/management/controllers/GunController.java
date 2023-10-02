@@ -26,6 +26,10 @@ public class GunController {
     private GunService gunService;
     private AmmoService ammoService;
 
+    @GetMapping(path = {"", "/"})
+    public String gunsHome() {
+        return "redirect:/guns/manage";
+    }
 
     @GetMapping(path = "/manage")
     public String getAllGuns(Model model) {

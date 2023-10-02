@@ -5,21 +5,17 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Rezerwacje</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
     <h4>Wybierz datę i sprawdź dostępność terminów</h4>
 
     <form method="post" th:action="@{/booking/date}">
         <label for="reservationDate">Data:</label>
-        <input type="date" id="reservationDate" th:name="reservationDate" th:value="*{reservationDate}">
+        <input type="date" id="reservationDate" th:min="${today}" th:name="reservationDate" th:value="*{reservationDate}">
         <input type="submit" value="Wybierz" class="button">
     </form>
-    <div th:text="${formInfo}" class=""></div>
-    <div th:text="${formError}" class=""></div>
+    <div th:text="${formInfo}" class="form-info"></div>
+    <div th:text="${formError}" class="form-error"></div>
 
     <th:block th:if="${dayTemplate == null}">
     </th:block>

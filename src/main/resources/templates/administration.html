@@ -5,21 +5,15 @@
 </head>
 <body>
 <div class="wrapper">
-<h1>Administration Page</h1>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
-<th:block
-        th:replace="~{fragments.html :: main-menu}">
-</th:block>
-
-<th:block th:each="gun : ${gunList}">
-    <div>
-        <div th:text="${gun.commonName}"></div>
-        <div th:text="${gun.type}"></div>
-        <div th:text="${gun.gauge}"></div>
-    </div>
-</th:block>
-
-
+    <th:block th:each="gun : ${gunList}">
+        <div>
+            <div th:text="${gun.commonName}"></div>
+            <div th:text="${gun.type}"></div>
+            <div th:text="${gun.gauge}"></div>
+        </div>
+    </th:block>
 </div>
 </body>
 </html>

@@ -5,17 +5,9 @@
 </head>
 <body>
 <div class="wrapper">
-    <h1>Broń</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
-    <th:block
-            th:replace="~{fragments.html :: gun-manage-menu}">
-    </th:block>
-    <th:block
-            th:replace="~{fragments.html :: gun-manage-header}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
+    <th:block th:replace="~{fragments.html :: gun-manage-menu}"></th:block>
+    <th:block th:replace="~{fragments.html :: gun-manage-header}"></th:block>
 
     <form method="post" th:object="${gunModel}">
         <div class="div-form">
@@ -37,18 +29,17 @@
         <div id="type-error"></div>
 
 
-
         <div class="div-form">
-        <label for="gauge" class="label-form">Kaliber</label><br>
-        <select th:if="${state == 'edit'}" th:field="*{gauge}" class="input-reg">
-            <option value="" th:disabled="disabled">Wybierz z listy</option>
-            <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-        </select>
+            <label for="gauge" class="label-form">Kaliber</label><br>
+            <select th:if="${state == 'edit'}" th:field="*{gauge}" class="input-reg">
+                <option value="" th:disabled="disabled">Wybierz z listy</option>
+                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+            </select>
 
-        <select th:if="${state == 'add'}" name="gauge" id="gauge" class="input-reg">
-            <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
-            <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-        </select>
+            <select th:if="${state == 'add'}" name="gauge" id="gauge" class="input-reg">
+                <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+                <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+            </select>
         </div>
 
         <div class="div-form">
@@ -76,76 +67,76 @@
         <div id="description-error"></div>
 
 
-
-
-     <!--   <table id="guns-table">
-            <thead>
-            <tr>
-                <th>Pole</th>
-                <th>Wartość</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Nazwa</td>
-                <td>
-                    <input th:field="*{commonName}">
-                </td>
-            </tr>
-            <tr>
-                <td>Marka</td>
-                <td>
-                    <input th:field="*{brand}">
-                </td>
-            </tr>
-            <tr>
-                <td>Typ</td>
-                <td>
-                    <input th:field="*{type}">
-                </td>
-            </tr>
-            <td>Kaliber</td>
-            <td>
-                <select th:if="${state == 'edit'}" th:field="*{gauge}">
-                    <option value="" th:disabled="disabled">Wybierz z listy</option>
-                    <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-                </select>
-                <select th:if="${state == 'add'}" th:name="${gauge}" th:id="${gauge}">
-                    <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
-                    <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
-                </select>
-            </td>
-            </tr>
-            <tr>
-                <td>Rok produkcji</td>
-                <td>
-                    <input th:field="*{yearOfProd}">
-                </td>
-            </tr>
-            <tr>
-                <td>Seria broni</td>
-                <td>
-                    <input th:field="*{serialNo}">
-                </td>
-            </tr>
-            <tr>
-                <td>Numer świadectwa</td>
-                <td>
-                    <input th:field="*{certificateNo}">
-                </td>
-            </tr>
-            <tr>
-                <td>Opis</td>
-                <td>
-                    <textarea th:field="*{description}"></textarea>
-                </td>
-            </tr>
-            </tbody>
-        </table>-->
+        <!--   <table id="guns-table">
+               <thead>
+               <tr>
+                   <th>Pole</th>
+                   <th>Wartość</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                   <td>Nazwa</td>
+                   <td>
+                       <input th:field="*{commonName}">
+                   </td>
+               </tr>
+               <tr>
+                   <td>Marka</td>
+                   <td>
+                       <input th:field="*{brand}">
+                   </td>
+               </tr>
+               <tr>
+                   <td>Typ</td>
+                   <td>
+                       <input th:field="*{type}">
+                   </td>
+               </tr>
+               <td>Kaliber</td>
+               <td>
+                   <select th:if="${state == 'edit'}" th:field="*{gauge}">
+                       <option value="" th:disabled="disabled">Wybierz z listy</option>
+                       <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+                   </select>
+                   <select th:if="${state == 'add'}" th:name="${gauge}" th:id="${gauge}">
+                       <option value="" th:disabled="disabled" th:selected="selected">Wybierz z listy</option>
+                       <option th:each="gauge : ${gaugeList}" th:value="${gauge}" th:text="${gauge}"></option>
+                   </select>
+               </td>
+               </tr>
+               <tr>
+                   <td>Rok produkcji</td>
+                   <td>
+                       <input th:field="*{yearOfProd}">
+                   </td>
+               </tr>
+               <tr>
+                   <td>Seria broni</td>
+                   <td>
+                       <input th:field="*{serialNo}">
+                   </td>
+               </tr>
+               <tr>
+                   <td>Numer świadectwa</td>
+                   <td>
+                       <input th:field="*{certificateNo}">
+                   </td>
+               </tr>
+               <tr>
+                   <td>Opis</td>
+                   <td>
+                       <textarea th:field="*{description}"></textarea>
+                   </td>
+               </tr>
+               </tbody>
+           </table>-->
         <th:block th:switch="${state}">
             <input type="submit" th:case="add" value="Dodaj" class="button">
             <input type="submit" th:case="edit" value="Aktualizuj" class="button">
         </th:block>
+        <div th:text="${formInfo}" class="form-info"></div>
+        <div th:text="${formError}" class="form-error"></div>
     </form>
 </div>
 </body>

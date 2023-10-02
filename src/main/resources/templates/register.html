@@ -2,21 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments.html :: head-meta}"></th:block>
+
+    <th:block th:if="${state == 'register'}" class="">
+        <script src="/register-validator.js"></script>
+    </th:block>
+    <th:block th:if="${state == 'edit'}" class="">
+        <script src="/my-profile-validator.js"></script>
+    </th:block>
+
 </head>
 <body>
 <div class="wrapper">
-    <h1>Dane użytkownika</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
     <h4>Dane użytkownika</h4>
 
     <div th:text="${formInfo}" class="form-info"></div>
     <div th:text="${formError}" class="form-error"></div>
 
-    <form method="post">
+    <form method="post" onsubmit="return validate()">
         <!--        <fieldset class="fieldset-form">
                     <legend>Login</legend>
                     <input type="text" class="input-form" id="login" th:field="*{userModel.login}"
@@ -63,9 +67,12 @@
 
         <div th:if="${state == 'edit'}" class="div-form">
             <label class="label-form">Hasło</label><br>
-            <a th:href="@{/users/manage/edit/{id}/change-pass(id=${user.id})}" class="input-reg">Zmień hasło</a>
+            <a th:if="${myProfile==true}" th:href="@{/users/my-profile/change-pass}">
+                Zmień hasło</a>
+            <a th:unless="${myProfile==true}" th:href="@{/users/manage/{id}/edit/change-pass(id=${user.id})}">
+                Zmień hasło</a>
+            <div id="change-pass-error"></div>
         </div>
-        <div id="change-pass-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Imię</legend>
@@ -76,8 +83,8 @@
         <div class="div-form">
             <label for="name" class="label-form">Imię</label><br>
             <input type="text" class="input-reg" id="name" th:field="*{userModel.name}">
+            <div id="name-error"></div>
         </div>
-        <div id="name-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Nazwisko</legend>
@@ -88,8 +95,8 @@
         <div class="div-form">
             <label for="surname" class="label-form">Nazwisko</label><br>
             <input type="text" class="input-reg" id="surname" th:field="*{userModel.surname}">
+            <div id="surname-error"></div>
         </div>
-        <div id="surname-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Data urodzenia</legend>
@@ -100,8 +107,8 @@
         <div class="div-form">
             <label for="birthdate" class="label-form">Data urodzenia</label><br>
             <input type="date" class="input-reg" id="birthdate" th:field="*{userModel.birthdate}">
+            <div id="birthdate-error"></div>
         </div>
-        <div id="birthdate-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>E-mail</legend>
@@ -111,9 +118,9 @@
 
         <div class="div-form">
             <label for="email" class="label-form">E-mail</label><br>
-            <input type="text" class="input-reg" id="email" th:field="*{userModel.email}">
+            <input type="email" class="input-reg" id="email" th:field="*{userModel.email}">
+            <div id="email-error"></div>
         </div>
-        <div id="email-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Numer telefonu</legend>
@@ -124,8 +131,8 @@
         <div class="div-form">
             <label for="phoneNumber" class="label-form">Numer telefonu</label><br>
             <input type="text" class="input-reg" id="phoneNumber" th:field="*{userModel.phoneNumber}">
+            <div id="phoneNumber-error"></div>
         </div>
-        <div id="phoneNumber-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Ulica i numer domu/mieszkania</legend>
@@ -136,8 +143,8 @@
         <div class="div-form">
             <label for="street" class="label-form">Ulica i numer domu/mieszkania</label><br>
             <input type="text" class="input-reg" id="street" th:field="*{userModel.address.street}">
+            <div id="street-error"></div>
         </div>
-        <div id="street-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Kod pocztowy</legend>
@@ -148,8 +155,8 @@
         <div class="div-form">
             <label for="zipCode" class="label-form">Kod pocztowy</label><br>
             <input type="text" class="input-reg" id="zipCode" th:field="*{userModel.address.zipCode}">
+            <div id="zipCode-error"></div>
         </div>
-        <div id="zipCode-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Miejscowość</legend>
@@ -160,8 +167,8 @@
         <div class="div-form">
             <label for="city" class="label-form">Miejscowość</label><br>
             <input type="text" class="input-reg" id="city" th:field="*{userModel.address.city}">
+            <div id="city-error"></div>
         </div>
-        <div id="city-error"></div>
 
         <!--        <fieldset class="fieldset-form">
                     <legend>Numer pozwolenia na broń</legend>
@@ -172,8 +179,8 @@
         <div class="div-form">
             <label for="license" class="label-form">Numer pozwolenia na broń</label><br>
             <input type="text" class="input-reg" id="license" th:field="*{userModel.gunLicense}">
+            <div id="license-error"></div>
         </div>
-        <div id="license-error"></div>
 
         <!--    <fieldset th:if="${admin AND state == 'edit'}" class="fieldset-form">
                 <legend>Rola</legend>
@@ -188,8 +195,8 @@
                         th:text="${role.displayValue}">
                 </option>
             </select>
+            <div id="role-error"></div>
         </div>
-        <div id="role-error"></div>
 
 
         <div th:if="${state == 'register'}" class="">

@@ -20,3 +20,19 @@ display: inline-block;
     font-size: 1rem;
     padding: 5px 5px
 }
+
+.form-error {
+    color:#fd6620;
+    font-weight: bold;
+    margin: 10px;
+}
+.form-info {
+    color: #509e2f;
+    font-weight: bold;
+    margin: 10px;
+}
+.error-on{
+    margin: 0px 0px 10px 15px;
+    font-size: .8em;
+    color: #fd6620;
+}

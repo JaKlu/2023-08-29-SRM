@@ -3,13 +3,11 @@ package com.kuba.shooting.range.management.services.impl;
 import com.kuba.shooting.range.management.database.dao.springdata.UserDAO;
 import com.kuba.shooting.range.management.exceptions.LoginAlreadyExistException;
 import com.kuba.shooting.range.management.exceptions.UserValidationException;
-import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.ChangePassDTO;
 import com.kuba.shooting.range.management.services.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
+        if (user.getId() == 1) {
+            user.setRole(User.Role.ADMIN);
+        }
         return userDAO.save(user);
     }
 

@@ -4,11 +4,7 @@
     <th:block th:replace="~{fragments.html :: head-meta}"></th:block></head>
 <body>
 <div class="wrapper">
-    <h1>Amunicja</h1>
-
-    <th:block
-            th:replace="~{fragments.html :: main-menu}">
-    </th:block>
+    <th:block th:replace="~{fragments.html :: page-header}"></th:block>
     <th:block
             th:replace="~{fragments.html :: ammo-manage-menu}">
     </th:block>
@@ -62,8 +58,8 @@
             <input type="submit" th:case="supply" value="Uzupełnij" class="button">
             <a href="/ammo/manage/add" th:case="edit" class="button">Dodaj</a>
         </th:block>
-        <div th:text="${formInfo}" class=""></div>
-        <div th:text="${formError}" class=""></div>
+        <div th:text="${formInfo}" class="form-info"></div>
+        <div th:text="${formError}" class="form-error"></div>
     </form>
 </div>
 </body>

@@ -58,6 +58,10 @@ VALUES ('Glock 17', 'Glock 17', 'pistolet', '9x19mm', 2020, 'BNWC063', 'WR3861',
 'Siedemnasty patent firmy Gastona Glocka. Plastikowy, brzydki i nudny, a zarazem najpopularniejszy oraz najbardziej rozpoznawalny i uniwersalny pistolet na świecie. Produkowany ciągle od 1982 roku jest obecnie na wyposażeniu formacji mundurowych w co najmniej 48 krajach świata. Wykorzystywany jest nie tylko przez policję, wojsko, ochroniarzy i konwojentów, ale także przez przestępców, bandytów, terrorystów i gangsterów.');
 
 INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
+VALUES ('CZ P-07 SR', 'CZ', 'pistolet', '9x19mm', 2020, '85743467', 'WR3679', false,
+'Nowoczesny i niezawodny model czeskiego producenta wywodzący się bezpośrednio z kultowej linii pistoletów CZ 75. Ten kurkowy kompakt wybierany jest przez formacje mundurowe na całym świecie jako uzbrojenie służbowe, a także przez cywili jako broń do ochrony osobistej.');
+
+INSERT INTO tgun(common_name, brand, type, gauge, year_of_prod, serial_no, certificate_no, is_available, description)
 VALUES ('AK47', 'Grey Ammo GN60', 'karabinek samopowtarzalny', '7,62x39mm', 2020, 'EG1747', 'WR3857', false,
 'Niezawodna, ociosana z drewna i stali prosta konstrukcja to klucz do sukcesu tego karabinku produkowanego nieprzerwanie w wielu różnych wariantach od ponad siedmiu dekad. Automat Kałasznikowa zaprojektowany dla Armii Radzieckiej stał się na przestrzeni kilkudziesięciu lat podstawowym wyposażeniem wielu innych - bardziej lub mniej legalnych - formacji w każdym zakątku świata oraz ikoną popkultury, obok której nie można przejść obojętnie.');
 

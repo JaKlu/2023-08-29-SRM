@@ -20,6 +20,11 @@ public class AmmoController {
     private SessionData sessionData;
     private AmmoService ammoService;
 
+    @GetMapping(path = {"", "/"})
+    public String ammoHome() {
+        return "redirect:/ammo/manage";
+    }
+
     @GetMapping(path = "/manage")
     public String getAllAmmo(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
