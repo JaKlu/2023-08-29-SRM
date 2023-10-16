@@ -39,5 +39,4 @@ public class ReservationDTO {
         this.reservation = new Reservation(localDate);
         this.getReservation().setReservationTime(localTime);
     }
-
 }

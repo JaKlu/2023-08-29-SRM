@@ -10,7 +10,6 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 public class GunListDTO {
-
     private Long id;
     private String commonName;
     private String gauge;

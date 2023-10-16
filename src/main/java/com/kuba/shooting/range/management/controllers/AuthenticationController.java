@@ -2,11 +2,9 @@ package com.kuba.shooting.range.management.controllers;
 
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
 import com.kuba.shooting.range.management.services.AuthenticationService;
-import com.kuba.shooting.range.management.services.UserService;
 import com.kuba.shooting.range.management.session.SessionData;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.valves.rewrite.Substitution;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +44,4 @@ public class AuthenticationController {
         this.authenticationService.logout(request);
         return "redirect:/";
     }
-
-
 }

@@ -7,6 +7,7 @@ import com.kuba.shooting.range.management.model.dto.AmmoDTO;
 import com.kuba.shooting.range.management.services.AmmoService;
 import com.kuba.shooting.range.management.validators.AmmoValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class AmmoServiceImpl implements AmmoService {
-
     private AmmoDAO ammoDAO;
 
     @Override
