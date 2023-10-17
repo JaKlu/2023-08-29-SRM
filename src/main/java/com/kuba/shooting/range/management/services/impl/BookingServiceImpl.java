@@ -7,7 +7,6 @@ import com.kuba.shooting.range.management.model.dto.ReservationDTO;
 import com.kuba.shooting.range.management.services.BookingService;
 import com.kuba.shooting.range.management.validators.DateTimeValidator;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

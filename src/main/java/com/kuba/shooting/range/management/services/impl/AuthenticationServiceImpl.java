@@ -15,7 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-
     private UserDAO userDAO;
     private SessionData sessionData;
 

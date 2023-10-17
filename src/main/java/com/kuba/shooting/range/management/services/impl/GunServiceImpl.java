@@ -15,7 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class GunServiceImpl implements GunService {
-
     private GunDAO gunDAO;
 
     @Override

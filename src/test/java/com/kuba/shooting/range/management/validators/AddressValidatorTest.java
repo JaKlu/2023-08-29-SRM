@@ -6,9 +6,6 @@ import com.kuba.shooting.range.management.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class AddressValidatorTest {
     @Test
     public void correctStreetValidationTest() {
@@ -69,6 +66,4 @@ class AddressValidatorTest {
         Assertions.assertThrows(AddressValidationException.class,
                 () -> AddressValidator.validateAddress(address));
     }
-
-
 }
