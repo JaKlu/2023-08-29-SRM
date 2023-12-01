@@ -41,8 +41,6 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.groupingBy(Reservation::getReservationDate));
 
         return new TreeMap<>(collect);
-
-
     }
 
     @Override
