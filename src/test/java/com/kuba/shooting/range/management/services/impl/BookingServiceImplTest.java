@@ -4,7 +4,6 @@ import com.kuba.shooting.range.management.model.Reservation;
 import com.kuba.shooting.range.management.model.User;
 import com.kuba.shooting.range.management.model.dto.DayTemplate;
 import com.kuba.shooting.range.management.model.dto.ReservationDTO;
-import com.kuba.shooting.range.management.validators.DateTimeValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -117,5 +116,81 @@ class BookingServiceImplTest extends ServiceGenericTest {
 
         //then
         Assertions.assertEquals(expectedDayTemplate, yesterdayTemplate);
+        Assertions.assertFalse(yesterdayTemplate.isWholeDayReserved());
+    }
+
+    @Test
+    public void getTomorrowDayTemplateWithOneReservation() {
+        //given
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        List<ReservationDTO> tomorrowList = List.of(
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(10, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(11, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(12, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(13, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(14, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(15, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(16, 0), null), false),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(17, 0), null), false)
+        );
+
+        DayTemplate expectedDayTemplate = new DayTemplate(
+                tomorrow,
+                LocalTime.of(10, 0),
+                LocalTime.of(18, 0),
+                tomorrowList,
+                false);
+
+        Mockito.when(this.bookingDAO.findAllByReservationDate(tomorrow)).thenReturn(
+                new ArrayList<>(
+                        List.of((new Reservation(null, tomorrow, LocalTime.of(12, 0), null)))));
+
+        //when
+        DayTemplate tomorrowTemplate = this.bookingService.getDayTemplate(tomorrow);
+
+        //then
+        Assertions.assertEquals(expectedDayTemplate, tomorrowTemplate);
+        Assertions.assertFalse(tomorrowTemplate.isWholeDayReserved());
+    }
+
+    @Test
+    public void getTomorrowDayTemplateFullyReserved() {
+        //given
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        List<ReservationDTO> tomorrowList = List.of(
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(10, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(11, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(12, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(13, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(14, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(15, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(16, 0), null), true),
+                new ReservationDTO(new Reservation(null, tomorrow, LocalTime.of(17, 0), null), true)
+        );
+
+        DayTemplate expectedDayTemplate = new DayTemplate(
+                tomorrow,
+                LocalTime.of(10, 0),
+                LocalTime.of(18, 0),
+                tomorrowList,
+                true);
+
+        Mockito.when(this.bookingDAO.findAllByReservationDate(tomorrow)).thenReturn(
+                new ArrayList<>(
+                        List.of(new Reservation(null, tomorrow, LocalTime.of(10, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(11, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(12, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(13, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(14, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(15, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(16, 0), null),
+                                new Reservation(null, tomorrow, LocalTime.of(17, 0), null))));
+
+        //when
+        DayTemplate tomorrowTemplate = this.bookingService.getDayTemplate(tomorrow);
+
+        //then
+        Assertions.assertEquals(expectedDayTemplate, tomorrowTemplate);
+        Assertions.assertTrue(tomorrowTemplate.isWholeDayReserved());
     }
 }
