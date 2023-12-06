@@ -10,5 +10,4 @@ public class ShootingRangeManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShootingRangeManagementApplication.class, args);
     }
-
 }
