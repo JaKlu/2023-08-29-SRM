@@ -7,15 +7,108 @@
 <div class="wrapper">
     <th:block th:replace="~{fragments.html :: page-header}"></th:block>
 
-    <p>
-        Witaj na stronie.
-    </p>
-    <p>
-        Użytkownicy:
-    </p>
-    <p>
-        Feedback:
-    </p>
+    <div>
+        <div class="gun-info">
+            <h3>Wirtualna strzelnica</h3>
+        </div>
+        <div class="gun-description">
+            <p>Aplikacja pozwalająca na zarządzanie strzelnicą przez pracowników oraz na rezerwację terminów wizyt
+                przez klientów.</p>
+        </div>
+    </div>
+
+    <div>
+        <div class="gun-info">
+            <h3>Użytkownicy i dane do logowania</h3>
+        </div>
+        <div class="gun-description">
+            <table id="users-table" style="table-layout: fixed; width: 400px;">
+                <tr>
+                    <th>Login</th>
+                    <th>Hasło</th>
+                    <th>Rola</th>
+                </tr>
+                <tr>
+                    <td>admin</td>
+                    <td>admin</td>
+                    <td>Administrator</td>
+                </tr>
+                <tr>
+                    <td>janusz</td>
+                    <td>janusz</td>
+                    <td>Pracownik</td>
+                </tr>
+                <tr>
+                    <td>pawel</td>
+                    <td>pawel</td>
+                    <td>Pracownik</td>
+                </tr>
+                <tr>
+                    <td>wojtek</td>
+                    <td>wojtek</td>
+                    <td>Użytkownik</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <div class="gun-info">
+            <h3>Role i funkcjonalność użytkowników</h3>
+        </div>
+        <div class="gun-description">
+            <h3>Gość (użytkownik niezalogowany)</h3>
+            <ul>
+                <li>Przeglądanie wolnych terminów wizyt i innych treści informacyjnych</li>
+                <li>Rejestracja w serwisie z domyślną rolą User</li>
+            </ul>
+
+            <h3>Użytkownik (użytkownik zalogowany z rolą User)</h3>
+            <ul>
+                <li>Przeglądanie wolnych terminów wizyt i innych treści informacyjnych</li>
+                <li>Rezerwacja wolnego terminu wizyty</li>
+                <li>Przeglądanie i edycja swoich danych osobowych</li>
+                <li>Przeglądanie i edycja swoich rezerwacji</li>
+            </ul>
+
+            <h3>Pracownik (użytkownik zarejestrowany z rolą Employee)</h3>
+            <p>Funkcjonalność jak Użytkownik, dodatkowo:</p>
+            <ul>
+                <li>Przeglądanie i edycja danych osobowych swoich i innych użytkowników</li>
+                <li>Przeglądanie i edycja rezerwacji swoich i innych użytkowników</li>
+                <li>Przeglądanie stanu magazynu broni</li>
+                <li>Wydawanie i przyjmowanie broni i amunicji do magazynu</li>
+            </ul>
+
+            <h3>Administrator (użytkownik zarejestrowany z rolą Admin)</h3>
+            <p>Funkcjonalność jak Pracownik, dodatkowo:</p>
+            <ul>
+                <li>Dodawanie, edytowanie i usuwanie jednostek broni</li>
+                <li>Dodawanie, edytowanie i usuwanie kalibrów amunicji</li>
+                <li>Zmiana roli wszystkich użytkowników</li>
+                <li>Usuwanie użytkowników</li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+        <div class="gun-info">
+            <h3>Technologie</h3>
+        </div>
+        <div class="gun-description">
+            <p>Java 17, Spring Boot, Spring Data, Hibernate, H2, Lombok, Docker, HTML, CSS, JS</p>
+        </div>
+    </div>
+
+    <div>
+        <div class="gun-info">
+            <h3>Kontakt</h3>
+        </div>
+        <div class="gun-description">
+            <p>Dane kontaktowe i portfolio dostępne na stronie
+                <a href="http://jakubk.ovh" target="_blank">jakubk.ovh</a></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>
