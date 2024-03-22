@@ -18,6 +18,11 @@ public class GunServiceImpl implements GunService {
     private GunDAO gunDAO;
 
     @Override
+    public boolean existById(Long id) {
+        return this.gunDAO.existsById(id);
+    }
+
+    @Override
     public Optional<Gun> findById(Long id) {
         return this.gunDAO.findById(id);
     }
@@ -56,13 +61,13 @@ public class GunServiceImpl implements GunService {
     }
 
     @Override
-    public void saveGun(Gun gun) {
-        this.gunDAO.save(gun);
+    public Gun saveGun(Gun gun) {
+        return this.gunDAO.save(gun);
     }
 
     @Override
-    public void saveGun(GunAddDTO gunAddDTO) {
-        this.gunDAO.save(new Gun(gunAddDTO)); //TODO VALIDATORS
+    public Gun saveGun(GunAddDTO gunAddDTO) {
+        return this.gunDAO.save(new Gun(gunAddDTO)); //TODO VALIDATORS
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.kuba.shooting.range.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +28,7 @@ public class Reservation {
     private LocalTime reservationTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
 

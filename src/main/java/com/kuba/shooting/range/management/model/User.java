@@ -1,10 +1,12 @@
 package com.kuba.shooting.range.management.model;
 
+import com.kuba.shooting.range.management.model.rest.UserRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class User {
     private String login;
 
     @Column(name = "password")
+    //@JsonIgnore
     private String password;
 
     @Column(name = "name")
@@ -60,6 +63,20 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    public User(UserRequest userRequest) {
+        this.id = userRequest.getId();
+        this.login = userRequest.getLogin();
+        this.password = userRequest.getPassword();
+        this.name = userRequest.getName();
+        this.surname = userRequest.getSurname();
+        this.birthdate = LocalDate.parse(userRequest.getBirthdate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.email = userRequest.getEmail();
+        this.phoneNumber = userRequest.getPhoneNumber();
+        this.address = userRequest.getAddress();
+        this.gunLicense = userRequest.getGunLicense();
+        this.role = Role.valueOf(userRequest.getRole());
     }
 
     @Override

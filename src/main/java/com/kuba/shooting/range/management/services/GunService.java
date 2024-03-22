@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface GunService {
 
+    boolean existById(Long id);
+
     Optional<Gun> findById(Long id);
 
     List<Gun> findAll();
@@ -17,9 +19,9 @@ public interface GunService {
 
     void takeGuns(GunCreationDto creationDTO);
 
-    void saveGun(Gun gun);
+    Gun saveGun(Gun gun);
 
-    void saveGun(GunAddDTO gunAddDTO);
+    Gun saveGun(GunAddDTO gunAddDTO);
 
     void deleteGun(Long id);
 }

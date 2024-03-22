@@ -20,5 +20,7 @@ public interface UserService {
 
     Optional<User> findById(Long id);
 
+    Optional<User> findByLogin(String login);
+
     void changePassword(ChangePassDTO changePassDTO);
 }

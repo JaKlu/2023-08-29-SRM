@@ -55,6 +55,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByLogin(String login) {
+        return this.userDAO.findByLogin(login);
+    }
+
+    @Override
     public void changePassword(ChangePassDTO changePassDTO) {
         if (changePassDTO.getNewPass().equals(changePassDTO.getNewPassRepeat()) &&
                 changePassDTO.getUser().getPassword().equals(DigestUtils.md5Hex(changePassDTO.getOldPass()))) {

@@ -1,5 +1,6 @@
 package com.kuba.shooting.range.management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Address {
     private String city;
 
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     @OneToOne(mappedBy = "address")
     private User user;
 
