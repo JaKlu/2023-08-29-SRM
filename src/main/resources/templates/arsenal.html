@@ -9,14 +9,14 @@
 
     <h4>Zapoznaj się z naszym arsenałem</h4>
 
-    <th:block th:each="gun : ${gunList}">
+    <th:block th:each="gunForArsenalViewResponseDTO : ${gunList}">
         <div>
             <div class="gun-info">
-                <span th:text="${gun.commonName}"></span> |
-                <span th:text="${gun.type}"></span> | Kaliber:
-                <span th:text="${gun.gauge}"></span>
+                <span th:text="${gunForArsenalViewResponseDTO.commonName}"></span> |
+                <span th:text="${gunForArsenalViewResponseDTO.type}"></span> | Kaliber:
+                <span th:text="${gunForArsenalViewResponseDTO.gauge}"></span>
             </div>
-            <div th:text="${gun.description}" class="gun-description"></div>
+            <div th:text="${gunForArsenalViewResponseDTO.description}" class="gun-description"></div>
         </div>
     </th:block>
 </div>

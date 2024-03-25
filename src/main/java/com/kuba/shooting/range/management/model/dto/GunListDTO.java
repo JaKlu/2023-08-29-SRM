@@ -2,7 +2,7 @@ package com.kuba.shooting.range.management.model.dto;
 
 import com.kuba.shooting.range.management.model.Gun;
 import lombok.*;
-
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -14,7 +14,7 @@ public class GunListDTO {
     private String commonName;
     private String gauge;
     private boolean available;
-    private boolean action = false;
+    private boolean action;
 
     public GunListDTO(Gun gun) {
         this.id = gun.getId();

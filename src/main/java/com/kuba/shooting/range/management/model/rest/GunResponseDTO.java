@@ -1,8 +1,12 @@
 package com.kuba.shooting.range.management.model.rest;
 
 import com.kuba.shooting.range.management.model.Gun;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
+@AllArgsConstructor
 @Data
 public class GunResponseDTO {
     private Long id;
@@ -14,7 +18,7 @@ public class GunResponseDTO {
     private String serialNo;
     private String certificateNo;
     private String description;
-    private boolean isAvailable = true;
+    private boolean available;
 
     public GunResponseDTO(Gun gun) {
         this.id = gun.getId();
@@ -26,6 +30,6 @@ public class GunResponseDTO {
         this.serialNo = gun.getSerialNo();
         this.certificateNo = gun.getCertificateNo();
         this.description = gun.getDescription();
-        this.isAvailable = gun.isAvailable();
+        this.available = gun.isAvailable();
     }
 }

@@ -28,7 +28,7 @@ public class CommonController {
     @GetMapping(path = "/arsenal")
     public String showAllGuns(Model model) {
         ModelUtils.addCommonDataToModel(model, sessionData);
-        model.addAttribute("gunList", this.gunService.findAll());
+        model.addAttribute("gunList", this.gunService.findAllForArsenalView());
         return "arsenal";
     }
     @GetMapping(path = "/contact")

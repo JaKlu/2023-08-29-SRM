@@ -1,11 +1,13 @@
 package com.kuba.shooting.range.management.controllers;
 
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
+import com.kuba.shooting.range.management.exceptions.GunNotOnStockException;
 import com.kuba.shooting.range.management.model.Ammo;
 import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.dto.GunAddDTO;
 import com.kuba.shooting.range.management.model.dto.GunCreationDto;
 import com.kuba.shooting.range.management.model.dto.GunListDTO;
+import com.kuba.shooting.range.management.model.dto.nowe.GunListViewDTO;
 import com.kuba.shooting.range.management.services.AmmoService;
 import com.kuba.shooting.range.management.services.GunService;
 import com.kuba.shooting.range.management.session.SessionData;
@@ -37,7 +39,8 @@ public class GunController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createGunDtoList(model);
+
+        model.addAttribute("gunForm", new GunListViewDTO(this.gunService.findAllForManageView()));
         model.addAttribute("state", "info");
         return "guns";
     }
@@ -48,7 +51,8 @@ public class GunController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createGunDtoList(model);
+
+        model.addAttribute("gunForm", new GunListViewDTO(this.gunService.findAllForManageView()));
         model.addAttribute("state", "release");
         return "guns";
     }
@@ -70,7 +74,8 @@ public class GunController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createGunDtoList(model);
+
+        model.addAttribute("gunForm", new GunListViewDTO(this.gunService.findAllForManageView()));
         model.addAttribute("state", "take");
         return "guns";
     }
@@ -95,7 +100,8 @@ public class GunController {
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
-        createGunDtoList(model);
+
+        model.addAttribute("gunForm", new GunListViewDTO(this.gunService.findAllForManageView()));
         model.addAttribute("state", "edit");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -191,7 +197,7 @@ public class GunController {
 
         try {
             this.gunService.deleteGun(id);
-        } catch (IllegalArgumentException e) {
+        } catch (GunNotOnStockException e) {
             System.out.println("Could not delete. Gun not in stock.");
             this.sessionData.setFormError("Nie usunięto. Brak broni w magazynie.");
         }
