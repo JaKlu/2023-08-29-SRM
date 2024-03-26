@@ -1,7 +1,5 @@
 package com.kuba.shooting.range.management.model;
 
-import com.kuba.shooting.range.management.model.dto.GunAddDTO;
-import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,29 +43,4 @@ public class Gun {
 
     @Column(name = "is_available")
     private boolean isAvailable = true;
-
-    public Gun(GunAddDTO gunAddDTO) {
-        this.id = gunAddDTO.getId();
-        this.commonName = gunAddDTO.getCommonName();
-        this.brand = gunAddDTO.getBrand();
-        this.type = gunAddDTO.getType();
-        this.gauge = gunAddDTO.getGauge();
-        this.yearOfProd = Integer.parseInt(gunAddDTO.getYearOfProd());
-        this.serialNo = gunAddDTO.getSerialNo();
-        this.certificateNo = gunAddDTO.getCertificateNo();
-        this.description = gunAddDTO.getDescription();
-        this.isAvailable = gunAddDTO.isAvailable();
-    }
-
-    public Gun(GunRequestDTO gunRequestDTO) {
-        this.id = gunRequestDTO.getId();
-        this.commonName = gunRequestDTO.getCommonName();
-        this.brand = gunRequestDTO.getBrand();
-        this.type = gunRequestDTO.getType();
-        this.gauge = gunRequestDTO.getGauge();
-        this.yearOfProd = gunRequestDTO.getYearOfProd();
-        this.serialNo = gunRequestDTO.getSerialNo();
-        this.certificateNo = gunRequestDTO.getCertificateNo();
-        this.description = gunRequestDTO.getDescription();
-    }
 }

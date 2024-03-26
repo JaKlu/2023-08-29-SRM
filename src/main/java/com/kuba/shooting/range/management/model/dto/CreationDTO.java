@@ -1,3 +1,4 @@
+/*
 package com.kuba.shooting.range.management.model.dto;
 
 import lombok.*;
@@ -27,3 +28,4 @@ public class CreationDTO<T> {
         this.dtoList = (List<T>) gunCreationDto.getDtoList();
     }
 }
+*/

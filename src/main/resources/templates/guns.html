@@ -25,14 +25,14 @@
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="gunListDTO, itemStat : *{dtoList}">
+            <th:block th:each="gunManageViewDTO, itemStat : *{dtoList}">
                 <tr>
                     <td th:name="${itemStat.count}"
                         th:text="${itemStat.count}"></td>
                     <td th:name="*{dtoList[__${itemStat.index}__].commonName}"
                         th:text="*{dtoList[__${itemStat.index}__].commonName}"></td>
-                    <td th:name="*{dtoList[__${itemStat.index}__].available }"
-                        th:text="*{dtoList[__${itemStat.index}__].available  ? 'Dostępny' : 'Wydany'}"></td>
+                    <td th:name="*{dtoList[__${itemStat.index}__].available}"
+                        th:text="*{dtoList[__${itemStat.index}__].available ? 'Dostępny' : 'Wydany'}"></td>
                     <td th:if="${state == 'release' OR state == 'take'}">
                         <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
                         <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].commonName}">
@@ -47,8 +47,8 @@
                         </th:block>
                     </td>
                     <td th:if="${state == 'edit'}">
-                        <a th:href="@{/guns/manage/edit/{id}(id=${gunListDTO.id})}">Edytuj</a> |
-                        <a th:href="@{/guns/manage/delete/{id}(id=${gunListDTO.id})}">Usuń</a>
+                        <a th:href="@{/guns/manage/edit/{id}(id=${gunManageViewDTO.id})}">Edytuj</a> |
+                        <a th:href="@{/guns/manage/delete/{id}(id=${gunManageViewDTO.id})}">Usuń</a>
                     </td>
                 </tr>
             </th:block>

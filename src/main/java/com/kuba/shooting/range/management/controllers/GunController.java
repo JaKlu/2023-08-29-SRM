@@ -2,16 +2,16 @@ package com.kuba.shooting.range.management.controllers;
 
 import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
 import com.kuba.shooting.range.management.exceptions.GunNotOnStockException;
+import com.kuba.shooting.range.management.exceptions.ResourceNotFoundException;
 import com.kuba.shooting.range.management.model.Ammo;
 import com.kuba.shooting.range.management.model.Gun;
-import com.kuba.shooting.range.management.model.dto.GunAddDTO;
-import com.kuba.shooting.range.management.model.dto.GunCreationDto;
-import com.kuba.shooting.range.management.model.dto.GunListDTO;
 import com.kuba.shooting.range.management.model.dto.nowe.GunListViewDTO;
+import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
 import com.kuba.shooting.range.management.services.AmmoService;
 import com.kuba.shooting.range.management.services.GunService;
 import com.kuba.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping(path = "/guns")
 @Controller
+@Slf4j
 public class GunController {
 
     private SessionData sessionData;
@@ -59,7 +60,7 @@ public class GunController {
 
     @PostMapping(path = "/manage/release")
     public String releaseGuns(Model model,
-                              @ModelAttribute GunCreationDto gunForm) {
+                              @ModelAttribute GunListViewDTO gunForm) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
@@ -82,7 +83,7 @@ public class GunController {
 
     @PostMapping(path = "/manage/take")
     public String takeGuns(Model model,
-                           @ModelAttribute GunCreationDto gunForm) {
+                           @ModelAttribute GunListViewDTO gunForm) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
@@ -168,14 +169,15 @@ public class GunController {
 
     @PostMapping(path = "/manage/add")
     public String addGun(Model model,
-                         @ModelAttribute GunAddDTO gunAddDTO) {
+                         @ModelAttribute GunRequestDTO gunRequestDTO) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
 
         try {
-            this.gunService.saveGun(gunAddDTO);
+            gunRequestDTO.setAvailable(true);
+            this.gunService.saveGun(gunRequestDTO);
         } catch (NumberFormatException e) {
             System.out.println("Could not add.");
             this.sessionData.setFormError("Podaj poprawne dane");
@@ -198,19 +200,13 @@ public class GunController {
         try {
             this.gunService.deleteGun(id);
         } catch (GunNotOnStockException e) {
-            System.out.println("Could not delete. Gun not in stock.");
+            log.warn("Could not delete. Gun not in stock.");
             this.sessionData.setFormError("Nie usunięto. Brak broni w magazynie.");
+        } catch (ResourceNotFoundException e){
+            log.warn("Requested gun does not exist");
+            this.sessionData.setFormError("Nie znaleziono broni do usunięcia.");
         }
         model.addAttribute("state", "edit");
         return "redirect:/guns/manage/edit";
-    }
-
-
-    private void createGunDtoList(Model model) {
-        GunCreationDto gunForm = new GunCreationDto();
-        for (Gun gun : this.gunService.findAll()) {
-            gunForm.addDTO(new GunListDTO(gun));
-        }
-        model.addAttribute("gunForm", gunForm);
     }
 }

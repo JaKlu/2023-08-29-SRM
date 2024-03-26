@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleException(ResourceNotFoundException exception, WebRequest request) {
         log.warn("ResourceNotFoundException occurs while accessing resources");
         return new ErrorResponse(Instant.now(), HttpStatus.NOT_FOUND.value(),
-                HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
                 exception.getMessage(), request.getDescription(false));
     }
 }

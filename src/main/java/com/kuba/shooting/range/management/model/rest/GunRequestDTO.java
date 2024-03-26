@@ -13,4 +13,5 @@ public class GunRequestDTO {
     private String serialNo;
     private String certificateNo;
     private String description;
+    private boolean available;
 }
