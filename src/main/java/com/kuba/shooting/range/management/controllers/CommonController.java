@@ -44,7 +44,7 @@ public class CommonController {
             return "redirect:/";
         }
         model.addAttribute("ammoList", this.ammoService.findAll());
-        model.addAttribute("gunList", this.gunService.findAll());
+        model.addAttribute("gunList", this.gunService.findAllGuns());
         return "stock";
     }
 

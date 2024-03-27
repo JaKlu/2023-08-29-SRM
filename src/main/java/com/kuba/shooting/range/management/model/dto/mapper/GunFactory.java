@@ -1,7 +1,7 @@
 package com.kuba.shooting.range.management.model.dto.mapper;
 
 import com.kuba.shooting.range.management.model.Gun;
-import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunRequestDTO;
 
 public class GunFactory {
     public static Gun createGunFromGunRequestDTO(GunRequestDTO gunRequestDTO) {

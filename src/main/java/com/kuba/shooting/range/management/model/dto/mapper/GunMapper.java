@@ -1,9 +1,9 @@
 package com.kuba.shooting.range.management.model.dto.mapper;
 
 import com.kuba.shooting.range.management.model.Gun;
-import com.kuba.shooting.range.management.model.dto.nowe.GunForArsenalViewResponseDTO;
-import com.kuba.shooting.range.management.model.dto.nowe.GunManageViewDTO;
-import com.kuba.shooting.range.management.model.rest.GunResponseDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunForArsenalViewResponseDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunManageViewDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunResponseDTO;
 
 public class GunMapper {
     public static GunForArsenalViewResponseDTO mapGunToGunForArsenalViewResponseDTO(Gun gun) {

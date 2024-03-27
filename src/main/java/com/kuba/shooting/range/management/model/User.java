@@ -1,6 +1,6 @@
 package com.kuba.shooting.range.management.model;
 
-import com.kuba.shooting.range.management.model.rest.UserRequest;
+import com.kuba.shooting.range.management.model.dto.rest.UserRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;

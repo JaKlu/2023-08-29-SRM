@@ -41,6 +41,6 @@ public class Gun {
     @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "is_available")
-    private boolean isAvailable = true;
+    @Column(name = "available")
+    private boolean available = true;
 }

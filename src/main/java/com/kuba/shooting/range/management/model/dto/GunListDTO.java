@@ -1,3 +1,4 @@
+/*
 package com.kuba.shooting.range.management.model.dto;
 
 import com.kuba.shooting.range.management.model.Gun;
@@ -23,3 +24,4 @@ public class GunListDTO {
         this.available = gun.isAvailable();
     }
 }
+*/

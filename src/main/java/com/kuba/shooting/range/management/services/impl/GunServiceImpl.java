@@ -6,12 +6,12 @@ import com.kuba.shooting.range.management.exceptions.ResourceNotFoundException;
 import com.kuba.shooting.range.management.model.Gun;
 import com.kuba.shooting.range.management.model.dto.mapper.GunFactory;
 import com.kuba.shooting.range.management.model.dto.mapper.GunMapper;
-import com.kuba.shooting.range.management.model.dto.nowe.GunForArsenalViewResponseDTO;
-import com.kuba.shooting.range.management.model.dto.nowe.GunListViewDTO;
-import com.kuba.shooting.range.management.model.dto.nowe.GunManageViewDTO;
-import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
-import com.kuba.shooting.range.management.model.rest.GunResponseDTO;
-import com.kuba.shooting.range.management.model.rest.ResourceDeletedDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunRequestDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunResponseDTO;
+import com.kuba.shooting.range.management.model.dto.rest.ResourceDeletedDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunForArsenalViewResponseDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunListViewDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunManageViewDTO;
 import com.kuba.shooting.range.management.services.GunService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,20 +32,10 @@ public class GunServiceImpl implements GunService {
     }
 
     @Override
-    public Optional<Gun> findById(Long id) {
-        return this.gunDAO.findById(id);
-    }
-
-    @Override
     public GunResponseDTO findGunById(Long id) {
         return this.gunDAO.findById(id)
                 .map(GunMapper::mapGunToGunResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Gun not found"));
-    }
-
-    @Override
-    public List<Gun> findAll() {
-        return this.gunDAO.findAll();
     }
 
     @Override
@@ -72,106 +62,15 @@ public class GunServiceImpl implements GunService {
                 .toList();
     }
 
-
-    /*
-        @Override
-        public void releaseGuns(GunCreationDto creationDTO) {
-            for (GunListDTO gunListDTO : creationDTO.getDtoList()) {
-                if (!gunListDTO.isAction()) continue;
-                Optional<Gun> gunBox = this.gunDAO.findById(gunListDTO.getId());
-                if (gunBox.isPresent() &&
-                        gunBox.get().isAvailable() &&
-                        gunListDTO.isAction()) {
-                    gunBox.get().setAvailable(false);
-                    this.gunDAO.save(gunBox.get());
-                }
-            }
-        }
-    */
-
-    //KLASA
-    @Override
-    public void releaseGuns(GunListViewDTO gunListViewDTO) {
-        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
-            if (!gunManageViewDTO.isAction()) continue;
-            this.releaseGun(gunManageViewDTO.getId());
-        }
-    }
-    //REKORD
-/*    @Override
-    public void releaseGuns(GunListViewDTO gunListViewDTO) {
-        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
-            if (!gunManageViewDTO.action()) continue;
-            this.releaseGun(gunManageViewDTO.id());
-        }
-    }*/
-
-    @Override
-    public GunResponseDTO releaseGun(Long id) {
-        Optional<Gun> gunBox = this.gunDAO.findById(id);
-        if (gunBox.isEmpty()) throw new ResourceNotFoundException("Gun not found");
-        if (!gunBox.get().isAvailable()) throw new GunNotOnStockException("Gun is already released.");
-        gunBox.get().setAvailable(false);
-        Gun savedGun = this.gunDAO.save(gunBox.get());
-        return GunMapper.mapGunToGunResponseDTO(savedGun);
-    }
-
-/*
-    @Override
-    public void takeGuns(GunCreationDto creationDTO) {
-        for (GunListDTO gunListDTO : creationDTO.getDtoList()) {
-            if (!gunListDTO.isAction()) continue;
-            Optional<Gun> gunBox = this.gunDAO.findById(gunListDTO.getId());
-            if (gunBox.isPresent() &&
-                    !gunBox.get().isAvailable() &&
-                    gunListDTO.isAction()) {
-                gunBox.get().setAvailable(true);
-                this.gunDAO.save(gunBox.get());
-            }
-        }
-    }
-*/
-    //KLASA
-    @Override
-    public void takeGuns(GunListViewDTO gunListViewDTO) {
-        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
-            if (!gunManageViewDTO.isAction()) continue;
-            this.takeGun(gunManageViewDTO.getId());
-        }
-    }
-    //REKORD
-/*    @Override
-    public void takeGuns(GunListViewDTO gunListViewDTO) {
-        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
-            if (!gunManageViewDTO.action()) continue;
-            this.takeGun(gunManageViewDTO.id());
-        }
-    }*/
-
-    @Override
-    public GunResponseDTO takeGun(Long id) {
-        Optional<Gun> gunBox = this.gunDAO.findById(id);
-        if (gunBox.isEmpty()) throw new ResourceNotFoundException("Gun not found");
-        if (gunBox.get().isAvailable()) throw new GunNotOnStockException("Gun is already taken.");
-        gunBox.get().setAvailable(true);
-        Gun savedGun = this.gunDAO.save(gunBox.get());
-        return GunMapper.mapGunToGunResponseDTO(savedGun);
-    }
-
-    @Override
-    public Gun saveGun(Gun gun) {
-        return this.gunDAO.save(gun);
-    }
-
     @Override
     public GunResponseDTO saveGun(GunRequestDTO gunRequestDTO) {
         //TODO validation
         Gun gun = GunFactory.createGunFromGunRequestDTO(gunRequestDTO);
         gun.setId(0L);
+        gun.setAvailable(true);
         Gun savedGun = this.gunDAO.save(gun);
         return GunMapper.mapGunToGunResponseDTO(savedGun);
     }
-
 
     @Override
     public GunResponseDTO updateGun(Long id, GunRequestDTO gunRequestDTO) {
@@ -184,8 +83,44 @@ public class GunServiceImpl implements GunService {
     }
 
     @Override
+    public GunResponseDTO releaseGun(Long id) {
+        Optional<Gun> gunBox = this.gunDAO.findById(id);
+        if (gunBox.isEmpty()) throw new ResourceNotFoundException("Gun not found");
+        if (!gunBox.get().isAvailable()) throw new GunNotOnStockException("Gun is already released.");
+        gunBox.get().setAvailable(false);
+        Gun savedGun = this.gunDAO.save(gunBox.get());
+        return GunMapper.mapGunToGunResponseDTO(savedGun);
+    }
+
+    @Override
+    public void releaseGuns(GunListViewDTO gunListViewDTO) {
+        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
+            if (!gunManageViewDTO.isAction()) continue;
+            this.releaseGun(gunManageViewDTO.getId());
+        }
+    }
+
+    @Override
+    public GunResponseDTO takeGun(Long id) {
+        Optional<Gun> gunBox = this.gunDAO.findById(id);
+        if (gunBox.isEmpty()) throw new ResourceNotFoundException("Gun not found");
+        if (gunBox.get().isAvailable()) throw new GunNotOnStockException("Gun is already taken.");
+        gunBox.get().setAvailable(true);
+        Gun savedGun = this.gunDAO.save(gunBox.get());
+        return GunMapper.mapGunToGunResponseDTO(savedGun);
+    }
+
+    @Override
+    public void takeGuns(GunListViewDTO gunListViewDTO) {
+        for (GunManageViewDTO gunManageViewDTO : gunListViewDTO.getDtoList()) {
+            if (!gunManageViewDTO.isAction()) continue;
+            this.takeGun(gunManageViewDTO.getId());
+        }
+    }
+
+    @Override
     public ResourceDeletedDTO deleteGun(Long id) {
-        Optional<Gun> gunBox = this.findById(id);
+        Optional<Gun> gunBox = this.gunDAO.findById(id);
         if (gunBox.isEmpty()) throw new ResourceNotFoundException("Gun not found");
         if (!gunBox.get().isAvailable()) throw new GunNotOnStockException("Cannot delete gun that is not on stock.");
         this.gunDAO.deleteById(id);

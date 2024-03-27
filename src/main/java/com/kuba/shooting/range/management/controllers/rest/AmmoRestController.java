@@ -1,7 +1,7 @@
 package com.kuba.shooting.range.management.controllers.rest;
 
 import com.kuba.shooting.range.management.model.Ammo;
-import com.kuba.shooting.range.management.model.rest.ListResponse;
+import com.kuba.shooting.range.management.model.dto.rest.ListResponse;
 import com.kuba.shooting.range.management.services.AmmoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

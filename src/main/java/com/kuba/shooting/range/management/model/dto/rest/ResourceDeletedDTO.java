@@ -1,4 +1,4 @@
-package com.kuba.shooting.range.management.model.rest;
+package com.kuba.shooting.range.management.model.dto.rest;
 
 import lombok.Builder;
 

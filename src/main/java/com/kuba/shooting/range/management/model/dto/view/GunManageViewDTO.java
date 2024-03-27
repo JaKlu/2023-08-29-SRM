@@ -1,4 +1,4 @@
-package com.kuba.shooting.range.management.model.dto.nowe;
+package com.kuba.shooting.range.management.model.dto.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

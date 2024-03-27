@@ -4,9 +4,9 @@ import com.kuba.shooting.range.management.controllers.utils.ModelUtils;
 import com.kuba.shooting.range.management.exceptions.GunNotOnStockException;
 import com.kuba.shooting.range.management.exceptions.ResourceNotFoundException;
 import com.kuba.shooting.range.management.model.Ammo;
-import com.kuba.shooting.range.management.model.Gun;
-import com.kuba.shooting.range.management.model.dto.nowe.GunListViewDTO;
-import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
+import com.kuba.shooting.range.management.model.dto.view.GunListViewDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunRequestDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunResponseDTO;
 import com.kuba.shooting.range.management.services.AmmoService;
 import com.kuba.shooting.range.management.services.GunService;
 import com.kuba.shooting.range.management.session.SessionData;
@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RequestMapping(path = "/guns")
@@ -117,8 +116,11 @@ public class GunController {
             return "redirect:/";
         }
 
-        Optional<Gun> gunBox = this.gunService.findById(id);
-        if (gunBox.isEmpty()) {
+        try {
+            GunResponseDTO gunResponseDTO = this.gunService.findGunById(id);
+            model.addAttribute("gunModel", gunResponseDTO);
+        } catch (ResourceNotFoundException e) {
+            log.warn("Requested gun does not exist");
             return "redirect:/";
         }
 
@@ -126,7 +128,6 @@ public class GunController {
                 .map(Ammo::getGauge)
                 .toList();
 
-        model.addAttribute("gunModel", gunBox.get());
         model.addAttribute("gaugeList", gaugeList);
         model.addAttribute("state", "edit");
         return "guns-edit";
@@ -135,18 +136,18 @@ public class GunController {
     @PostMapping(path = "/manage/edit/{id}")
     public String editGun(Model model,
                           @PathVariable Long id,
-                          @ModelAttribute Gun gun) {
+                          @ModelAttribute GunRequestDTO gunRequestDTO) {
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
-        Optional<Gun> gunBox = this.gunService.findById(id);
-        if (gunBox.isEmpty()) {
+
+        try {
+            this.gunService.updateGun(id, gunRequestDTO);
+            return "redirect:/guns/manage/edit";
+        } catch (ResourceNotFoundException e) {
+            log.warn("Requested gun does not exist");
             return "redirect:/";
         }
-        gun.setId(id);
-        this.gunService.saveGun(gun);
-
-        return "redirect:/guns/manage/edit";
     }
 
     @GetMapping(path = "/manage/add")
@@ -161,7 +162,7 @@ public class GunController {
                 .map(Ammo::getGauge)
                 .toList();
 
-        model.addAttribute("gunModel", new Gun());
+        model.addAttribute("gunModel", new GunRequestDTO());
         model.addAttribute("gaugeList", gaugeList);
         model.addAttribute("state", "add");
         return "guns-edit";
@@ -176,10 +177,9 @@ public class GunController {
         }
 
         try {
-            gunRequestDTO.setAvailable(true);
             this.gunService.saveGun(gunRequestDTO);
         } catch (NumberFormatException e) {
-            System.out.println("Could not add.");
+            log.warn("Wrong data");
             this.sessionData.setFormError("Podaj poprawne dane");
         }
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
@@ -202,7 +202,7 @@ public class GunController {
         } catch (GunNotOnStockException e) {
             log.warn("Could not delete. Gun not in stock.");
             this.sessionData.setFormError("Nie usunięto. Brak broni w magazynie.");
-        } catch (ResourceNotFoundException e){
+        } catch (ResourceNotFoundException e) {
             log.warn("Requested gun does not exist");
             this.sessionData.setFormError("Nie znaleziono broni do usunięcia.");
         }

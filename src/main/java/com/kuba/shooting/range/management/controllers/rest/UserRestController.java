@@ -1,8 +1,8 @@
 package com.kuba.shooting.range.management.controllers.rest;
 
 import com.kuba.shooting.range.management.model.User;
-import com.kuba.shooting.range.management.model.rest.ListResponse;
-import com.kuba.shooting.range.management.model.rest.UserResponse;
+import com.kuba.shooting.range.management.model.dto.rest.ListResponse;
+import com.kuba.shooting.range.management.model.dto.rest.UserResponse;
 import com.kuba.shooting.range.management.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
 package com.kuba.shooting.range.management.controllers.rest;
 
-import com.kuba.shooting.range.management.model.rest.GunRequestDTO;
-import com.kuba.shooting.range.management.model.rest.GunResponseDTO;
-import com.kuba.shooting.range.management.model.rest.ListResponse;
-import com.kuba.shooting.range.management.model.rest.ResourceDeletedDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunRequestDTO;
+import com.kuba.shooting.range.management.model.dto.rest.GunResponseDTO;
+import com.kuba.shooting.range.management.model.dto.rest.ListResponse;
+import com.kuba.shooting.range.management.model.dto.rest.ResourceDeletedDTO;
 import com.kuba.shooting.range.management.services.GunService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,6 @@ public class GunRestController {
 
     @PostMapping
     public ResponseEntity<GunResponseDTO> saveGun(@RequestBody GunRequestDTO gunRequestDTO) {
-        gunRequestDTO.setId(0L);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.gunService.saveGun(gunRequestDTO));
     }
@@ -39,12 +38,6 @@ public class GunRestController {
         return ResponseEntity.ok(this.gunService.updateGun(id, gunRequestDTO));
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<ResourceDeletedDTO> deleteGun(@PathVariable Long id) {
-        return ResponseEntity.ok(this.gunService.deleteGun(id));
-
-    }
-
     @PostMapping(path = "/release/{id}")
     public ResponseEntity<GunResponseDTO> releaseGun(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.gunService.releaseGun(id));
@@ -53,5 +46,11 @@ public class GunRestController {
     @PostMapping(path = "/take/{id}")
     public ResponseEntity<GunResponseDTO> takeGun(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.gunService.takeGun(id));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<ResourceDeletedDTO> deleteGun(@PathVariable Long id) {
+        return ResponseEntity.ok(this.gunService.deleteGun(id));
+
     }
 }
