@@ -75,10 +75,10 @@ public class GunServiceImpl implements GunService {
     @Override
     public GunResponseDTO updateGun(Long id, GunRequestDTO gunRequestDTO) {
         //TODO validation
-        if (!this.existById(id)) throw new ResourceNotFoundException("Gun not found");
-        Gun gun = GunFactory.createGunFromGunRequestDTO(gunRequestDTO);
-        gun.setId(id);
-        Gun updatedGun = this.gunDAO.save(gun);
+        if (!this.gunDAO.existsById(id)) throw new ResourceNotFoundException("Gun not found");
+        Gun gunToUpdate = GunFactory.createGunFromGunRequestDTO(gunRequestDTO);
+        gunToUpdate.setId(id);
+        Gun updatedGun = this.gunDAO.save(gunToUpdate);
         return GunMapper.mapGunToGunResponseDTO(updatedGun);
     }
 

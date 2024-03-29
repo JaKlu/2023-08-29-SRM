@@ -5,7 +5,8 @@ import ovh.jakubk.shooting.range.management.model.dto.rest.GunRequestDTO;
 
 public class GunFactory {
     public static Gun createGunFromGunRequestDTO(GunRequestDTO gunRequestDTO) {
-        return new Gun(gunRequestDTO.getId(),
+        return new Gun(
+                gunRequestDTO.getId(),
                 gunRequestDTO.getCommonName(),
                 gunRequestDTO.getBrand(),
                 gunRequestDTO.getType(),
@@ -14,6 +15,7 @@ public class GunFactory {
                 gunRequestDTO.getSerialNo(),
                 gunRequestDTO.getCertificateNo(),
                 gunRequestDTO.getDescription(),
-                gunRequestDTO.isAvailable());
+                gunRequestDTO.isAvailable()
+        );
     }
 }

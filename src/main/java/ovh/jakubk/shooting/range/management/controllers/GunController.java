@@ -1,20 +1,20 @@
 package ovh.jakubk.shooting.range.management.controllers;
 
-import ovh.jakubk.shooting.range.management.controllers.utils.ModelUtils;
-import ovh.jakubk.shooting.range.management.exceptions.GunNotOnStockException;
-import ovh.jakubk.shooting.range.management.exceptions.ResourceNotFoundException;
-import ovh.jakubk.shooting.range.management.model.Ammo;
-import ovh.jakubk.shooting.range.management.model.dto.view.GunListViewDTO;
-import ovh.jakubk.shooting.range.management.model.dto.rest.GunRequestDTO;
-import ovh.jakubk.shooting.range.management.model.dto.rest.GunResponseDTO;
-import ovh.jakubk.shooting.range.management.services.AmmoService;
-import ovh.jakubk.shooting.range.management.services.GunService;
-import ovh.jakubk.shooting.range.management.session.SessionData;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ovh.jakubk.shooting.range.management.controllers.utils.ModelUtils;
+import ovh.jakubk.shooting.range.management.exceptions.GunNotOnStockException;
+import ovh.jakubk.shooting.range.management.exceptions.ResourceNotFoundException;
+import ovh.jakubk.shooting.range.management.model.Ammo;
+import ovh.jakubk.shooting.range.management.model.dto.rest.GunRequestDTO;
+import ovh.jakubk.shooting.range.management.model.dto.rest.GunResponseDTO;
+import ovh.jakubk.shooting.range.management.model.dto.view.GunListViewDTO;
+import ovh.jakubk.shooting.range.management.services.AmmoService;
+import ovh.jakubk.shooting.range.management.services.GunService;
+import ovh.jakubk.shooting.range.management.session.SessionData;
 
 import java.util.List;
 
@@ -87,8 +87,11 @@ public class GunController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        this.gunService.takeGuns(gunForm);
-        model.addAttribute("state", "take");
+        try {
+            this.gunService.takeGuns(gunForm);
+        } catch (ResourceNotFoundException | GunNotOnStockException e) {
+            return "redirect:/guns/manage/take";
+        }
         return "redirect:/guns/manage/take";
     }
 
