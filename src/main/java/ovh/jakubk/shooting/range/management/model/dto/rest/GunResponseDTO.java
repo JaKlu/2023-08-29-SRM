@@ -19,7 +19,7 @@ public class GunResponseDTO {
     private String certificateNo;
     private String description;
     private boolean available;
-
+/*
     public GunResponseDTO(Gun gun) {
         this.id = gun.getId();
         this.commonName = gun.getCommonName();
@@ -31,5 +31,5 @@ public class GunResponseDTO {
         this.certificateNo = gun.getCertificateNo();
         this.description = gun.getDescription();
         this.available = gun.isAvailable();
-    }
+    }*/
 }

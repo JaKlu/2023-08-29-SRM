@@ -43,7 +43,8 @@
                         <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].id}">
                         <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].gauge}">
                         <input type="hidden" th:field="*{dtoList[__${itemStat.index}__].quantity}">
-                        <input th:field="*{dtoList[__${itemStat.index}__].diffInput}">
+                        <input th:field="*{dtoList[__${itemStat.index}__].diffInput}"
+                                type="number" min="0">
                     </td>
                     <td th:if="${state == 'edit'}">
                         <a th:href="@{/ammo/manage/edit/{id}(id=${ammoDTO.id})}">Edytuj</a> |

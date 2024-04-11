@@ -1,3 +1,4 @@
+/*
 package ovh.jakubk.shooting.range.management.validators;
 
 import ovh.jakubk.shooting.range.management.model.dto.AmmoCreationDto;
@@ -21,3 +22,4 @@ public class AmmoValidator {
         }
     }
 }
+*/

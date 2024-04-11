@@ -1,15 +1,17 @@
 package ovh.jakubk.shooting.range.management.controllers;
 
-import ovh.jakubk.shooting.range.management.controllers.utils.ModelUtils;
-import ovh.jakubk.shooting.range.management.model.Ammo;
-import ovh.jakubk.shooting.range.management.model.dto.AmmoCreationDto;
-import ovh.jakubk.shooting.range.management.model.dto.AmmoDTO;
-import ovh.jakubk.shooting.range.management.services.AmmoService;
-import ovh.jakubk.shooting.range.management.session.SessionData;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ovh.jakubk.shooting.range.management.controllers.utils.ModelUtils;
+import ovh.jakubk.shooting.range.management.exceptions.AmmoOnStockException;
+import ovh.jakubk.shooting.range.management.exceptions.ResourceNotFoundException;
+import ovh.jakubk.shooting.range.management.model.Ammo;
+import ovh.jakubk.shooting.range.management.model.dto.view.AmmoListViewDTO;
+import ovh.jakubk.shooting.range.management.services.AmmoService;
+import ovh.jakubk.shooting.range.management.session.SessionData;
 
 import java.util.Optional;
 
@@ -31,7 +33,9 @@ public class AmmoController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createAmmoDtoList(model);
+
+        //createAmmoDtoList(model);
+        model.addAttribute("ammoForm", new AmmoListViewDTO(this.ammoService.findAllForManageView()));
         model.addAttribute("state", "info");
         return "ammo";
     }
@@ -44,7 +48,9 @@ public class AmmoController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createAmmoDtoList(model);
+
+        //createAmmoDtoList(model);
+        model.addAttribute("ammoForm", new AmmoListViewDTO(this.ammoService.findAllForManageView()));
         model.addAttribute("state", "get");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -53,15 +59,19 @@ public class AmmoController {
 
     @PostMapping(path = "/manage/get")
     public String getAmmo(Model model,
-                          @ModelAttribute AmmoCreationDto ammoForm) {
+//                          @ModelAttribute AmmoCreationDto ammoForm
+                          @Valid @ModelAttribute AmmoListViewDTO ammoForm
+
+    ) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
 
         try {
-            this.ammoService.getAmmo(ammoForm);
-        } catch (IllegalArgumentException e) {
+//            this.ammoService.getAmmo(ammoForm);
+            this.ammoService.manageAmmoView(ammoForm, false);
+        } catch (IllegalArgumentException | ResourceNotFoundException | AmmoOnStockException e) {
             System.out.println("Could not get.");
             this.sessionData.setFormError("Podaj poprawne dane");
         }
@@ -76,7 +86,9 @@ public class AmmoController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        createAmmoDtoList(model);
+
+//        createAmmoDtoList(model);
+        model.addAttribute("ammoForm", new AmmoListViewDTO(this.ammoService.findAllForManageView()));
         model.addAttribute("state", "supply");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -85,13 +97,14 @@ public class AmmoController {
 
     @PostMapping(path = "/manage/supply")
     public String supplyAmmo(Model model,
-                             @ModelAttribute AmmoCreationDto ammoForm) {
+                             @ModelAttribute AmmoListViewDTO ammoForm) {
         ModelUtils.addCommonDataToModel(model, sessionData);
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
         try {
-            this.ammoService.supplyAmmo(ammoForm);
+//            this.ammoService.supplyAmmo(ammoForm);
+            this.ammoService.manageAmmoView(ammoForm, true);
         } catch (IllegalArgumentException e) {
             System.out.println("Could not supply.");
             this.sessionData.setFormError("Podaj poprawne dane");
@@ -107,8 +120,8 @@ public class AmmoController {
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
-
-        createAmmoDtoList(model);
+        //createAmmoDtoList(model);
+        model.addAttribute("ammoForm", new AmmoListViewDTO(this.ammoService.findAllForManageView()));
         model.addAttribute("state", "edit");
         model.addAttribute("formInfo", this.sessionData.getFormInfo());
         model.addAttribute("formError", this.sessionData.getFormError());
@@ -199,11 +212,12 @@ public class AmmoController {
     }
 
 
-    private void createAmmoDtoList(Model model) {
+/*    private void createAmmoDtoList(Model model) {
         AmmoCreationDto ammoForm = new AmmoCreationDto();
         for (Ammo ammo : this.ammoService.findAll()) {
-            ammoForm.addDTO(new AmmoDTO(ammo));
+            ammoForm.getDtoList().add(new AmmoDTO(ammo));
+            //ammoForm.addDTO(new AmmoDTO(ammo));
         }
         model.addAttribute("ammoForm", ammoForm);
-    }
+    }*/
 }

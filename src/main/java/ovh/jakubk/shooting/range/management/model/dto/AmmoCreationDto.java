@@ -1,3 +1,4 @@
+/*
 package ovh.jakubk.shooting.range.management.model.dto;
 
 import lombok.*;
@@ -16,4 +17,4 @@ public class AmmoCreationDto {
     public void addDTO(AmmoDTO ammoDTO) {
         this.dtoList.add(ammoDTO);
     }
-}
+}*/
