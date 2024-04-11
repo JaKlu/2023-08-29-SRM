@@ -69,9 +69,12 @@ public class AmmoServiceImpl implements AmmoService {
 
     @Override
     public AmmoResponseDTO updateAmmo(Long id, AmmoRequestDTO ammoRequestDTO) {
-        if (!this.ammoDAO.existsById(id)) throw new ResourceNotFoundException("Ammo not found");
+        //TODO validation
+        Optional<Ammo> ammoBox = this.ammoDAO.findById(id);
+        if (ammoBox.isEmpty()) throw new ResourceNotFoundException("Ammo not found");
         Ammo ammoToUpdate = AmmoFactory.createAmmoFromAmmoRequestDTO(ammoRequestDTO);
         ammoToUpdate.setId(id);
+        ammoToUpdate.setQuantity(ammoBox.get().getQuantity());
         Ammo updatedAmmo = this.ammoDAO.save(ammoToUpdate);
         return AmmoMapper.mapAmmoForAmmoResponseDTO(updatedAmmo);
     }

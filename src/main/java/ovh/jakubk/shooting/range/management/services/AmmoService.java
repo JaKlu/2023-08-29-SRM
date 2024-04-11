@@ -3,6 +3,7 @@ package ovh.jakubk.shooting.range.management.services;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import ovh.jakubk.shooting.range.management.model.Ammo;
 import ovh.jakubk.shooting.range.management.model.dto.rest.AmmoRequestDTO;
 import ovh.jakubk.shooting.range.management.model.dto.rest.AmmoResponseDTO;
