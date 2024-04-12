@@ -190,7 +190,7 @@
         <div th:if="${adminOrEmployee AND state == 'edit'}" class="div-form">
             <label for="role" class="label-form">Rola</label><br>
             <select th:disabled="${userModel.id == 1 OR !admin}" th:field="*{userModel.role}" class="input-reg">
-                <option th:each="role : ${T(com.kuba.shooting.range.management.model.User.Role).values()}"
+                <option th:each="role : ${T(ovh.jakubk.shooting.range.management.model.User.Role).values()}"
                         th:value="${role}"
                         th:text="${role.displayValue}">
                 </option>

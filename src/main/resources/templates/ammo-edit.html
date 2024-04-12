@@ -19,27 +19,12 @@
             <input type="text" class="input-reg" id="gauge" th:field="*{gauge}">
         </div>
         <div id="gauge-error"></div>
-
-<!--        <table id="ammo-table">
-            <thead>
-            <tr>
-                <th>Pole</th>
-                <th>Wartość</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Kaliber</td>
-                <td>
-                    <input th:field="*{gauge}">
-                </td>
-            </tr>
-            </tbody>
-        </table>-->
         <th:block th:switch="${state}">
             <input type="submit" th:case="add" value="Dodaj" class="button">
             <input type="submit" th:case="edit" value="Aktualizuj" class="button">
         </th:block>
+        <div th:text="${formInfo}" class="form-info"></div>
+        <div th:text="${formError}" class="form-error"></div>
     </form>
 </div>
 </body>
