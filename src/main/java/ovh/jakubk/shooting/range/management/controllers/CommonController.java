@@ -43,7 +43,7 @@ public class CommonController {
         if (!this.sessionData.isAdminOrEmployee()) {
             return "redirect:/";
         }
-        model.addAttribute("ammoList", this.ammoService.findAll());
+        model.addAttribute("ammoList", this.ammoService.findAllAmmo());
         model.addAttribute("gunList", this.gunService.findAllGuns());
         return "stock";
     }

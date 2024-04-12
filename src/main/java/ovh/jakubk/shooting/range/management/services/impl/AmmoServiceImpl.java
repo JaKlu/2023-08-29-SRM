@@ -17,6 +17,7 @@ import ovh.jakubk.shooting.range.management.model.dto.view.AmmoManageViewDTO;
 import ovh.jakubk.shooting.range.management.services.AmmoService;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,20 +27,10 @@ public class AmmoServiceImpl implements AmmoService {
     private AmmoDAO ammoDAO;
 
     @Override
-    public Optional<Ammo> findById(Long id) {
-        return this.ammoDAO.findById(id);
-    }
-
-    @Override
     public AmmoResponseDTO findAmmoById(Long id) {
         return this.ammoDAO.findById(id)
                 .map(AmmoMapper::mapAmmoForAmmoResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Ammo not found"));
-    }
-
-    @Override
-    public List<Ammo> findAll() {
-        return this.ammoDAO.findAll();
     }
 
     @Override
@@ -92,60 +83,17 @@ public class AmmoServiceImpl implements AmmoService {
     }
 
     @Override
-    public void manageAmmoView(AmmoListViewDTO ammoListViewDTO, boolean supplying) {
+    public List<AmmoManageViewDTO> manageAmmoView(AmmoListViewDTO ammoListViewDTO, boolean supplying) {
+        List<AmmoManageViewDTO> manageViewDTOList = new ArrayList<>();
         for (AmmoManageViewDTO ammoManageViewDTO : ammoListViewDTO.getDtoList()) {
 
             if (ammoManageViewDTO.getDiffInput() == 0) continue;
-
+            manageViewDTOList.add(ammoManageViewDTO);
             if (!supplying) {
                 this.manageAmmo(ammoManageViewDTO.getId(), -1 * ammoManageViewDTO.getDiffInput());
             } else this.manageAmmo(ammoManageViewDTO.getId(), ammoManageViewDTO.getDiffInput());
         }
-    }
-
-//    @Override
-//    public void supplyAmmo(AmmoCreationDto creationDTO) {
-//        AmmoValidator.validateSupplyInput(creationDTO);
-//
-//        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
-//            if (ammoDTO.getDiff() == 0) continue;
-//
-//            Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
-//            if (ammoBox.isPresent()) {
-//                ammoBox.get().setQuantity(ammoBox.get().getQuantity() + ammoDTO.getDiff());
-//                this.ammoDAO.save(ammoBox.get());
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void getAmmo(AmmoCreationDto creationDTO) {
-//        AmmoValidator.validateGetInput(creationDTO);
-//
-//        for (AmmoDTO ammoDTO : creationDTO.getDtoList()) {
-//            if (ammoDTO.getDiff() == 0) continue;
-//
-//            Optional<Ammo> ammoBox = this.ammoDAO.findById(ammoDTO.getId());
-//            if (ammoBox.isPresent()) {
-//                ammoBox.get().setQuantity(ammoBox.get().getQuantity() - ammoDTO.getDiff());
-//                this.ammoDAO.save(ammoBox.get());
-//            }
-//        }
-//    }
-
-    @Override
-    public void saveGauge(Ammo ammo) {
-        this.ammoDAO.save(ammo);
-    }
-
-    @Override
-    public void deleteGauge(Long id) {
-        Optional<Ammo> ammoBox = this.findById(id);
-        if (ammoBox.isPresent() && (ammoBox.get().getQuantity() == 0)) {
-            this.ammoDAO.deleteById(id);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        return manageViewDTOList;
     }
 
     @Override

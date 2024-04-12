@@ -9,6 +9,7 @@ import ovh.jakubk.shooting.range.management.controllers.utils.ModelUtils;
 import ovh.jakubk.shooting.range.management.exceptions.GunNotOnStockException;
 import ovh.jakubk.shooting.range.management.exceptions.ResourceNotFoundException;
 import ovh.jakubk.shooting.range.management.model.Ammo;
+import ovh.jakubk.shooting.range.management.model.dto.rest.AmmoResponseDTO;
 import ovh.jakubk.shooting.range.management.model.dto.rest.GunRequestDTO;
 import ovh.jakubk.shooting.range.management.model.dto.rest.GunResponseDTO;
 import ovh.jakubk.shooting.range.management.model.dto.view.GunListViewDTO;
@@ -90,6 +91,7 @@ public class GunController {
         try {
             this.gunService.takeGuns(gunForm);
         } catch (ResourceNotFoundException | GunNotOnStockException e) {
+            log.warn(e.getMessage());
             return "redirect:/guns/manage/take";
         }
         return "redirect:/guns/manage/take";
@@ -123,12 +125,12 @@ public class GunController {
             GunResponseDTO gunResponseDTO = this.gunService.findGunById(id);
             model.addAttribute("gunModel", gunResponseDTO);
         } catch (ResourceNotFoundException e) {
-            log.warn("Requested gun does not exist");
+            log.warn(e.getMessage());
             return "redirect:/";
         }
 
-        List<String> gaugeList = this.ammoService.findAll().stream()
-                .map(Ammo::getGauge)
+        List<String> gaugeList = this.ammoService.findAllAmmo().stream()
+                .map(AmmoResponseDTO::getGauge)
                 .toList();
 
         model.addAttribute("gaugeList", gaugeList);
@@ -148,7 +150,7 @@ public class GunController {
             this.gunService.updateGun(id, gunRequestDTO);
             return "redirect:/guns/manage/edit";
         } catch (ResourceNotFoundException e) {
-            log.warn("Requested gun does not exist");
+            log.warn(e.getMessage());
             return "redirect:/";
         }
     }
@@ -161,8 +163,8 @@ public class GunController {
         if (!this.sessionData.isAdmin()) {
             return "redirect:/";
         }
-        List<String> gaugeList = this.ammoService.findAll().stream()
-                .map(Ammo::getGauge)
+        List<String> gaugeList = this.ammoService.findAllAmmo().stream()
+                .map(AmmoResponseDTO::getGauge)
                 .toList();
 
         model.addAttribute("gunModel", new GunRequestDTO());
@@ -191,7 +193,7 @@ public class GunController {
     }
 
     @GetMapping(path = "/manage/delete/{id}")
-    public String deleteGauge(Model model,
+    public String deleteGun(Model model,
                               @PathVariable long id,
                               @RequestParam(required = false) String formInfo,
                               @RequestParam(required = false) String formError) {
@@ -203,10 +205,10 @@ public class GunController {
         try {
             this.gunService.deleteGun(id);
         } catch (GunNotOnStockException e) {
-            log.warn("Could not delete. Gun not in stock.");
+            log.warn(e.getMessage());
             this.sessionData.setFormError("Nie usunięto. Brak broni w magazynie.");
         } catch (ResourceNotFoundException e) {
-            log.warn("Requested gun does not exist");
+            log.warn(e.getMessage());
             this.sessionData.setFormError("Nie znaleziono broni do usunięcia.");
         }
         model.addAttribute("state", "edit");

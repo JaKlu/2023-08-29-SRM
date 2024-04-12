@@ -14,6 +14,6 @@ public class AmmoManageViewDTO {
     private Long id;
     private String gauge;
     private int quantity;
-    @Min(value = 0, message = "Wartość musi być większa niż zero")
+    @Min(value = 0)
     private int diffInput;
 }

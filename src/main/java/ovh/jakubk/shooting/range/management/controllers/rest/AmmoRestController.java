@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AmmoRestController {
     private AmmoService ammoService;
 
-    @GetMapping
+/*    @GetMapping
     public ListResponse<Ammo> findAll() {
         return new ListResponse<>(this.ammoService.findAll());
     }
@@ -22,14 +22,14 @@ public class AmmoRestController {
     @PostMapping
     public ResponseEntity<Ammo> save(@RequestBody Ammo ammo) {
         ammo.setId(0L);
-        this.ammoService.saveGauge(ammo);
+        this.ammoService.saveAmmo(ammo);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Ammo> findById(@PathVariable Long id) {
         return ResponseEntity.of(this.ammoService.findById(id));
-    }
+    }*/
 
 
 }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//KLASA
 @Builder
 @Data
 @AllArgsConstructor
@@ -16,14 +15,3 @@ public class GunManageViewDTO {
     private boolean available;
     private boolean action;
 }
-
-//REKORD
-/*
-@Builder
-public record GunManageViewDTO(
-        Long id,
-        String commonName,
-        boolean available,
-        boolean action) {
-}
-*/
